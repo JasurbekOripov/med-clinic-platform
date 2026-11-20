@@ -1,0 +1,366 @@
+{
+  "app": {
+    "name": "MedClinic Vendor",
+    "console": "Vendor paneli"
+  },
+  "nav": {
+    "dashboard": "Serverlar",
+    "clinics": "Klinikalar",
+    "alerts": "Ogohlantirishlar",
+    "staff": "Xodimlar",
+    "audit": "Audit jurnali"
+  },
+  "common": {
+    "save": "Saqlash",
+    "cancel": "Bekor qilish",
+    "close": "Yopish",
+    "create": "Yaratish",
+    "edit": "Tahrirlash",
+    "delete": "Oʻchirish",
+    "search": "Qidirish",
+    "loading": "Yuklanmoqda…",
+    "back": "Orqaga",
+    "confirm": "Tasdiqlash",
+    "actions": "Amallar",
+    "status": "Holat",
+    "name": "Nomi",
+    "phone": "Telefon",
+    "address": "Manzil",
+    "notes": "Izoh",
+    "copy": "Nusxalash",
+    "copied": "Nusxalandi",
+    "download": "Yuklab olish",
+    "none": "—",
+    "all": "Hammasi",
+    "previous": "Oldingi",
+    "next": "Keyingi",
+    "pageOf": "{{page}} / {{total}} sahifa",
+    "total": "Jami: {{count}}",
+    "reason": "Sabab",
+    "details": "Tafsilotlar",
+    "retry": "Qayta urinish",
+    "saved": "Saqlandi",
+    "optional": "ixtiyoriy",
+    "searchHint": "Yozing va Enter bosing",
+    "unsavedConflict": "Bu yozuvni boshqa xodim oʻzgartirdi. Eng soʻnggi maʼlumotlar yuklandi.",
+    "createdAt": "Yaratilgan"
+  },
+  "auth": {
+    "title": "Tizimga kirish",
+    "login": "Login",
+    "password": "Parol",
+    "signIn": "Kirish",
+    "signOut": "Chiqish",
+    "changePassword": "Parolni oʻzgartirish",
+    "currentPassword": "Joriy parol",
+    "newPassword": "Yangi parol",
+    "repeatPassword": "Yangi parolni takrorlang",
+    "passwordsDontMatch": "Parollar mos kelmadi",
+    "mustChangeHint": "Siz vaqtinchalik paroldan foydalanyapsiz. Davom etish uchun oʻz parolingizni oʻrnating.",
+    "passwordRules": "Kamida 10 ta belgi.",
+    "passwordChanged": "Parol oʻzgartirildi",
+    "language": "Til"
+  },
+  "tenantStatus": {
+    "ACTIVE": "Faol",
+    "SUSPENDED": "Toʻxtatilgan",
+    "ARCHIVED": "Arxivda"
+  },
+  "serverStatus": {
+    "ONLINE": "Onlayn",
+    "OFFLINE": "Oflayn",
+    "NEVER_SEEN": "Hali ulanmagan",
+    "NOT_PAIRED": "Server ulanmagan"
+  },
+  "licenseStatus": {
+    "PENDING": "Boshlanmagan",
+    "ACTIVE": "Faol",
+    "GRACE": "Imtiyozli davr",
+    "EXPIRED": "Muddati tugagan",
+    "SUPERSEDED": "Almashtirilgan",
+    "REVOKED": "Bekor qilingan"
+  },
+  "alertType": {
+    "SERVER_OFFLINE": "Server oflayn",
+    "DISK_LOW": "Disk deyarli toʻla",
+    "BACKUP_FAILED": "Zaxira nusxa xatosi",
+    "BACKUP_STALE": "Yaqinda zaxira nusxa olinmagan",
+    "CLOCK_SKEW": "Server soati notoʻgʻri"
+  },
+  "region": {
+    "KARAKALPAKSTAN": "Qoraqalpogʻiston",
+    "ANDIJAN": "Andijon",
+    "BUKHARA": "Buxoro",
+    "FERGANA": "Fargʻona",
+    "JIZZAKH": "Jizzax",
+    "KASHKADARYA": "Qashqadaryo",
+    "KHOREZM": "Xorazm",
+    "NAMANGAN": "Namangan",
+    "NAVOI": "Navoiy",
+    "SAMARKAND": "Samarqand",
+    "SURKHANDARYA": "Surxondaryo",
+    "SYRDARYA": "Sirdaryo",
+    "TASHKENT_REGION": "Toshkent viloyati",
+    "TASHKENT_CITY": "Toshkent shahri"
+  },
+  "role": {
+    "OWNER": "Egasi",
+    "SUPPORT": "Qoʻllab-quvvatlash"
+  },
+  "pairingState": {
+    "OPEN": "Kutilmoqda",
+    "CLAIMED": "Ishlatilgan",
+    "CANCELLED": "Bekor qilingan",
+    "EXPIRED": "Muddati oʻtgan"
+  },
+  "deviceStatus": {
+    "ACTIVE": "Faol",
+    "REVOKED": "Uzilgan"
+  },
+  "module": {
+    "REGISTRATION": "Roʻyxatga olish",
+    "QUEUE": "Navbat",
+    "CASHIER": "Kassa",
+    "LAB": "Laboratoriya",
+    "DOCTOR": "Shifokor",
+    "INPATIENT": "Statsionar",
+    "OPERATIONS": "Operatsiyalar",
+    "REPORTS": "Hisobotlar",
+    "TELEGRAM": "Telegram bot"
+  },
+  "dashboard": {
+    "title": "Klinika serverlari",
+    "subtitle": "Har 30 soniyada yangilanadi",
+    "openAlerts": "Ochiq ogohlantirishlar",
+    "clinicBranch": "Klinika / filial",
+    "lastSeen": "Oxirgi signal",
+    "version": "Versiya",
+    "uptime": "Ishlash vaqti",
+    "disk": "Boʻsh disk",
+    "backup": "Oxirgi zaxira",
+    "errors": "Xatolar",
+    "empty": "Hali filiallar yoʻq. Avval klinika yarating.",
+    "searchPlaceholder": "Klinika, filial yoki kompyuter nomi"
+  },
+  "clinics": {
+    "title": "Klinikalar",
+    "new": "Yangi klinika",
+    "edit": "Klinikani tahrirlash",
+    "searchPlaceholder": "Nomi, kodi, egasi yoki telefon",
+    "code": "Kod",
+    "legalName": "Yuridik nomi",
+    "ownerName": "Egasi",
+    "region": "Hudud",
+    "branchCount": "Filiallar",
+    "empty": "Klinikalar topilmadi",
+    "created": "Klinika yaratildi",
+    "suspend": "Toʻxtatish",
+    "activate": "Faollashtirish",
+    "archive": "Arxivlash",
+    "restore": "Tiklash",
+    "delete": "Klinikani oʻchirish",
+    "confirmSuspend": "{{name}} klinikasi toʻxtatilsinmi?",
+    "confirmArchive": "{{name}} klinikasi arxivlansinmi? U monitoringdan yoʻqoladi.",
+    "confirmRestore": "{{name}} klinikasi tiklansinmi?",
+    "confirmDelete": "{{name}} klinikasi butunlay oʻchirilsinmi? Filiallari oʻchiriladi, qurilmalar uziladi va litsenziya bekor qilinadi.",
+    "deleted": "Klinika oʻchirildi",
+    "tabBranches": "Filiallar",
+    "tabLicenses": "Litsenziyalar",
+    "tabHistory": "Tarix"
+  },
+  "branches": {
+    "new": "Yangi filial",
+    "edit": "Filialni tahrirlash",
+    "empty": "Hali filiallar yoʻq",
+    "connect": "Serverni ulash",
+    "server": "Server",
+    "devices": "Qurilmalar",
+    "confirmSuspend": "{{name}} filiali toʻxtatilsinmi?",
+    "confirmArchive": "{{name}} filiali arxivlansinmi?",
+    "confirmRestore": "{{name}} filiali tiklansinmi?",
+    "confirmDelete": "{{name}} filiali oʻchirilsinmi? Uning serveri uziladi."
+  },
+  "pairing": {
+    "title": "Klinika serverini ulash — {{branch}}",
+    "hint": "Bu kodni klinika serveri oʻrnatuvchisiga kiriting. Kod bir marta ishlaydi va {{time}} da eskiradi.",
+    "generate": "Kod yaratish",
+    "regenerate": "Yangi kod",
+    "oneTime": "Kod faqat hozir koʻrsatiladi.",
+    "history": "Soʻnggi kodlar",
+    "empty": "Hali kodlar yoʻq",
+    "cancelCode": "Kodni bekor qilish",
+    "expiresAt": "Amal qilish muddati",
+    "replaceWarning": "Bu filialda server allaqachon bor. Yangisi ulansa, eskisi uziladi."
+  },
+  "devices": {
+    "hostname": "Kompyuter",
+    "os": "Tizim",
+    "appVersion": "Versiya",
+    "pairedAt": "Ulangan",
+    "lastSeen": "Oxirgi signal",
+    "lastIp": "IP",
+    "revoke": "Uzish",
+    "confirmRevoke": "{{name}} serveri uzilsinmi? Qayta ulanmaguncha vendor platformasi bilan ishlamaydi.",
+    "revoked": "Server uzildi",
+    "empty": "Ulangan serverlar yoʻq"
+  },
+  "licenses": {
+    "issue": "Litsenziya berish",
+    "renew": "Uzaytirish",
+    "revoke": "Bekor qilish",
+    "download": ".lic yuklab olish",
+    "plan": "Tarif",
+    "modules": "Modullar",
+    "maxUsers": "Maks. foydalanuvchilar",
+    "maxBranches": "Maks. filiallar",
+    "startsOn": "Boshlanish sanasi",
+    "endsOn": "Tugash sanasi (shu kun bilan)",
+    "graceDays": "Tugagandan keyingi imtiyozli kunlar",
+    "graceEndsAt": "Imtiyoz tugaydi",
+    "serial": "№",
+    "issuedAt": "Berilgan",
+    "period": "Muddat",
+    "empty": "Hali litsenziya yoʻq",
+    "issued": "Litsenziya berildi",
+    "renewed": "Litsenziya uzaytirildi",
+    "revoked": "Litsenziya bekor qilindi",
+    "revokeTitle": "№{{serial}} litsenziyani bekor qilish",
+    "revokeHint": "Klinika serveri bekor qilinganini keyingi ulanishda bilib oladi.",
+    "current": "Joriy litsenziya",
+    "renewTitle": "№{{serial}} litsenziyani uzaytirish",
+    "issueTitle": "Yangi litsenziya",
+    "selectAll": "Hammasini tanlash"
+  },
+  "alerts": {
+    "title": "Ogohlantirishlar",
+    "open": "Ochiq",
+    "all": "Hammasi",
+    "type": "Muammo",
+    "openedAt": "Boshlangan",
+    "resolvedAt": "Hal qilingan",
+    "where": "Qayerda",
+    "empty": "Ogohlantirishlar yoʻq — hammasi joyida",
+    "ongoing": "Davom etmoqda"
+  },
+  "staff": {
+    "title": "Xodimlar",
+    "new": "Yangi xodim",
+    "edit": "Xodimni tahrirlash",
+    "login": "Login",
+    "fullName": "F.I.Sh.",
+    "role": "Rol",
+    "inactive": "Faolsizlantirilgan",
+    "lastLogin": "Oxirgi kirish",
+    "deactivate": "Faolsizlantirish",
+    "activate": "Faollashtirish",
+    "resetPassword": "Parolni tiklash",
+    "includeInactive": "Faolsizlarini koʻrsatish",
+    "temporaryPassword": "Vaqtinchalik parol",
+    "temporaryPasswordHint": "Bu parolni {{name}}ga shaxsan bering. U faqat bir marta koʻrsatiladi; birinchi kirishda oʻzgartirilishi shart.",
+    "confirmDeactivate": "{{name}} faolsizlantirilsinmi? Uning seanslari darhol tugaydi.",
+    "confirmReset": "{{name}} paroli tiklansinmi? Uning seanslari darhol tugaydi.",
+    "you": "siz",
+    "loginHint": "Lotin harflari, raqamlar, nuqta, chiziqcha; 3–50 belgi"
+  },
+  "audit": {
+    "title": "Audit jurnali",
+    "when": "Qachon",
+    "who": "Kim",
+    "action": "Amal",
+    "entity": "Obyekt",
+    "changes": "Oʻzgarishlar",
+    "before": "Oldin",
+    "after": "Keyin",
+    "empty": "Yozuvlar yoʻq",
+    "filterAction": "Amal (masalan, clinic.created)",
+    "filterEntity": "Obyekt turi",
+    "ip": "IP"
+  },
+  "time": {
+    "seconds": "{{count}} soniya",
+    "minutes": "{{count}} daqiqa",
+    "hours": "{{count}} soat",
+    "days": "{{count}} kun",
+    "ago": "{{value}} oldin"
+  },
+  "errors": {
+    "unknown": "Xatolik yuz berdi. Qayta urinib koʻring.",
+    "common": {
+      "not_found": "Topilmadi. Ehtimol, oʻchirilgan.",
+      "version_conflict": "Bu yozuvni boshqa xodim oʻzgartirdi. Yangilab, qayta urinib koʻring.",
+      "duplicate": "Bunday yozuv allaqachon mavjud.",
+      "internal_error": "Server xatosi. Keyinroq urinib koʻring.",
+      "network_error": "Server bilan aloqa yoʻq."
+    },
+    "request": {
+      "malformed": "Notoʻgʻri soʻrov.",
+      "invalid": "Notoʻgʻri soʻrov.",
+      "invalid_parameter": "Notoʻgʻri parametr.",
+      "method_not_allowed": "Bu amalga ruxsat yoʻq.",
+      "unsupported_media_type": "Format qoʻllab-quvvatlanmaydi."
+    },
+    "auth": {
+      "bad_credentials": "Login yoki parol notoʻgʻri.",
+      "too_many_attempts": "Urinishlar juda koʻp. {{retryAfterSeconds}} soniyadan keyin qayta urinib koʻring.",
+      "unauthenticated": "Iltimos, tizimga kiring.",
+      "forbidden": "Bu amal uchun huquqingiz yoʻq.",
+      "csrf_invalid": "Xavfsizlik tokeni eskirdi. Amalni takrorlang.",
+      "session_expired": "Seans tugadi. Qayta kiring.",
+      "password_change_required": "Avval vaqtinchalik parolni oʻzgartiring."
+    },
+    "staff": {
+      "login_taken": "Bu login band.",
+      "last_owner": "Kamida bitta faol ega boʻlishi kerak.",
+      "cannot_deactivate_self": "Oʻzingizni faolsizlantira olmaysiz.",
+      "use_change_password": "Oʻz hisobingiz uchun “Parolni oʻzgartirish”dan foydalaning."
+    },
+    "clinic": {
+      "archived": "Klinika arxivda. Avval uni tiklang.",
+      "delete_requires_archived": "Oʻchirishdan oldin klinikani arxivlang."
+    },
+    "branch": {
+      "archived": "Filial arxivda. Avval uni tiklang.",
+      "delete_requires_archived": "Oʻchirishdan oldin filialni arxivlang.",
+      "name_taken": "Bu klinikada shu nomli filial bor."
+    },
+    "tenant": {
+      "invalid_status_transition": "Holatni bunday oʻzgartirib boʻlmaydi."
+    },
+    "license": {
+      "current_exists": "Klinikada joriy litsenziya bor. Uni uzaytiring yoki bekor qiling.",
+      "not_current": "Faqat joriy litsenziyani uzaytirish mumkin.",
+      "already_revoked": "Litsenziya allaqachon bekor qilingan.",
+      "none": "Klinikada litsenziya yoʻq."
+    },
+    "pairing": {
+      "branch_not_active": "Filial yoki klinika faol emas.",
+      "code_not_open": "Kod ishlatilgan, bekor qilingan yoki muddati oʻtgan.",
+      "invalid_code": "Kod notoʻgʻri.",
+      "branch_limit_reached": "Litsenziya faqat {{maxBranches}} ta filial serveriga ruxsat beradi.",
+      "too_many_attempts": "Urinishlar juda koʻp. Keyinroq urinib koʻring."
+    },
+    "device": {
+      "already_revoked": "Server allaqachon uzilgan.",
+      "unauthorized": "Qurilma avtorizatsiyadan oʻtmagan."
+    },
+    "validation": {
+      "failed": "Belgilangan maydonlarni tuzating.",
+      "not_blank": "Majburiy",
+      "not_null": "Majburiy",
+      "not_empty": "Kamida bittasini tanlang",
+      "size": "Juda uzun (maksimum {{max}})",
+      "range": "{{min}} dan {{max}} gacha boʻlishi kerak",
+      "phone": "Oʻzbekiston raqamini kiriting, masalan +998 90 123 45 67",
+      "login_format": "3–50 belgi: lotin harflari, raqamlar, . _ -",
+      "password_policy": "Kamida {{min}} ta belgi",
+      "password_incorrect": "Joriy parol notoʻgʻri",
+      "password_reused": "Boshqa parol tanlang",
+      "plan_format": "Lotin harflari, raqamlar va _ (2–50)",
+      "unknown_modules": "Nomaʼlum modullar",
+      "ends_before_start": "Tugash sanasi boshlanishdan oldin",
+      "below_current_branches": "Klinikada allaqachon {{current}} ta filial bor",
+      "positive_or_zero": "Manfiy boʻlmasligi kerak",
+      "invalid": "Notoʻgʻri qiymat"
+    }
+  }
+}

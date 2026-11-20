@@ -1,0 +1,366 @@
+{
+  "app": {
+    "name": "MedClinic Vendor",
+    "console": "Vendor console"
+  },
+  "nav": {
+    "dashboard": "Servers",
+    "clinics": "Clinics",
+    "alerts": "Alerts",
+    "staff": "Staff",
+    "audit": "Audit log"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "close": "Close",
+    "create": "Create",
+    "edit": "Edit",
+    "delete": "Delete",
+    "search": "Search",
+    "loading": "Loading…",
+    "back": "Back",
+    "confirm": "Confirm",
+    "actions": "Actions",
+    "status": "Status",
+    "name": "Name",
+    "phone": "Phone",
+    "address": "Address",
+    "notes": "Notes",
+    "copy": "Copy",
+    "copied": "Copied",
+    "download": "Download",
+    "none": "—",
+    "all": "All",
+    "previous": "Previous",
+    "next": "Next",
+    "pageOf": "Page {{page}} of {{total}}",
+    "total": "Total: {{count}}",
+    "reason": "Reason",
+    "details": "Details",
+    "retry": "Try again",
+    "saved": "Saved",
+    "optional": "optional",
+    "searchHint": "Type and press Enter",
+    "unsavedConflict": "Someone else changed this record. The latest data has been loaded.",
+    "createdAt": "Created"
+  },
+  "auth": {
+    "title": "Sign in",
+    "login": "Login",
+    "password": "Password",
+    "signIn": "Sign in",
+    "signOut": "Sign out",
+    "changePassword": "Change password",
+    "currentPassword": "Current password",
+    "newPassword": "New password",
+    "repeatPassword": "Repeat new password",
+    "passwordsDontMatch": "Passwords do not match",
+    "mustChangeHint": "You are using a temporary password. Choose your own password to continue.",
+    "passwordRules": "At least 10 characters.",
+    "passwordChanged": "Password changed",
+    "language": "Language"
+  },
+  "tenantStatus": {
+    "ACTIVE": "Active",
+    "SUSPENDED": "Suspended",
+    "ARCHIVED": "Archived"
+  },
+  "serverStatus": {
+    "ONLINE": "Online",
+    "OFFLINE": "Offline",
+    "NEVER_SEEN": "Never connected",
+    "NOT_PAIRED": "Not paired"
+  },
+  "licenseStatus": {
+    "PENDING": "Not started",
+    "ACTIVE": "Active",
+    "GRACE": "Grace period",
+    "EXPIRED": "Expired",
+    "SUPERSEDED": "Replaced",
+    "REVOKED": "Revoked"
+  },
+  "alertType": {
+    "SERVER_OFFLINE": "Server offline",
+    "DISK_LOW": "Disk almost full",
+    "BACKUP_FAILED": "Backup failed",
+    "BACKUP_STALE": "No recent backup",
+    "CLOCK_SKEW": "Wrong server clock"
+  },
+  "region": {
+    "KARAKALPAKSTAN": "Karakalpakstan",
+    "ANDIJAN": "Andijan",
+    "BUKHARA": "Bukhara",
+    "FERGANA": "Fergana",
+    "JIZZAKH": "Jizzakh",
+    "KASHKADARYA": "Kashkadarya",
+    "KHOREZM": "Khorezm",
+    "NAMANGAN": "Namangan",
+    "NAVOI": "Navoi",
+    "SAMARKAND": "Samarkand",
+    "SURKHANDARYA": "Surkhandarya",
+    "SYRDARYA": "Syrdarya",
+    "TASHKENT_REGION": "Tashkent region",
+    "TASHKENT_CITY": "Tashkent city"
+  },
+  "role": {
+    "OWNER": "Owner",
+    "SUPPORT": "Support"
+  },
+  "pairingState": {
+    "OPEN": "Waiting",
+    "CLAIMED": "Used",
+    "CANCELLED": "Cancelled",
+    "EXPIRED": "Expired"
+  },
+  "deviceStatus": {
+    "ACTIVE": "Active",
+    "REVOKED": "Revoked"
+  },
+  "module": {
+    "REGISTRATION": "Registration",
+    "QUEUE": "Queue",
+    "CASHIER": "Cashier",
+    "LAB": "Laboratory",
+    "DOCTOR": "Doctor",
+    "INPATIENT": "Inpatient ward",
+    "OPERATIONS": "Operations",
+    "REPORTS": "Reports",
+    "TELEGRAM": "Telegram bot"
+  },
+  "dashboard": {
+    "title": "Clinic servers",
+    "subtitle": "Updates every 30 seconds",
+    "openAlerts": "Open alerts",
+    "clinicBranch": "Clinic / branch",
+    "lastSeen": "Last signal",
+    "version": "Version",
+    "uptime": "Uptime",
+    "disk": "Free disk",
+    "backup": "Last backup",
+    "errors": "Errors",
+    "empty": "No branches yet. Create a clinic first.",
+    "searchPlaceholder": "Clinic, branch or computer name"
+  },
+  "clinics": {
+    "title": "Clinics",
+    "new": "New clinic",
+    "edit": "Edit clinic",
+    "searchPlaceholder": "Name, code, owner or phone",
+    "code": "Code",
+    "legalName": "Legal name",
+    "ownerName": "Owner",
+    "region": "Region",
+    "branchCount": "Branches",
+    "empty": "No clinics found",
+    "created": "Clinic created",
+    "suspend": "Suspend",
+    "activate": "Activate",
+    "archive": "Archive",
+    "restore": "Restore",
+    "delete": "Delete clinic",
+    "confirmSuspend": "Suspend clinic {{name}}?",
+    "confirmArchive": "Archive clinic {{name}}? It disappears from monitoring.",
+    "confirmRestore": "Restore clinic {{name}}?",
+    "confirmDelete": "Delete clinic {{name}} permanently? Its branches are deleted, devices disconnected and the license revoked.",
+    "deleted": "Clinic deleted",
+    "tabBranches": "Branches",
+    "tabLicenses": "Licenses",
+    "tabHistory": "History"
+  },
+  "branches": {
+    "new": "New branch",
+    "edit": "Edit branch",
+    "empty": "No branches yet",
+    "connect": "Connect server",
+    "server": "Server",
+    "devices": "Devices",
+    "confirmSuspend": "Suspend branch {{name}}?",
+    "confirmArchive": "Archive branch {{name}}?",
+    "confirmRestore": "Restore branch {{name}}?",
+    "confirmDelete": "Delete branch {{name}}? Its server will be disconnected."
+  },
+  "pairing": {
+    "title": "Connect clinic server — {{branch}}",
+    "hint": "Enter this code in the Clinic Server installer. It works once and expires at {{time}}.",
+    "generate": "Generate code",
+    "regenerate": "New code",
+    "oneTime": "The code is shown only now.",
+    "history": "Recent codes",
+    "empty": "No codes yet",
+    "cancelCode": "Cancel code",
+    "expiresAt": "Expires",
+    "replaceWarning": "This branch already has a server. Connecting a new one disconnects the old server."
+  },
+  "devices": {
+    "hostname": "Computer",
+    "os": "System",
+    "appVersion": "Version",
+    "pairedAt": "Connected",
+    "lastSeen": "Last signal",
+    "lastIp": "IP",
+    "revoke": "Disconnect",
+    "confirmRevoke": "Disconnect server {{name}}? It will stop working with the vendor platform until paired again.",
+    "revoked": "Server disconnected",
+    "empty": "No servers connected"
+  },
+  "licenses": {
+    "issue": "Issue license",
+    "renew": "Renew",
+    "revoke": "Revoke",
+    "download": "Download .lic",
+    "plan": "Plan",
+    "modules": "Modules",
+    "maxUsers": "Max users",
+    "maxBranches": "Max branches",
+    "startsOn": "Start date",
+    "endsOn": "End date (inclusive)",
+    "graceDays": "Grace days after expiry",
+    "graceEndsAt": "Grace ends",
+    "serial": "No.",
+    "issuedAt": "Issued",
+    "period": "Period",
+    "empty": "No license yet",
+    "issued": "License issued",
+    "renewed": "License renewed",
+    "revoked": "License revoked",
+    "revokeTitle": "Revoke license No. {{serial}}",
+    "revokeHint": "The clinic server learns about revocation at its next connection.",
+    "current": "Current license",
+    "renewTitle": "Renew license No. {{serial}}",
+    "issueTitle": "New license",
+    "selectAll": "Select all"
+  },
+  "alerts": {
+    "title": "Alerts",
+    "open": "Open",
+    "all": "All",
+    "type": "Problem",
+    "openedAt": "Started",
+    "resolvedAt": "Resolved",
+    "where": "Where",
+    "empty": "No alerts — everything is fine",
+    "ongoing": "Ongoing"
+  },
+  "staff": {
+    "title": "Staff",
+    "new": "New staff member",
+    "edit": "Edit staff member",
+    "login": "Login",
+    "fullName": "Full name",
+    "role": "Role",
+    "inactive": "Deactivated",
+    "lastLogin": "Last login",
+    "deactivate": "Deactivate",
+    "activate": "Activate",
+    "resetPassword": "Reset password",
+    "includeInactive": "Show deactivated",
+    "temporaryPassword": "Temporary password",
+    "temporaryPasswordHint": "Give this password to {{name}} in person. It is shown only once; they must change it at first login.",
+    "confirmDeactivate": "Deactivate {{name}}? Their sessions end immediately.",
+    "confirmReset": "Reset password of {{name}}? Their sessions end immediately.",
+    "you": "you",
+    "loginHint": "Latin letters, digits, dot, dash; 3–50 characters"
+  },
+  "audit": {
+    "title": "Audit log",
+    "when": "When",
+    "who": "Who",
+    "action": "Action",
+    "entity": "Object",
+    "changes": "Changes",
+    "before": "Before",
+    "after": "After",
+    "empty": "No records",
+    "filterAction": "Action (e.g. clinic.created)",
+    "filterEntity": "Object type",
+    "ip": "IP"
+  },
+  "time": {
+    "seconds": "{{count}} s",
+    "minutes": "{{count}} min",
+    "hours": "{{count}} h",
+    "days": "{{count}} d",
+    "ago": "{{value}} ago"
+  },
+  "errors": {
+    "unknown": "Something went wrong. Please try again.",
+    "common": {
+      "not_found": "Not found. It may have been deleted.",
+      "version_conflict": "Someone else changed this record. Reload and try again.",
+      "duplicate": "Such a record already exists.",
+      "internal_error": "Server error. Please try again later.",
+      "network_error": "No connection to the server."
+    },
+    "request": {
+      "malformed": "Invalid request.",
+      "invalid": "Invalid request.",
+      "invalid_parameter": "Invalid parameter.",
+      "method_not_allowed": "Action not allowed.",
+      "unsupported_media_type": "Unsupported format."
+    },
+    "auth": {
+      "bad_credentials": "Wrong login or password.",
+      "too_many_attempts": "Too many attempts. Try again in {{retryAfterSeconds}} s.",
+      "unauthenticated": "Please sign in.",
+      "forbidden": "You do not have permission for this action.",
+      "csrf_invalid": "Security token expired. Please repeat the action.",
+      "session_expired": "Session expired. Please sign in again.",
+      "password_change_required": "Change your temporary password first."
+    },
+    "staff": {
+      "login_taken": "This login is already taken.",
+      "last_owner": "There must be at least one active owner.",
+      "cannot_deactivate_self": "You cannot deactivate yourself.",
+      "use_change_password": "Use “Change password” for your own account."
+    },
+    "clinic": {
+      "archived": "The clinic is archived. Restore it first.",
+      "delete_requires_archived": "Archive the clinic before deleting it."
+    },
+    "branch": {
+      "archived": "The branch is archived. Restore it first.",
+      "delete_requires_archived": "Archive the branch before deleting it.",
+      "name_taken": "This clinic already has a branch with this name."
+    },
+    "tenant": {
+      "invalid_status_transition": "This status change is not allowed."
+    },
+    "license": {
+      "current_exists": "The clinic already has a current license. Renew or revoke it.",
+      "not_current": "Only the current license can be renewed.",
+      "already_revoked": "The license is already revoked.",
+      "none": "The clinic has no license."
+    },
+    "pairing": {
+      "branch_not_active": "The branch or clinic is not active.",
+      "code_not_open": "The code is already used, cancelled or expired.",
+      "invalid_code": "Invalid code.",
+      "branch_limit_reached": "The license allows only {{maxBranches}} branch servers.",
+      "too_many_attempts": "Too many attempts. Try again later."
+    },
+    "device": {
+      "already_revoked": "The server is already disconnected.",
+      "unauthorized": "Device not authorised."
+    },
+    "validation": {
+      "failed": "Please correct the highlighted fields.",
+      "not_blank": "Required",
+      "not_null": "Required",
+      "not_empty": "Choose at least one",
+      "size": "Too long (maximum {{max}})",
+      "range": "Must be between {{min}} and {{max}}",
+      "phone": "Enter an Uzbek number, e.g. +998 90 123 45 67",
+      "login_format": "3–50 characters: latin letters, digits, . _ -",
+      "password_policy": "At least {{min}} characters",
+      "password_incorrect": "Current password is wrong",
+      "password_reused": "Choose a different password",
+      "plan_format": "Latin letters, digits and _ (2–50)",
+      "unknown_modules": "Unknown modules",
+      "ends_before_start": "End date is before the start date",
+      "below_current_branches": "The clinic already has {{current}} branches",
+      "positive_or_zero": "Must not be negative",
+      "invalid": "Invalid value"
+    }
+  }
+}

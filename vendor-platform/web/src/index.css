@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+/* Design tokens: calm neutral UI, large readable type, strong colour only for statuses. */
+@theme {
+  --font-sans: "Inter", "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+  --color-primary: oklch(0.52 0.15 255);
+  --color-primary-foreground: oklch(0.99 0 0);
+  --color-background: oklch(0.985 0.002 250);
+  --color-surface: oklch(1 0 0);
+  --color-foreground: oklch(0.22 0.02 260);
+  --color-muted: oklch(0.96 0.005 250);
+  --color-muted-foreground: oklch(0.5 0.02 260);
+  --color-border: oklch(0.91 0.01 250);
+  --color-ring: oklch(0.62 0.15 255);
+  --color-danger: oklch(0.56 0.2 27);
+  --color-danger-foreground: oklch(0.99 0 0);
+  --radius-lg: 0.75rem;
+}
+
+@layer base {
+  html {
+    font-size: 15.5px;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+}
