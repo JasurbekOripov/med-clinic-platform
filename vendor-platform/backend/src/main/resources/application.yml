@@ -1,0 +1,68 @@
+spring:
+  application:
+    name: vendor-platform
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/vendor}
+    username: ${DB_USER:vendor}
+    password: ${DB_PASSWORD:vendor}
+    hikari:
+      maximum-pool-size: 10
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+  session:
+    timeout: ${SESSION_IDLE_TIMEOUT:30m}
+    jdbc:
+      initialize-schema: never
+      cleanup-cron: "0 */5 * * * *"
+  threads:
+    virtual:
+      enabled: true
+  mvc:
+    problemdetails:
+      enabled: true
+
+server:
+  port: ${PORT:8080}
+  forward-headers-strategy: framework
+  shutdown: graceful
+  error:
+    include-stacktrace: never
+    include-message: never
+  servlet:
+    session:
+      cookie:
+        name: VSESSION
+        http-only: true
+        secure: ${SESSION_COOKIE_SECURE:true}
+        same-site: lax
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: never
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: ${SWAGGER_UI_ENABLED:false}
+
+logging:
+  structured:
+    format:
+      console: ${LOG_FORMAT:ecs}
+
+vendor:
+  security:
+    session-absolute-timeout: ${SESSION_ABSOLUTE_TIMEOUT:12h}
+    bootstrap-owner:
+      login: ${VENDOR_BOOTSTRAP_OWNER_LOGIN:}
+      password: ${VENDOR_BOOTSTRAP_OWNER_PASSWORD:}
+      full-name: ${VENDOR_BOOTSTRAP_OWNER_FULL_NAME:Owner}

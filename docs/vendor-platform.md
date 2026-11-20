@@ -181,7 +181,7 @@ All failures return the same `pairing.invalid_code` to avoid leaking which codes
 {
   "heartbeatId": "uuid (idempotency key)", "sentAt": "…", "appVersion": "1.4.2", "uptimeSeconds": 86400,
   "disks": [{"mount": "C:", "totalBytes": 512000000000, "freeBytes": 210000000000}],
-  "lastBackup": {"completedAt": "…", "status": "SUCCESS", "sizeBytes": 123456789},
+  "lastBackup": {"completedAt": "…", "status": "SUCCESS", "lastSuccessAt": "…", "sizeBytes": 123456789},
   "errors": {"since": "…", "errorCount": 0, "warningCount": 3},
   "installedLicenseId": "uuid | null"
 }
@@ -192,7 +192,7 @@ Response:
 ```json
 {
   "serverTime": "…", "nextHeartbeatInSeconds": 60,
-  "license": {"currentLicenseId": "uuid | null", "installedLicenseStatus": "ACTIVE | REVOKED | SUPERSEDED | UNKNOWN | NONE"}
+  "license": {"currentLicenseId": "uuid | null", "installedLicenseStatus": "CURRENT | SUPERSEDED | REVOKED | UNKNOWN | NONE"}
 }
 ```
 

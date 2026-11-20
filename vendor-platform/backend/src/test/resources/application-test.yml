@@ -1,0 +1,12 @@
+logging:
+  structured:
+    format:
+      console: ""
+  level:
+    root: WARN
+    uz.medclinic: INFO
+server:
+  servlet:
+    session:
+      cookie:
+        secure: false

@@ -1,0 +1,13 @@
+# Local development: plain-text logs, Swagger UI, non-secure cookie over http://localhost.
+server:
+  servlet:
+    session:
+      cookie:
+        secure: false
+springdoc:
+  swagger-ui:
+    enabled: true
+logging:
+  structured:
+    format:
+      console: ""
