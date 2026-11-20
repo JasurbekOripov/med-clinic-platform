@@ -1,0 +1,13 @@
+.gradle/
+build/
+out/
+.idea/
+*.iml
+.kotlin/
+node_modules/
+dist/
+.env
+*.pem
+*.key
+/deploy/vendor/secrets/
+.DS_Store
