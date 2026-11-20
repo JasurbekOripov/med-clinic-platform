@@ -69,6 +69,10 @@ abstract class IntegrationTest {
             """.trimIndent(),
         ).query(String::class.java).optional().orElse(null)
         if (!tables.isNullOrBlank()) jdbc.sql("truncate table $tables restart identity cascade").update()
+        // Standalone sequences (e.g. human-readable codes) are not reset by "restart identity".
+        jdbc.sql("select sequence_name from information_schema.sequences where sequence_schema = 'public'")
+            .query(String::class.java).list()
+            .forEach { jdbc.sql("alter sequence \"$it\" restart").update() }
     }
 
     /** Inserts a staff account with a known password (bypassing the temporary-password flow). */
