@@ -29,13 +29,6 @@ server:
   error:
     include-stacktrace: never
     include-message: never
-  servlet:
-    session:
-      cookie:
-        name: VSESSION
-        http-only: true
-        secure: ${SESSION_COOKIE_SECURE:true}
-        same-site: lax
 
 management:
   endpoints:
@@ -62,6 +55,7 @@ logging:
 vendor:
   security:
     session-absolute-timeout: ${SESSION_ABSOLUTE_TIMEOUT:12h}
+    session-cookie-secure: ${SESSION_COOKIE_SECURE:true}
     bootstrap-owner:
       login: ${VENDOR_BOOTSTRAP_OWNER_LOGIN:}
       password: ${VENDOR_BOOTSTRAP_OWNER_PASSWORD:}
