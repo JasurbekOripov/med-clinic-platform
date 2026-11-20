@@ -40,7 +40,7 @@ audit_log (append-only)        spring_session (+ attributes)
 | **VendorStaff** | login (unique, case-insensitive), full_name, password_hash (BCrypt), role `OWNER`/`SUPPORT`, active, must_change_password, last_login_at, version | Never deleted, only deactivated. The last active OWNER cannot be deactivated or demoted. |
 | **Clinic** | code `CL-0001`, name, legal_name, owner_name, phone (E.164), address, region, notes, status, next_branch_no, version, deleted_at | Status `ACTIVE ⇄ SUSPENDED`, `ACTIVE/SUSPENDED → ARCHIVED`, `ARCHIVED → ACTIVE` (restore). Soft delete only from `ARCHIVED`. |
 | **Branch** | clinic_id, code `CL-0001-01`, name, address, phone, status, version, deleted_at | Same status machine. Creating/editing needs a non-archived clinic. Soft delete only from `ARCHIVED`. |
-| **License** | clinic_id, serial (global, human), plan, modules[], max_users, max_branches, valid_from, valid_until, expiry_grace_days, issued_at/by, key_id, payload (signed bytes), signature, revoked_at/by/reason, superseded_by | Immutable once issued (payload is what was signed). At most one *current* license per clinic (not revoked, not superseded). |
+| **License** | clinic_id, serial (global, human), plan, modules[], max_users, max_branches, starts_on/ends_on (Tashkent days), valid_from, valid_until, expiry_grace_days, issued_at/by, key_id, payload (signed bytes), signature, renewed_from, superseded_at/by, revoked_at/by/reason | Immutable once issued (payload is what was signed). At most one *current* license per clinic (`revoked_at` and `superseded_at` null; partial unique index). |
 | **PairingCode** | branch_id, clinic_id, code_hash (SHA-256), expires_at (default 24 h), created_by, claimed_at, claimed_device_id, cancelled_at | Shown once; single use; requires active clinic and branch. |
 | **Device** | clinic_id, branch_id, token_hash (SHA-256), status `ACTIVE`/`REVOKED`, hostname, os, app_version, paired_at, last_seen_at, last_ip | At most one ACTIVE device per branch; a new successful pairing revokes the previous one (server replaced / restored). |
 | **DeviceHealth** | latest heartbeat snapshot: app_version, uptime, disks, last backup, error counts, clock skew | Upserted on each heartbeat. |
@@ -94,6 +94,7 @@ Role → permission mapping lives in code for V1 (two fixed roles); every endpoi
 | `POST /licenses/{id}/renew` | LICENSE_MANAGE | new license, old → superseded |
 | `POST /licenses/{id}/revoke` `{reason}` | LICENSE_MANAGE | |
 | `GET /license-keys` | LICENSE_VIEW | public keys (for embedding into the Clinic Server build) |
+| `GET /license-catalog` | LICENSE_VIEW | known module codes and grace-day limits for the UI |
 | `GET/POST /branches/{id}/pairing-codes`, `POST /pairing-codes/{id}/cancel` | DEVICE_PAIR | POST returns the plain code once |
 | `GET /branches/{id}/devices`, `POST /devices/{id}/revoke` | MONITORING_VIEW / DEVICE_REVOKE | |
 | `GET /monitoring/servers?status=&q=` | MONITORING_VIEW | one row per active device + branches never paired |
@@ -237,7 +238,18 @@ clinics/branches are excluded.
   with `must_change_password = true`.
 - TLS is terminated by a reverse proxy (Caddy) in production; the app trusts `X-Forwarded-*` only from it.
 
-## 8. Configuration (env)
+## 8. Implementation notes (V1 as built)
+
+- Web console: `vendor-platform/web` (React 19, TanStack Query, Tailwind, Radix dialog), bundled into the jar;
+  hashed assets cached for a year, `index.html` never cached. TS types are generated from
+  `docs/openapi/vendor-platform.json`, which a backend test regenerates (`pnpm gen:api` in the web folder).
+- Monitoring list is assembled in memory (fine for thousands of branches); switch to a SQL view if that changes.
+- Login and pairing throttles are in memory: correct for one instance; move to the DB/Redis before scaling out.
+- Events `ClinicDeleted`/`BranchDeleted` (tenancy) revoke licenses and devices synchronously in the same transaction;
+  `AlertOpened`/`AlertResolved` (monitoring) have no listeners yet (future notifications module).
+- Run/deploy: see `deploy/vendor/README.md`.
+
+## 9. Configuration (env)
 
 `DB_URL`, `DB_USER`, `DB_PASSWORD` · `LICENSE_SIGNING_KEY_PATH`, `LICENSE_SIGNING_KEY_ID`,
 `LICENSE_SIGNING_GENERATE_IF_MISSING` (dev only) · `MONITORING_OFFLINE_AFTER` (10m) ·

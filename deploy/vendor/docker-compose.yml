@@ -1,0 +1,49 @@
+# Local run of the Vendor Platform (development profile).
+#   docker compose -f deploy/vendor/docker-compose.yml up --build
+#   open http://localhost:8080  (login: owner / see VENDOR_BOOTSTRAP_OWNER_PASSWORD below; you must change it)
+# Production differences are described in deploy/vendor/README.md.
+name: medclinic-vendor
+
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: vendor
+      POSTGRES_USER: vendor
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-vendor-local-only}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U vendor -d vendor"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+  app:
+    image: medclinic/vendor-platform:local
+    build:
+      context: ../..
+      dockerfile: deploy/vendor/Dockerfile
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-dev}
+      DB_URL: jdbc:postgresql://db:5432/vendor
+      DB_USER: vendor
+      DB_PASSWORD: ${DB_PASSWORD:-vendor-local-only}
+      LICENSE_SIGNING_KEY_ID: ${LICENSE_SIGNING_KEY_ID:-vk-dev-1}
+      LICENSE_SIGNING_KEY_PATH: /app/keys/vendor-license.pem
+      VENDOR_BOOTSTRAP_OWNER_LOGIN: ${VENDOR_BOOTSTRAP_OWNER_LOGIN:-owner}
+      VENDOR_BOOTSTRAP_OWNER_PASSWORD: ${VENDOR_BOOTSTRAP_OWNER_PASSWORD:-Change-Me-Now-2026}
+      VENDOR_BOOTSTRAP_OWNER_FULL_NAME: ${VENDOR_BOOTSTRAP_OWNER_FULL_NAME:-Owner}
+    volumes:
+      - signing-keys:/app/keys
+    ports:
+      - "127.0.0.1:8080:8080"
+    restart: unless-stopped
+
+volumes:
+  db-data:
+  signing-keys:

@@ -1,0 +1,9 @@
+**/node_modules
+**/dist
+**/build
+**/.gradle
+**/.kotlin
+.git
+.idea
+**/.dev-keys
+deploy/vendor/secrets
