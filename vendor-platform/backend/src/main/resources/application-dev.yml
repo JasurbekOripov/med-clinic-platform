@@ -1,7 +1,12 @@
-# Local development: plain-text logs, Swagger UI, non-secure cookie over http://localhost.
+# Local development: plain-text logs, Swagger UI, non-secure cookie over http://localhost,
+# a generated license signing key (never in production).
 vendor:
   security:
     session-cookie-secure: false
+  licensing:
+    signing:
+      private-key-path: ${LICENSE_SIGNING_KEY_PATH:./.dev-keys/vendor-license.pem}
+      generate-if-missing: true
 springdoc:
   swagger-ui:
     enabled: true

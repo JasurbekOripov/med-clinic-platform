@@ -14,11 +14,15 @@ data class LicenseValidity(
     val usable: Boolean get() = status == LicenseTimeStatus.ACTIVE || status == LicenseTimeStatus.GRACE
 
     companion object {
-        fun evaluate(payload: LicensePayload, now: Instant): LicenseValidity {
-            val graceEndsAt = payload.validUntil.plus(Duration.ofDays(payload.expiryGraceDays.toLong()))
+        fun evaluate(payload: LicensePayload, now: Instant): LicenseValidity =
+            evaluate(payload.validFrom, payload.validUntil, payload.expiryGraceDays, now)
+
+        /** Single source of the time rule, shared by the vendor (status display) and the Clinic Server. */
+        fun evaluate(validFrom: Instant, validUntil: Instant, expiryGraceDays: Int, now: Instant): LicenseValidity {
+            val graceEndsAt = validUntil.plus(Duration.ofDays(expiryGraceDays.toLong()))
             val status = when {
-                now.isBefore(payload.validFrom) -> LicenseTimeStatus.PENDING
-                now.isBefore(payload.validUntil) -> LicenseTimeStatus.ACTIVE
+                now.isBefore(validFrom) -> LicenseTimeStatus.PENDING
+                now.isBefore(validUntil) -> LicenseTimeStatus.ACTIVE
                 now.isBefore(graceEndsAt) -> LicenseTimeStatus.GRACE
                 else -> LicenseTimeStatus.EXPIRED
             }

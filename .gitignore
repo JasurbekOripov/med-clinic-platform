@@ -11,3 +11,4 @@ dist/
 *.key
 /deploy/vendor/secrets/
 .DS_Store
+.dev-keys/
