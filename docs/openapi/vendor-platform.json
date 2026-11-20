@@ -1,0 +1,2651 @@
+{
+  "openapi" : "3.1.0",
+  "info" : {
+    "title" : "Vendor Platform API",
+    "version" : "v1"
+  },
+  "servers" : [ {
+    "url" : "http://localhost",
+    "description" : "Generated server url"
+  } ],
+  "paths" : {
+    "/api/v1/staff/{id}" : {
+      "get" : {
+        "tags" : [ "staff-controller" ],
+        "operationId" : "get",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/StaffResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "staff-controller" ],
+        "operationId" : "update",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UpdateStaffRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/StaffResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/clinics/{id}" : {
+      "get" : {
+        "tags" : [ "clinic-controller" ],
+        "operationId" : "get_1",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ClinicResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "clinic-controller" ],
+        "operationId" : "update_1",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ClinicRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ClinicResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "clinic-controller" ],
+        "operationId" : "delete",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        }, {
+          "name" : "version",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "No Content"
+          }
+        }
+      }
+    },
+    "/api/v1/branches/{id}" : {
+      "get" : {
+        "tags" : [ "branch-controller" ],
+        "operationId" : "get_2",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BranchResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "branch-controller" ],
+        "operationId" : "update_2",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/BranchRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BranchResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "branch-controller" ],
+        "operationId" : "delete_1",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        }, {
+          "name" : "version",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "No Content"
+          }
+        }
+      }
+    },
+    "/api/v1/staff" : {
+      "get" : {
+        "tags" : [ "staff-controller" ],
+        "operationId" : "list",
+        "parameters" : [ {
+          "name" : "q",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "includeInactive",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "boolean",
+            "default" : false
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }, {
+          "name" : "size",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PageResponseStaffResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "staff-controller" ],
+        "operationId" : "create",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CreateStaffRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/StaffWithPasswordResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/staff/{id}/reset-password" : {
+      "post" : {
+        "tags" : [ "staff-controller" ],
+        "operationId" : "resetPassword",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/VersionRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/StaffWithPasswordResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/staff/{id}/deactivate" : {
+      "post" : {
+        "tags" : [ "staff-controller" ],
+        "operationId" : "deactivate",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/VersionRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/StaffResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/staff/{id}/activate" : {
+      "post" : {
+        "tags" : [ "staff-controller" ],
+        "operationId" : "activate",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/VersionRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/StaffResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pairing-codes/{id}/cancel" : {
+      "post" : {
+        "tags" : [ "device-admin-controller" ],
+        "operationId" : "cancelCode",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "No Content"
+          }
+        }
+      }
+    },
+    "/api/v1/licenses/{id}/revoke" : {
+      "post" : {
+        "tags" : [ "license-controller" ],
+        "operationId" : "revoke",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/RevokeRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/LicenseResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/licenses/{id}/renew" : {
+      "post" : {
+        "tags" : [ "license-controller" ],
+        "operationId" : "renew",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/LicenseTermsRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/LicenseResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/devices/{id}/revoke" : {
+      "post" : {
+        "tags" : [ "device-admin-controller" ],
+        "operationId" : "revoke_1",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/RevokeDeviceRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DeviceResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/clinics" : {
+      "get" : {
+        "tags" : [ "clinic-controller" ],
+        "operationId" : "search",
+        "parameters" : [ {
+          "name" : "q",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "status",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "ACTIVE", "SUSPENDED", "ARCHIVED" ]
+          }
+        }, {
+          "name" : "region",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "KARAKALPAKSTAN", "ANDIJAN", "BUKHARA", "FERGANA", "JIZZAKH", "KASHKADARYA", "KHOREZM", "NAMANGAN", "NAVOI", "SAMARKAND", "SURKHANDARYA", "SYRDARYA", "TASHKENT_REGION", "TASHKENT_CITY" ]
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }, {
+          "name" : "size",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PageResponseClinicResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "clinic-controller" ],
+        "operationId" : "create_1",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ClinicRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ClinicResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/clinics/{id}/status" : {
+      "post" : {
+        "tags" : [ "clinic-controller" ],
+        "operationId" : "changeStatus",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/StatusRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ClinicResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/clinics/{id}/branches" : {
+      "get" : {
+        "tags" : [ "clinic-controller" ],
+        "operationId" : "branches",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        }, {
+          "name" : "includeArchived",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "boolean",
+            "default" : true
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/BranchResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "clinic-controller" ],
+        "operationId" : "createBranch",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/BranchRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BranchResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/clinics/{clinicId}/licenses" : {
+      "get" : {
+        "tags" : [ "license-controller" ],
+        "operationId" : "list_1",
+        "parameters" : [ {
+          "name" : "clinicId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/LicenseResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "license-controller" ],
+        "operationId" : "issue",
+        "parameters" : [ {
+          "name" : "clinicId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/LicenseTermsRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/LicenseResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/branches/{id}/status" : {
+      "post" : {
+        "tags" : [ "branch-controller" ],
+        "operationId" : "changeStatus_1",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/StatusRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BranchResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/branches/{branchId}/pairing-codes" : {
+      "get" : {
+        "tags" : [ "device-admin-controller" ],
+        "operationId" : "listCodes",
+        "parameters" : [ {
+          "name" : "branchId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/PairingCodeResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "device-admin-controller" ],
+        "operationId" : "createCode",
+        "parameters" : [ {
+          "name" : "branchId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Created",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PairingCodeResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/password" : {
+      "post" : {
+        "tags" : [ "auth-controller" ],
+        "operationId" : "changePassword",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ChangePasswordRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MeResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/logout" : {
+      "post" : {
+        "tags" : [ "auth-controller" ],
+        "operationId" : "logout",
+        "responses" : {
+          "204" : {
+            "description" : "No Content"
+          }
+        }
+      }
+    },
+    "/api/v1/auth/login" : {
+      "post" : {
+        "tags" : [ "auth-controller" ],
+        "operationId" : "login",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/LoginRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MeResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/device/v1/pairing/claim" : {
+      "post" : {
+        "tags" : [ "device-api-controller" ],
+        "operationId" : "claim",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PairingClaimRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PairingClaimResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/device/v1/heartbeats" : {
+      "post" : {
+        "tags" : [ "heartbeat-controller" ],
+        "operationId" : "heartbeat",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/HeartbeatRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/HeartbeatResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/monitoring/servers" : {
+      "get" : {
+        "tags" : [ "monitoring-controller" ],
+        "operationId" : "servers",
+        "parameters" : [ {
+          "name" : "status",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "ONLINE", "OFFLINE", "NEVER_SEEN", "NOT_PAIRED" ]
+          }
+        }, {
+          "name" : "q",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ServerOverviewResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/monitoring/alerts" : {
+      "get" : {
+        "tags" : [ "monitoring-controller" ],
+        "operationId" : "alerts",
+        "parameters" : [ {
+          "name" : "open",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "boolean",
+            "default" : true
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }, {
+          "name" : "size",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PageResponseAlertResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/licenses/{id}" : {
+      "get" : {
+        "tags" : [ "license-controller" ],
+        "operationId" : "get_3",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/LicenseResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/licenses/{id}/file" : {
+      "get" : {
+        "tags" : [ "license-controller" ],
+        "operationId" : "download",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "string",
+                  "format" : "byte"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/license-keys" : {
+      "get" : {
+        "tags" : [ "license-controller" ],
+        "operationId" : "publicKeys",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "object",
+                  "additionalProperties" : {
+                    "type" : "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/license-catalog" : {
+      "get" : {
+        "tags" : [ "license-controller" ],
+        "operationId" : "catalog",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/LicenseCatalogResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/branches/{branchId}/devices" : {
+      "get" : {
+        "tags" : [ "device-admin-controller" ],
+        "operationId" : "devices",
+        "parameters" : [ {
+          "name" : "branchId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/DeviceResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/me" : {
+      "get" : {
+        "tags" : [ "auth-controller" ],
+        "operationId" : "me",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MeResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/csrf" : {
+      "get" : {
+        "tags" : [ "auth-controller" ],
+        "operationId" : "csrf",
+        "parameters" : [ {
+          "name" : "token",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/components/schemas/CsrfToken"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CsrfResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/audit" : {
+      "get" : {
+        "tags" : [ "audit-controller" ],
+        "operationId" : "search_1",
+        "parameters" : [ {
+          "name" : "entityType",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "entityId",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        }, {
+          "name" : "actorId",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        }, {
+          "name" : "clinicId",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        }, {
+          "name" : "action",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "from",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        }, {
+          "name" : "to",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }, {
+          "name" : "size",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PageResponseAuditEntryResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/device/v1/license" : {
+      "get" : {
+        "tags" : [ "device-api-controller" ],
+        "operationId" : "license",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "string",
+                  "format" : "byte"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "UpdateStaffRequest" : {
+        "type" : "object",
+        "properties" : {
+          "fullName" : {
+            "type" : "string",
+            "maxLength" : 200,
+            "minLength" : 0
+          },
+          "role" : {
+            "type" : "string",
+            "enum" : [ "OWNER", "SUPPORT" ]
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32",
+            "minimum" : 0
+          }
+        },
+        "required" : [ "fullName", "role", "version" ]
+      },
+      "StaffResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "login" : {
+            "type" : "string"
+          },
+          "fullName" : {
+            "type" : "string"
+          },
+          "role" : {
+            "type" : "string",
+            "enum" : [ "OWNER", "SUPPORT" ]
+          },
+          "active" : {
+            "type" : "boolean"
+          },
+          "mustChangePassword" : {
+            "type" : "boolean"
+          },
+          "lastLoginAt" : {
+            "type" : [ "string", "null" ],
+            "format" : "date-time"
+          },
+          "createdAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        },
+        "required" : [ "active", "createdAt", "fullName", "id", "login", "mustChangePassword", "role", "version" ]
+      },
+      "ClinicRequest" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 200,
+            "minLength" : 0
+          },
+          "legalName" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 300,
+            "minLength" : 0
+          },
+          "ownerName" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 200,
+            "minLength" : 0
+          },
+          "phone" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 32,
+            "minLength" : 0
+          },
+          "address" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 500,
+            "minLength" : 0
+          },
+          "region" : {
+            "type" : [ "string", "null" ],
+            "enum" : [ "KARAKALPAKSTAN", "ANDIJAN", "BUKHARA", "FERGANA", "JIZZAKH", "KASHKADARYA", "KHOREZM", "NAMANGAN", "NAVOI", "SAMARKAND", "SURKHANDARYA", "SYRDARYA", "TASHKENT_REGION", "TASHKENT_CITY" ]
+          },
+          "notes" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 4000,
+            "minLength" : 0
+          },
+          "version" : {
+            "type" : [ "integer", "null" ],
+            "format" : "int32",
+            "minimum" : 0
+          }
+        }
+      },
+      "ClinicResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "code" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "legalName" : {
+            "type" : [ "string", "null" ]
+          },
+          "ownerName" : {
+            "type" : "string"
+          },
+          "phone" : {
+            "type" : "string"
+          },
+          "address" : {
+            "type" : [ "string", "null" ]
+          },
+          "region" : {
+            "type" : "string",
+            "enum" : [ "KARAKALPAKSTAN", "ANDIJAN", "BUKHARA", "FERGANA", "JIZZAKH", "KASHKADARYA", "KHOREZM", "NAMANGAN", "NAVOI", "SAMARKAND", "SURKHANDARYA", "SYRDARYA", "TASHKENT_REGION", "TASHKENT_CITY" ]
+          },
+          "notes" : {
+            "type" : [ "string", "null" ]
+          },
+          "status" : {
+            "type" : "string",
+            "enum" : [ "ACTIVE", "SUSPENDED", "ARCHIVED" ]
+          },
+          "branchCount" : {
+            "type" : [ "integer", "null" ],
+            "format" : "int32"
+          },
+          "createdAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "updatedAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        },
+        "required" : [ "code", "createdAt", "id", "name", "ownerName", "phone", "region", "status", "updatedAt", "version" ]
+      },
+      "BranchRequest" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 200,
+            "minLength" : 0
+          },
+          "address" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 500,
+            "minLength" : 0
+          },
+          "phone" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 32,
+            "minLength" : 0
+          },
+          "version" : {
+            "type" : [ "integer", "null" ],
+            "format" : "int32",
+            "minimum" : 0
+          }
+        }
+      },
+      "BranchResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "clinicId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "code" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "address" : {
+            "type" : [ "string", "null" ]
+          },
+          "phone" : {
+            "type" : [ "string", "null" ]
+          },
+          "status" : {
+            "type" : "string",
+            "enum" : [ "ACTIVE", "SUSPENDED", "ARCHIVED" ]
+          },
+          "createdAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "updatedAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        },
+        "required" : [ "clinicId", "code", "createdAt", "id", "name", "status", "updatedAt", "version" ]
+      },
+      "CreateStaffRequest" : {
+        "type" : "object",
+        "properties" : {
+          "login" : {
+            "type" : "string",
+            "maxLength" : 50,
+            "minLength" : 0
+          },
+          "fullName" : {
+            "type" : "string",
+            "maxLength" : 200,
+            "minLength" : 0
+          },
+          "role" : {
+            "type" : "string",
+            "enum" : [ "OWNER", "SUPPORT" ]
+          }
+        },
+        "required" : [ "fullName", "login", "role" ]
+      },
+      "StaffWithPasswordResponse" : {
+        "type" : "object",
+        "properties" : {
+          "staff" : {
+            "$ref" : "#/components/schemas/StaffResponse"
+          },
+          "temporaryPassword" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "staff", "temporaryPassword" ]
+      },
+      "VersionRequest" : {
+        "type" : "object",
+        "properties" : {
+          "version" : {
+            "type" : "integer",
+            "format" : "int32",
+            "minimum" : 0
+          }
+        },
+        "required" : [ "version" ]
+      },
+      "RevokeRequest" : {
+        "type" : "object",
+        "properties" : {
+          "reason" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 500,
+            "minLength" : 0
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32",
+            "minimum" : 0
+          }
+        },
+        "required" : [ "version" ]
+      },
+      "LicenseResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "clinicId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "serial" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "plan" : {
+            "type" : "string"
+          },
+          "modules" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "maxUsers" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "maxBranches" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "startsOn" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "endsOn" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "validFrom" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "validUntil" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "expiryGraceDays" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "graceEndsAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "status" : {
+            "type" : "string",
+            "enum" : [ "PENDING", "ACTIVE", "GRACE", "EXPIRED", "SUPERSEDED", "REVOKED" ]
+          },
+          "issuedAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "issuedBy" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "keyId" : {
+            "type" : "string"
+          },
+          "renewedFrom" : {
+            "type" : [ "string", "null" ],
+            "format" : "uuid"
+          },
+          "supersededBy" : {
+            "type" : [ "string", "null" ],
+            "format" : "uuid"
+          },
+          "revokedAt" : {
+            "type" : [ "string", "null" ],
+            "format" : "date-time"
+          },
+          "revokeReason" : {
+            "type" : [ "string", "null" ]
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        },
+        "required" : [ "clinicId", "endsOn", "expiryGraceDays", "graceEndsAt", "id", "issuedAt", "issuedBy", "keyId", "maxBranches", "maxUsers", "modules", "plan", "serial", "startsOn", "status", "validFrom", "validUntil", "version" ]
+      },
+      "LicenseTermsRequest" : {
+        "type" : "object",
+        "properties" : {
+          "plan" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 50,
+            "minLength" : 0
+          },
+          "modules" : {
+            "type" : [ "array", "null" ],
+            "items" : {
+              "type" : "string"
+            },
+            "maxItems" : 30,
+            "minItems" : 0
+          },
+          "maxUsers" : {
+            "type" : [ "integer", "null" ],
+            "format" : "int32"
+          },
+          "maxBranches" : {
+            "type" : [ "integer", "null" ],
+            "format" : "int32"
+          },
+          "startsOn" : {
+            "type" : [ "string", "null" ],
+            "format" : "date"
+          },
+          "endsOn" : {
+            "type" : [ "string", "null" ],
+            "format" : "date"
+          },
+          "expiryGraceDays" : {
+            "type" : [ "integer", "null" ],
+            "format" : "int32"
+          },
+          "version" : {
+            "type" : [ "integer", "null" ],
+            "format" : "int32",
+            "minimum" : 0
+          }
+        }
+      },
+      "RevokeDeviceRequest" : {
+        "type" : "object",
+        "properties" : {
+          "reason" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 200,
+            "minLength" : 0
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32",
+            "minimum" : 0
+          }
+        },
+        "required" : [ "version" ]
+      },
+      "DeviceResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "branchId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "status" : {
+            "type" : "string",
+            "enum" : [ "ACTIVE", "REVOKED" ]
+          },
+          "hostname" : {
+            "type" : "string"
+          },
+          "os" : {
+            "type" : "string"
+          },
+          "appVersion" : {
+            "type" : "string"
+          },
+          "pairedAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "lastSeenAt" : {
+            "type" : [ "string", "null" ],
+            "format" : "date-time"
+          },
+          "lastIp" : {
+            "type" : [ "string", "null" ]
+          },
+          "revokedAt" : {
+            "type" : [ "string", "null" ],
+            "format" : "date-time"
+          },
+          "revokeReason" : {
+            "type" : [ "string", "null" ]
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        },
+        "required" : [ "appVersion", "branchId", "hostname", "id", "os", "pairedAt", "status", "version" ]
+      },
+      "StatusRequest" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "string",
+            "enum" : [ "ACTIVE", "SUSPENDED", "ARCHIVED" ]
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32",
+            "minimum" : 0
+          }
+        },
+        "required" : [ "status", "version" ]
+      },
+      "PairingCodeResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "branchId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "state" : {
+            "type" : "string",
+            "enum" : [ "OPEN", "CLAIMED", "CANCELLED", "EXPIRED" ]
+          },
+          "expiresAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "createdAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "claimedAt" : {
+            "type" : [ "string", "null" ],
+            "format" : "date-time"
+          },
+          "claimedDeviceId" : {
+            "type" : [ "string", "null" ],
+            "format" : "uuid"
+          },
+          "code" : {
+            "type" : [ "string", "null" ]
+          }
+        },
+        "required" : [ "branchId", "createdAt", "expiresAt", "id", "state" ]
+      },
+      "ChangePasswordRequest" : {
+        "type" : "object",
+        "properties" : {
+          "currentPassword" : {
+            "type" : "string",
+            "maxLength" : 200,
+            "minLength" : 0
+          },
+          "newPassword" : {
+            "type" : "string",
+            "maxLength" : 200,
+            "minLength" : 0
+          }
+        },
+        "required" : [ "currentPassword", "newPassword" ]
+      },
+      "MeResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "login" : {
+            "type" : "string"
+          },
+          "fullName" : {
+            "type" : "string"
+          },
+          "role" : {
+            "type" : "string"
+          },
+          "permissions" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "mustChangePassword" : {
+            "type" : "boolean"
+          }
+        },
+        "required" : [ "fullName", "id", "login", "mustChangePassword", "permissions", "role" ]
+      },
+      "LoginRequest" : {
+        "type" : "object",
+        "properties" : {
+          "login" : {
+            "type" : "string",
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "password" : {
+            "type" : "string",
+            "maxLength" : 200,
+            "minLength" : 0
+          }
+        },
+        "required" : [ "login", "password" ]
+      },
+      "PairingClaimRequest" : {
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "type" : "string"
+          },
+          "hostname" : {
+            "type" : "string"
+          },
+          "os" : {
+            "type" : "string"
+          },
+          "appVersion" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "appVersion", "code", "hostname", "os" ]
+      },
+      "PairingClaimResponse" : {
+        "type" : "object",
+        "properties" : {
+          "deviceId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "clinicId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "clinicCode" : {
+            "type" : "string"
+          },
+          "branchId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "branchCode" : {
+            "type" : "string"
+          },
+          "deviceToken" : {
+            "type" : "string"
+          },
+          "heartbeatIntervalSeconds" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "licenseFile" : {
+            "type" : [ "string", "null" ]
+          }
+        },
+        "required" : [ "branchCode", "branchId", "clinicCode", "clinicId", "deviceId", "deviceToken", "heartbeatIntervalSeconds" ]
+      },
+      "BackupInfo" : {
+        "type" : "object",
+        "properties" : {
+          "completedAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "status" : {
+            "type" : "string",
+            "enum" : [ "SUCCESS", "FAILED" ]
+          },
+          "lastSuccessAt" : {
+            "type" : [ "string", "null" ],
+            "format" : "date-time"
+          },
+          "sizeBytes" : {
+            "type" : [ "integer", "null" ],
+            "format" : "int64"
+          }
+        },
+        "required" : [ "completedAt", "status" ]
+      },
+      "DiskUsage" : {
+        "type" : "object",
+        "properties" : {
+          "mount" : {
+            "type" : "string"
+          },
+          "totalBytes" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "freeBytes" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        },
+        "required" : [ "freeBytes", "mount", "totalBytes" ]
+      },
+      "ErrorCounters" : {
+        "type" : "object",
+        "properties" : {
+          "since" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "errorCount" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "warningCount" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        },
+        "required" : [ "errorCount", "since", "warningCount" ]
+      },
+      "HeartbeatRequest" : {
+        "type" : "object",
+        "properties" : {
+          "heartbeatId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "sentAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "appVersion" : {
+            "type" : "string"
+          },
+          "uptimeSeconds" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "disks" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/DiskUsage"
+            }
+          },
+          "lastBackup" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/BackupInfo"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "errors" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/ErrorCounters"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "installedLicenseId" : {
+            "type" : [ "string", "null" ],
+            "format" : "uuid"
+          }
+        },
+        "required" : [ "appVersion", "disks", "heartbeatId", "sentAt", "uptimeSeconds" ]
+      },
+      "HeartbeatResponse" : {
+        "type" : "object",
+        "properties" : {
+          "serverTime" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "nextHeartbeatInSeconds" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "license" : {
+            "$ref" : "#/components/schemas/LicenseSyncInfo"
+          }
+        },
+        "required" : [ "license", "nextHeartbeatInSeconds", "serverTime" ]
+      },
+      "LicenseSyncInfo" : {
+        "type" : "object",
+        "properties" : {
+          "currentLicenseId" : {
+            "type" : [ "string", "null" ],
+            "format" : "uuid"
+          },
+          "installedLicenseStatus" : {
+            "type" : "string",
+            "enum" : [ "CURRENT", "SUPERSEDED", "REVOKED", "UNKNOWN", "NONE" ]
+          }
+        },
+        "required" : [ "installedLicenseStatus" ]
+      },
+      "PageResponseStaffResponse" : {
+        "type" : "object",
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/StaffResponse"
+            }
+          },
+          "page" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "size" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "totalItems" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "totalPages" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        },
+        "required" : [ "items", "page", "size", "totalItems", "totalPages" ]
+      },
+      "ServerOverviewResponse" : {
+        "type" : "object",
+        "properties" : {
+          "servers" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ServerRowResponse"
+            }
+          },
+          "counts" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "integer",
+              "format" : "int32"
+            }
+          },
+          "openAlertCount" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        },
+        "required" : [ "counts", "openAlertCount", "servers" ]
+      },
+      "ServerRowResponse" : {
+        "type" : "object",
+        "properties" : {
+          "clinicId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "clinicCode" : {
+            "type" : "string"
+          },
+          "clinicName" : {
+            "type" : "string"
+          },
+          "branchId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "branchCode" : {
+            "type" : "string"
+          },
+          "branchName" : {
+            "type" : "string"
+          },
+          "tenantStatus" : {
+            "type" : "string",
+            "enum" : [ "ACTIVE", "SUSPENDED", "ARCHIVED" ]
+          },
+          "deviceId" : {
+            "type" : [ "string", "null" ],
+            "format" : "uuid"
+          },
+          "hostname" : {
+            "type" : [ "string", "null" ]
+          },
+          "status" : {
+            "type" : "string",
+            "enum" : [ "ONLINE", "OFFLINE", "NEVER_SEEN", "NOT_PAIRED" ]
+          },
+          "lastHeartbeatAt" : {
+            "type" : [ "string", "null" ],
+            "format" : "date-time"
+          },
+          "appVersion" : {
+            "type" : [ "string", "null" ]
+          },
+          "uptimeSeconds" : {
+            "type" : [ "integer", "null" ],
+            "format" : "int64"
+          },
+          "disks" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/DiskUsage"
+            }
+          },
+          "lastBackupAt" : {
+            "type" : [ "string", "null" ],
+            "format" : "date-time"
+          },
+          "lastBackupStatus" : {
+            "type" : [ "string", "null" ],
+            "enum" : [ "SUCCESS", "FAILED" ]
+          },
+          "lastBackupSuccessAt" : {
+            "type" : [ "string", "null" ],
+            "format" : "date-time"
+          },
+          "errorCount" : {
+            "type" : [ "integer", "null" ],
+            "format" : "int64"
+          },
+          "warningCount" : {
+            "type" : [ "integer", "null" ],
+            "format" : "int64"
+          },
+          "clockSkewSeconds" : {
+            "type" : [ "integer", "null" ],
+            "format" : "int64"
+          },
+          "openAlerts" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string",
+              "enum" : [ "SERVER_OFFLINE", "DISK_LOW", "BACKUP_FAILED", "BACKUP_STALE", "CLOCK_SKEW" ]
+            }
+          }
+        },
+        "required" : [ "branchCode", "branchId", "branchName", "clinicCode", "clinicId", "clinicName", "disks", "openAlerts", "status", "tenantStatus" ]
+      },
+      "AlertResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "type" : {
+            "type" : "string",
+            "enum" : [ "SERVER_OFFLINE", "DISK_LOW", "BACKUP_FAILED", "BACKUP_STALE", "CLOCK_SKEW" ]
+          },
+          "deviceId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "clinicId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "branchId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "clinicName" : {
+            "type" : [ "string", "null" ]
+          },
+          "branchCode" : {
+            "type" : [ "string", "null" ]
+          },
+          "branchName" : {
+            "type" : [ "string", "null" ]
+          },
+          "details" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/JsonNode"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "openedAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "resolvedAt" : {
+            "type" : [ "string", "null" ],
+            "format" : "date-time"
+          }
+        },
+        "required" : [ "branchId", "clinicId", "deviceId", "id", "openedAt", "type" ]
+      },
+      "JsonNode" : {
+        "type" : "object",
+        "properties" : {
+          "float" : {
+            "type" : "boolean"
+          },
+          "null" : {
+            "type" : "boolean"
+          },
+          "container" : {
+            "type" : "boolean"
+          },
+          "string" : {
+            "type" : "boolean"
+          },
+          "boolean" : {
+            "type" : "boolean"
+          },
+          "number" : {
+            "type" : "boolean"
+          },
+          "nodeType" : {
+            "type" : "string",
+            "enum" : [ "ARRAY", "BINARY", "BOOLEAN", "MISSING", "NULL", "NUMBER", "OBJECT", "POJO", "STRING" ]
+          },
+          "integralNumber" : {
+            "type" : "boolean"
+          },
+          "missingNode" : {
+            "type" : "boolean"
+          },
+          "valueNode" : {
+            "type" : "boolean"
+          },
+          "object" : {
+            "type" : "boolean"
+          },
+          "pojo" : {
+            "type" : "boolean"
+          },
+          "floatingPointNumber" : {
+            "type" : "boolean"
+          },
+          "short" : {
+            "type" : "boolean"
+          },
+          "int" : {
+            "type" : "boolean"
+          },
+          "long" : {
+            "type" : "boolean"
+          },
+          "double" : {
+            "type" : "boolean"
+          },
+          "bigDecimal" : {
+            "type" : "boolean"
+          },
+          "bigInteger" : {
+            "type" : "boolean"
+          },
+          "textual" : {
+            "type" : "boolean",
+            "deprecated" : true
+          },
+          "binary" : {
+            "type" : "boolean"
+          },
+          "array" : {
+            "type" : "boolean"
+          },
+          "empty" : {
+            "type" : "boolean"
+          },
+          "embeddedValue" : {
+            "type" : "boolean"
+          }
+        },
+        "required" : [ "array", "bigDecimal", "bigInteger", "binary", "boolean", "container", "double", "embeddedValue", "empty", "float", "floatingPointNumber", "int", "integralNumber", "long", "missingNode", "nodeType", "null", "number", "object", "pojo", "short", "string", "textual", "valueNode" ]
+      },
+      "PageResponseAlertResponse" : {
+        "type" : "object",
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/AlertResponse"
+            }
+          },
+          "page" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "size" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "totalItems" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "totalPages" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        },
+        "required" : [ "items", "page", "size", "totalItems", "totalPages" ]
+      },
+      "LicenseCatalogResponse" : {
+        "type" : "object",
+        "properties" : {
+          "modules" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "defaultExpiryGraceDays" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "maxExpiryGraceDays" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        },
+        "required" : [ "defaultExpiryGraceDays", "maxExpiryGraceDays", "modules" ]
+      },
+      "PageResponseClinicResponse" : {
+        "type" : "object",
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ClinicResponse"
+            }
+          },
+          "page" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "size" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "totalItems" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "totalPages" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        },
+        "required" : [ "items", "page", "size", "totalItems", "totalPages" ]
+      },
+      "CsrfToken" : {
+        "type" : "object",
+        "properties" : {
+          "token" : {
+            "type" : "string"
+          },
+          "parameterName" : {
+            "type" : "string"
+          },
+          "headerName" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "headerName", "parameterName", "token" ]
+      },
+      "CsrfResponse" : {
+        "type" : "object",
+        "properties" : {
+          "headerName" : {
+            "type" : "string"
+          },
+          "token" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "headerName", "token" ]
+      },
+      "AuditEntryResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "occurredAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "actorType" : {
+            "type" : "string"
+          },
+          "actorId" : {
+            "type" : [ "string", "null" ],
+            "format" : "uuid"
+          },
+          "actorName" : {
+            "type" : "string"
+          },
+          "action" : {
+            "type" : "string"
+          },
+          "entityType" : {
+            "type" : "string"
+          },
+          "entityId" : {
+            "type" : [ "string", "null" ],
+            "format" : "uuid"
+          },
+          "clinicId" : {
+            "type" : [ "string", "null" ],
+            "format" : "uuid"
+          },
+          "before" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/JsonNode"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "after" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/JsonNode"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "ip" : {
+            "type" : [ "string", "null" ]
+          },
+          "requestId" : {
+            "type" : [ "string", "null" ]
+          }
+        },
+        "required" : [ "action", "actorName", "actorType", "entityType", "id", "occurredAt" ]
+      },
+      "PageResponseAuditEntryResponse" : {
+        "type" : "object",
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/AuditEntryResponse"
+            }
+          },
+          "page" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "size" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "totalItems" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "totalPages" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        },
+        "required" : [ "items", "page", "size", "totalItems", "totalPages" ]
+      }
+    },
+    "securitySchemes" : {
+      "staffSession" : {
+        "type" : "apiKey",
+        "name" : "VSESSION",
+        "in" : "cookie"
+      },
+      "deviceToken" : {
+        "type" : "http",
+        "scheme" : "bearer"
+      }
+    }
+  }
+}
