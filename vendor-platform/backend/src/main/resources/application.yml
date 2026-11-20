@@ -65,3 +65,9 @@ vendor:
       key-id: ${LICENSE_SIGNING_KEY_ID:vk-dev-1}
       private-key-path: ${LICENSE_SIGNING_KEY_PATH:}
       generate-if-missing: ${LICENSE_SIGNING_GENERATE_IF_MISSING:false}
+  devices:
+    pairing-code-ttl: ${PAIRING_CODE_TTL:24h}
+    heartbeat-interval: ${HEARTBEAT_INTERVAL:60s}
+  monitoring:
+    offline-after: ${MONITORING_OFFLINE_AFTER:10m}
+    heartbeat-retention: ${MONITORING_HEARTBEAT_RETENTION:30d}

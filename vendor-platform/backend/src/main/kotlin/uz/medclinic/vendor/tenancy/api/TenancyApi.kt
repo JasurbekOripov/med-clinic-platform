@@ -42,6 +42,9 @@ interface TenancyQueries {
     fun findBranch(id: UUID): BranchSummary?
     fun findBranches(ids: Collection<UUID>): Map<UUID, BranchSummary>
 
+    /** All non-deleted, non-archived branches of non-archived clinics (vendor scale: hundreds of rows). */
+    fun listLiveBranches(): List<BranchSummary>
+
     /** Non-deleted, non-archived branches of a clinic. */
     fun countLiveBranches(clinicId: UUID): Int
 }

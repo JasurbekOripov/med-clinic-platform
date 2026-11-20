@@ -13,3 +13,5 @@ vendor:
       key-id: vk-test-1
       private-key-path: ${java.io.tmpdir}/medclinic-test-keys/vendor-license.pem
       generate-if-missing: true
+  monitoring:
+    evaluation-enabled: false

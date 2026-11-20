@@ -45,6 +45,11 @@ class JdbcClinicRepository(private val jdbc: JdbcClient) : ClinicRepository {
     override fun findById(id: UUID): Clinic? =
         jdbc.sql("select * from clinic where id = :id and deleted_at is null").param("id", id).query(::mapClinic).optional().orElse(null)
 
+    override fun findByIds(ids: Collection<UUID>): List<Clinic> {
+        if (ids.isEmpty()) return emptyList()
+        return jdbc.sql("select * from clinic where id in (:ids) and deleted_at is null").param("ids", ids).query(::mapClinic).list()
+    }
+
     override fun search(filter: ClinicFilter, page: PageQuery): Page<ClinicListItem> {
         val conditions = mutableListOf("c.deleted_at is null")
         val params = mutableMapOf<String, Any?>()
@@ -160,6 +165,15 @@ class JdbcBranchRepository(private val jdbc: JdbcClient) : BranchRepository {
         if (ids.isEmpty()) return emptyList()
         return jdbc.sql("select * from branch where id in (:ids) and deleted_at is null").param("ids", ids).query(::map).list()
     }
+
+    override fun findAllLive(): List<Branch> =
+        jdbc.sql(
+            """
+            select b.* from branch b join clinic c on c.id = b.clinic_id
+            where b.deleted_at is null and b.status <> 'ARCHIVED' and c.deleted_at is null and c.status <> 'ARCHIVED'
+            order by b.code
+            """,
+        ).query(::map).list()
 
     override fun update(branch: Branch): Branch {
         val rows = try {

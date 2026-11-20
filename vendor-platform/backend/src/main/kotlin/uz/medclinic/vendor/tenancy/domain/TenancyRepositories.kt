@@ -13,6 +13,7 @@ interface ClinicRepository {
     /** Assigns the next human code (`CL-0001`) atomically and returns the stored clinic. */
     fun insert(clinic: Clinic): Clinic
     fun findById(id: UUID): Clinic?
+    fun findByIds(ids: Collection<UUID>): List<Clinic>
     fun search(filter: ClinicFilter, page: PageQuery): Page<ClinicListItem>
     fun update(clinic: Clinic): Clinic
 
@@ -25,6 +26,7 @@ interface BranchRepository {
     fun findById(id: UUID): Branch?
     fun findByClinic(clinicId: UUID, includeArchived: Boolean): List<Branch>
     fun findByIds(ids: Collection<UUID>): List<Branch>
+    fun findAllLive(): List<Branch>
     fun update(branch: Branch): Branch
     fun countLive(clinicId: UUID): Int
 }

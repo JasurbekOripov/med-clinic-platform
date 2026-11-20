@@ -25,12 +25,14 @@ class TenancyQueriesImpl(
         return summary(branch, summary(clinic))
     }
 
-    override fun findBranches(ids: Collection<UUID>): Map<UUID, BranchSummary> {
-        val found = branches.findByIds(ids)
-        val clinicSummaries = found.map { it.clinicId }.distinct()
-            .mapNotNull { clinics.findById(it) }
-            .associate { it.id to summary(it) }
-        return found.mapNotNull { b -> clinicSummaries[b.clinicId]?.let { b.id to summary(b, it) } }.toMap()
+    override fun findBranches(ids: Collection<UUID>): Map<UUID, BranchSummary> =
+        summarise(branches.findByIds(ids)).associateBy { it.id }
+
+    override fun listLiveBranches(): List<BranchSummary> = summarise(branches.findAllLive())
+
+    private fun summarise(found: List<Branch>): List<BranchSummary> {
+        val clinicSummaries = clinics.findByIds(found.map { it.clinicId }.distinct()).associate { it.id to summary(it) }
+        return found.mapNotNull { b -> clinicSummaries[b.clinicId]?.let { summary(b, it) } }
     }
 
     override fun countLiveBranches(clinicId: UUID): Int = branches.countLive(clinicId)
