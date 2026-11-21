@@ -1,4 +1,6 @@
+import { ChevronDown } from "lucide-react";
 import * as React from "react";
+import { formatPhoneInput, nationalDigits } from "@/lib/phone";
 import { cn } from "@/lib/utils";
 
 const fieldClass =
@@ -14,10 +16,44 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, React.TextareaHTML
 );
 Textarea.displayName = "Textarea";
 
-/** Native select: fully keyboard accessible (type-to-select) with zero extra code. */
+/**
+ * Native select (fully keyboard accessible: type-to-select) with the browser's own arrow removed, so padding
+ * and the chevron look the same in Safari, Chrome and Firefox.
+ */
 export const Select = React.forwardRef<HTMLSelectElement, React.SelectHTMLAttributes<HTMLSelectElement>>(
-  ({ className, ...props }, ref) => <select ref={ref} className={cn(fieldClass, "h-10 pr-8", className)} {...props} />,
+  ({ className, ...props }, ref) => (
+    <div className="relative">
+      <select ref={ref} className={cn(fieldClass, "h-10 cursor-pointer appearance-none pr-9", className)} {...props} />
+      <ChevronDown className="pointer-events-none absolute right-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden />
+    </div>
+  ),
 );
+
+/**
+ * Uzbek phone field: typing `901234567` shows `+998 90 123 45 67`; pasting any common format works too.
+ * Deleting every digit empties the field (so optional phones can be cleared). Validation is done by the form.
+ */
+export const PhoneInput = React.forwardRef<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>(
+  ({ onChange, ...props }, ref) => (
+    <Input
+      ref={ref}
+      type="tel"
+      inputMode="tel"
+      autoComplete="off"
+      placeholder="+998 90 123 45 67"
+      maxLength={17}
+      onChange={(e) => {
+        const compact = e.target.value.replace(/\s/g, "");
+        // "+", "+9", "+99", "+998": the user is still typing the country code; leave it as typed.
+        if (compact.startsWith("+") && "+998".startsWith(compact)) e.target.value = compact;
+        else e.target.value = nationalDigits(e.target.value) ? formatPhoneInput(e.target.value) : "";
+        onChange?.(e);
+      }}
+      {...props}
+    />
+  ),
+);
+PhoneInput.displayName = "PhoneInput";
 Select.displayName = "Select";
 
 export function Label({ className, ...props }: React.LabelHTMLAttributes<HTMLLabelElement>) {

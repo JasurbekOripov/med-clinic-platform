@@ -11,11 +11,12 @@ import { TenantStatusBadge } from "@/components/StatusBadge";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogFooter, DialogTitle } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
+import { Input, PhoneInput } from "@/components/ui/input";
 import { Table, Td, Th, Tr } from "@/components/ui/table";
 import { usePermissions } from "@/features/auth/permissions";
 import { fieldErrors } from "@/lib/errors";
 import { formatPhone } from "@/lib/format";
+import { formatPhoneInput, isEmptyPhone, isValidUzPhone } from "@/lib/phone";
 import { DevicesDialog, PairingDialog } from "./PairingDialog";
 import { StatusActions } from "./StatusActions";
 
@@ -125,7 +126,7 @@ function BranchFormDialog({
 
   React.useEffect(() => {
     if (open) {
-      reset({ name: branch?.name ?? "", address: branch?.address ?? "", phone: branch?.phone ?? "" });
+      reset({ name: branch?.name ?? "", address: branch?.address ?? "", phone: branch?.phone ? formatPhoneInput(branch.phone) : "" });
       save.reset();
     }
   }, [open, branch]);
@@ -139,7 +140,7 @@ function BranchFormDialog({
           className="mt-5 space-y-4"
           onSubmit={handleSubmit((v) =>
             save.mutate(
-              { id: branch?.id, body: { name: v.name, address: v.address || null, phone: v.phone || null, version: branch?.version } },
+              { id: branch?.id, body: { name: v.name, address: v.address || null, phone: isEmptyPhone(v.phone) ? null : v.phone, version: branch?.version } },
               {
                 onSuccess: () => {
                   toast.success(t("common.saved"));
@@ -155,8 +156,8 @@ function BranchFormDialog({
           <Field label={t("common.address")} error={server.address} optional>
             <Input {...register("address")} />
           </Field>
-          <Field label={t("common.phone")} error={server.phone} optional>
-            <Input type="tel" inputMode="tel" placeholder="+998 90 123 45 67" {...register("phone")} />
+          <Field label={t("common.phone")} error={server.phone ?? (formState.errors.phone && t("errors.validation.phone"))} optional>
+            <PhoneInput {...register("phone", { validate: (v) => isEmptyPhone(v) || isValidUzPhone(v) })} />
           </Field>
           {Object.keys(server).length === 0 && <FormError error={save.error} />}
           <DialogFooter>

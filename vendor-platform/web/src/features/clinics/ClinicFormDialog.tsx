@@ -8,8 +8,9 @@ import { FormError } from "@/components/Common";
 import { Field } from "@/components/Field";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogFooter, DialogTitle } from "@/components/ui/dialog";
-import { Input, Select, Textarea } from "@/components/ui/input";
+import { Input, PhoneInput, Select, Textarea } from "@/components/ui/input";
 import { fieldErrors } from "@/lib/errors";
+import { formatPhoneInput, isEmptyPhone, isValidUzPhone } from "@/lib/phone";
 
 interface Values {
   name: string;
@@ -26,7 +27,7 @@ function toValues(c?: Clinic): Values {
     name: c?.name ?? "",
     legalName: c?.legalName ?? "",
     ownerName: c?.ownerName ?? "",
-    phone: c?.phone ?? "+998 ",
+    phone: c?.phone ? formatPhoneInput(c.phone) : "",
     address: c?.address ?? "",
     region: c?.region ?? "",
     notes: c?.notes ?? "",
@@ -55,7 +56,7 @@ export function ClinicFormDialog({
     }
   }, [open, clinic]);
 
-  // Server validation is authoritative (phone format, trimming); client checks only catch empty required fields.
+  // Client checks give instant feedback (required fields, phone format); the server stays authoritative.
   const server = fieldErrors(t, save.error);
   const required = (field: keyof Values) => server[field] ?? (formState.errors[field] ? t("errors.validation.not_blank") : undefined);
 
@@ -97,8 +98,18 @@ export function ClinicFormDialog({
           <Field label={t("clinics.ownerName")} error={required("ownerName")}>
             <Input {...register("ownerName", { required: true })} />
           </Field>
-          <Field label={t("common.phone")} error={server.phone}>
-            <Input type="tel" inputMode="tel" {...register("phone")} />
+          <Field
+            label={t("common.phone")}
+            error={
+              server.phone ??
+              (formState.errors.phone?.type === "required" ? t("errors.validation.not_blank") : formState.errors.phone && t("errors.validation.phone"))
+            }
+          >
+            <PhoneInput
+              {...register("phone", {
+                validate: { required: (v) => !isEmptyPhone(v), format: (v) => isValidUzPhone(v) },
+              })}
+            />
           </Field>
           <Field label={t("clinics.region")} error={required("region")}>
             <Select {...register("region", { required: true })}>
