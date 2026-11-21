@@ -10,6 +10,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { fieldErrors } from "@/lib/errors";
 
+/** Mirrors the server rule (PasswordPolicy.MIN_LENGTH); the server stays authoritative. */
+const PASSWORD_MIN_LENGTH = 8;
+
 interface Values {
   currentPassword: string;
   newPassword: string;
@@ -48,8 +51,8 @@ export function ChangePasswordPage() {
             <Field label={t("auth.currentPassword")} error={server.currentPassword}>
               <Input type="password" autoFocus autoComplete="current-password" {...register("currentPassword", { required: true })} />
             </Field>
-            <Field label={t("auth.newPassword")} hint={t("auth.passwordRules")} error={server.newPassword ?? (formState.errors.newPassword && t("errors.validation.password_policy", { min: 10 }))}>
-              <Input type="password" autoComplete="new-password" {...register("newPassword", { required: true, minLength: 10 })} />
+            <Field label={t("auth.newPassword")} hint={t("auth.passwordRules", { min: PASSWORD_MIN_LENGTH })} error={server.newPassword ?? (formState.errors.newPassword && t("errors.validation.password_policy", { min: PASSWORD_MIN_LENGTH }))}>
+              <Input type="password" autoComplete="new-password" {...register("newPassword", { required: true, minLength: PASSWORD_MIN_LENGTH })} />
             </Field>
             <Field label={t("auth.repeatPassword")} error={formState.errors.repeat && t("auth.passwordsDontMatch")}>
               <Input

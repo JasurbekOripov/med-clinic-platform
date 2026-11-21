@@ -57,7 +57,7 @@
     "repeatPassword": "Повторите новый пароль",
     "passwordsDontMatch": "Пароли не совпадают",
     "mustChangeHint": "Вы используете временный пароль. Чтобы продолжить, задайте свой пароль.",
-    "passwordRules": "Не менее 10 символов.",
+    "passwordRules": "Не менее {{min}} символов.",
     "passwordChanged": "Пароль изменён",
     "language": "Язык"
   },

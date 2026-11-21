@@ -61,7 +61,7 @@ object StaffLogin {
 }
 
 object PasswordPolicy {
-    const val MIN_LENGTH = 10
+    const val MIN_LENGTH = 8
 
     /** BCrypt only uses the first 72 bytes; longer input is rejected instead of silently truncated. */
     const val MAX_BYTES = 72

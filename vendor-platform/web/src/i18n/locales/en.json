@@ -57,7 +57,7 @@
     "repeatPassword": "Repeat new password",
     "passwordsDontMatch": "Passwords do not match",
     "mustChangeHint": "You are using a temporary password. Choose your own password to continue.",
-    "passwordRules": "At least 10 characters.",
+    "passwordRules": "At least {{min}} characters.",
     "passwordChanged": "Password changed",
     "language": "Language"
   },

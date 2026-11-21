@@ -57,7 +57,7 @@
     "repeatPassword": "Yangi parolni takrorlang",
     "passwordsDontMatch": "Parollar mos kelmadi",
     "mustChangeHint": "Siz vaqtinchalik paroldan foydalanyapsiz. Davom etish uchun oʻz parolingizni oʻrnating.",
-    "passwordRules": "Kamida 10 ta belgi.",
+    "passwordRules": "Kamida {{min}} ta belgi.",
     "passwordChanged": "Parol oʻzgartirildi",
     "language": "Til"
   },

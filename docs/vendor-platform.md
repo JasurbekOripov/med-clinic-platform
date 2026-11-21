@@ -233,7 +233,7 @@ clinics/branches are excluded.
 - CSRF: cookie-to-header (`XSRF-TOKEN` → `X-XSRF-TOKEN`) for staff API; device API is stateless bearer.
 - Login throttling (in memory; one instance): 5 failures per login or 20 per IP within 15 min → blocked 15 min.
   Same generic error for unknown login and wrong password.
-- Passwords: BCrypt (delegating encoder, upgradable), min 10 chars.
+- Passwords: BCrypt (delegating encoder, upgradable), min 8 chars (brute force is limited by login throttling).
 - First OWNER is bootstrapped from `VENDOR_BOOTSTRAP_OWNER_LOGIN` / `…_PASSWORD` only when no staff exist,
   with `must_change_password = true`.
 - TLS is terminated by a reverse proxy (Caddy) in production; the app trusts `X-Forwarded-*` only from it.

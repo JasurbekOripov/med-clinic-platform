@@ -57,7 +57,7 @@
     "repeatPassword": "Янги паролни такрорланг",
     "passwordsDontMatch": "Пароллар мос келмади",
     "mustChangeHint": "Сиз вақтинчалик паролдан фойдаланяпсиз. Давом этиш учун ўз паролингизни ўрнатинг.",
-    "passwordRules": "Камида 10 та белги.",
+    "passwordRules": "Камида {{min}} та белги.",
     "passwordChanged": "Парол ўзгартирилди",
     "language": "Тил"
   },
