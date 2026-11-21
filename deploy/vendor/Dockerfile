@@ -17,6 +17,8 @@ COPY build-logic build-logic
 COPY libs libs
 COPY vendor-platform/backend vendor-platform/backend
 COPY --from=web /src/vendor-platform/web/dist vendor-platform/web/dist
+# Tolerate Windows checkouts: strip CR line endings and restore the executable bit.
+RUN sed -i 's/\r$//' gradlew && chmod +x gradlew
 RUN --mount=type=cache,target=/root/.gradle ./gradlew :vendor-platform:backend:bootJar --no-daemon --max-workers=2 -x test
 
 FROM eclipse-temurin:21-jre-noble
