@@ -15,6 +15,7 @@ dependencies {
     implementation("org.springframework.modulith:spring-modulith-starter-core")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation(libs.springdoc.webmvc.ui)
+    implementation(libs.poi.ooxml)
 
     runtimeOnly("org.postgresql:postgresql")
     runtimeOnly("org.flywaydb:flyway-database-postgresql")

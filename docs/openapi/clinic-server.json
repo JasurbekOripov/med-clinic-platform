@@ -661,6 +661,76 @@
         }
       }
     },
+    "/api/v1/imports/{kind}/preview" : {
+      "post" : {
+        "tags" : [ "import-controller" ],
+        "operationId" : "preview",
+        "parameters" : [ {
+          "name" : "kind",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "STAFF" ]
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "multipart/form-data" : {
+              "schema" : {
+                "type" : "object",
+                "properties" : {
+                  "file" : {
+                    "type" : "string",
+                    "format" : "binary"
+                  }
+                },
+                "required" : [ "file" ]
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ImportPreviewResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/imports/{batchId}/commit" : {
+      "post" : {
+        "tags" : [ "import-controller" ],
+        "operationId" : "commit",
+        "parameters" : [ {
+          "name" : "batchId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ImportResultResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/auth/password" : {
       "post" : {
         "tags" : [ "auth-controller" ],
@@ -814,6 +884,42 @@
               "*/*" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/LicenseStatusResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/imports/{kind}/template" : {
+      "get" : {
+        "tags" : [ "import-controller" ],
+        "operationId" : "template",
+        "parameters" : [ {
+          "name" : "kind",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "STAFF" ]
+          }
+        }, {
+          "name" : "lang",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "default" : "uz-Latn"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "string",
+                  "format" : "byte"
                 }
               }
             }
@@ -1368,6 +1474,128 @@
           }
         },
         "required" : [ "clockWarning", "modules", "state", "usable" ]
+      },
+      "ImportPreviewResponse" : {
+        "type" : "object",
+        "properties" : {
+          "batchId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "kind" : {
+            "type" : "string",
+            "enum" : [ "STAFF" ]
+          },
+          "columns" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "rows" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ImportRow"
+            }
+          },
+          "validRows" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "invalidRows" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "expiresAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        },
+        "required" : [ "batchId", "columns", "expiresAt", "invalidRows", "kind", "rows", "validRows" ]
+      },
+      "ImportRow" : {
+        "type" : "object",
+        "properties" : {
+          "rowNumber" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "values" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "string"
+            }
+          },
+          "errors" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/RowIssue"
+            }
+          },
+          "warnings" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/RowIssue"
+            }
+          },
+          "valid" : {
+            "type" : "boolean"
+          }
+        },
+        "required" : [ "errors", "rowNumber", "valid", "values", "warnings" ]
+      },
+      "RowIssue" : {
+        "type" : "object",
+        "properties" : {
+          "column" : {
+            "type" : [ "string", "null" ]
+          },
+          "code" : {
+            "type" : "string"
+          },
+          "params" : {
+            "type" : "object",
+            "additionalProperties" : { }
+          }
+        },
+        "required" : [ "code", "params" ]
+      },
+      "ImportResultResponse" : {
+        "type" : "object",
+        "properties" : {
+          "imported" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ImportedItem"
+            }
+          },
+          "skipped" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ImportRow"
+            }
+          }
+        },
+        "required" : [ "imported", "skipped" ]
+      },
+      "ImportedItem" : {
+        "type" : "object",
+        "properties" : {
+          "rowNumber" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "label" : {
+            "type" : "string"
+          },
+          "details" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "string"
+            }
+          }
+        },
+        "required" : [ "details", "label", "rowNumber" ]
       },
       "ChangePasswordRequest" : {
         "type" : "object",

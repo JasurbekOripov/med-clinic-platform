@@ -128,10 +128,16 @@ class JdbcStaffRepository(private val jdbc: JdbcClient, private val clinic: Clin
         val conditions = mutableListOf("(:includeInactive or active)")
         val params = mutableMapOf<String, Any?>("includeInactive" to filter.includeInactive)
         filter.roleId?.let { conditions += "role_id = :roleId"; params["roleId"] = it }
-        filter.query?.let {
-            conditions += "(full_name ilike :q escape '\\' or login ilike :q escape '\\' or coalesce(phone, '') like :digits escape '\\')"
-            params["q"] = likePattern(it)
-            params["digits"] = likePattern(it.filter(Char::isDigit).ifEmpty { "\u0000" })
+        filter.query?.let { q ->
+            params["q"] = likePattern(q)
+            val digits = q.filter(Char::isDigit)
+            // Phone search only when the user typed enough digits to be meaningful.
+            val phone = if (digits.length >= 3) {
+                params["digits"] = likePattern(digits); " or coalesce(phone, '') like :digits escape '\\'"
+            } else {
+                ""
+            }
+            conditions += "(full_name ilike :q escape '\\' or login ilike :q escape '\\'$phone)"
         }
         val where = "where " + conditions.joinToString(" and ")
         val total = jdbc.sql("select count(*) from staff $where").params(params).query(Long::class.java).single()

@@ -18,7 +18,12 @@ data class NewStaff(val login: String, val fullName: String, val position: Strin
 data class CreatedStaff(val id: UUID, val login: String, val fullName: String, val temporaryPassword: String)
 
 interface StaffDirectory {
+    /** Normalised login, or null when it does not match the login rules. */
+    fun normaliseLogin(raw: String): String?
+
     fun loginExists(login: String): Boolean
+
+    fun fullNameExists(fullName: String): Boolean
 
     /** Role id by template code (e.g. `DOCTOR`) or by custom role name, case-insensitive; null if unknown. */
     fun findRoleId(codeOrName: String): UUID?

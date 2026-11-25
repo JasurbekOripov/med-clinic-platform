@@ -189,4 +189,15 @@ class IdentityApiTest : IntegrationTest() {
         mockMvc.post("/api/v1/auth/logout") { with(session.apply()) }.andExpect { status { isNoContent() } }
         mockMvc.get("/api/v1/auth/me") { with(session.apply()) }.andExpect { status { isUnauthorized() } }
     }
+
+    @Test
+    fun `staff search finds by name, login and phone digits`() {
+        val admin = createStaff()
+        createVia(login = "dilnoza", template = RoleTemplate.RECEPTION).andExpect { status { isCreated() } }
+
+        mockMvc.get("/api/v1/staff?q=karimova") { with(asStaff(admin)) }.andExpect { jsonPath("$.totalItems") { value(1) } }
+        mockMvc.get("/api/v1/staff?q=DILN") { with(asStaff(admin)) }.andExpect { jsonPath("$.totalItems") { value(1) } }
+        mockMvc.get("/api/v1/staff?q=112 23") { with(asStaff(admin)) }.andExpect { jsonPath("$.totalItems") { value(1) } }
+        mockMvc.get("/api/v1/staff?q=50%25") { with(asStaff(admin)) }.andExpect { jsonPath("$.totalItems") { value(0) } }
+    }
 }

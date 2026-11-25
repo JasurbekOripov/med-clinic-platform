@@ -14,10 +14,12 @@ import uz.medclinic.clinic.identity.domain.PasswordPolicy
 import uz.medclinic.clinic.identity.domain.Role
 import uz.medclinic.clinic.identity.domain.RoleRepository
 import uz.medclinic.clinic.identity.domain.RoleTemplate
+import uz.medclinic.clinic.identity.domain.StaffFilter
 import uz.medclinic.clinic.identity.domain.StaffLogin
 import uz.medclinic.clinic.identity.domain.StaffRepository
 import uz.medclinic.common.Ids
 import uz.medclinic.platform.domain.DomainException
+import uz.medclinic.platform.domain.PageQuery
 import java.time.Clock
 import java.util.UUID
 
@@ -63,6 +65,13 @@ class IdentitySetupService(
         }
         return admin.id
     }
+
+    override fun normaliseLogin(raw: String): String? = runCatching { StaffLogin.validate(raw) }.getOrNull()
+
+    @Transactional(readOnly = true)
+    override fun fullNameExists(fullName: String): Boolean =
+        staff.search(StaffFilter(query = fullName, includeInactive = true), PageQuery(0, 50)).items
+            .any { it.profile.fullName.equals(fullName.trim(), ignoreCase = true) }
 
     @Transactional(readOnly = true)
     override fun loginExists(login: String): Boolean = staff.findByLogin(StaffLogin.normalise(login)) != null
