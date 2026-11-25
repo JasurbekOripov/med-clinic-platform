@@ -21,4 +21,7 @@ data class PairingClaimResponse(
     val heartbeatIntervalSeconds: Int,
     /** Current `.lic` file content of the clinic, if a license exists. */
     val licenseFile: String?,
+    /** Display names (added in protocol v1.1; older vendors omit them). */
+    val clinicName: String? = null,
+    val branchName: String? = null,
 )

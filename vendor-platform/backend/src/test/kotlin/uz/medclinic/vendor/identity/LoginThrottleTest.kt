@@ -4,7 +4,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatCode
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
-import uz.medclinic.vendor.identity.application.LoginThrottle
+import uz.medclinic.platform.security.LoginThrottle
 import uz.medclinic.platform.domain.DomainException
 import uz.medclinic.vendor.support.MutableClock
 import java.time.Duration

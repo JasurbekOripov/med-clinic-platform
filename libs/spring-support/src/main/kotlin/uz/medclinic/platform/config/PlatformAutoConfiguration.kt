@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Import
 import tools.jackson.databind.JsonNode
+import uz.medclinic.platform.security.LoginThrottle
 import uz.medclinic.platform.web.ApiExceptionHandler
 import uz.medclinic.platform.web.ProblemWriter
 import uz.medclinic.platform.web.RequestIdFilter
@@ -28,6 +29,11 @@ class PlatformAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     fun clock(): Clock = Clock.systemUTC()
+
+    /** Brute-force protection for staff login (in memory; one instance per server). */
+    @Bean
+    @ConditionalOnMissingBean
+    fun loginThrottle(clock: Clock): LoginThrottle = LoginThrottle(clock)
 
     @Configuration(proxyBeanMethods = false)
     @ConditionalOnClass(OpenApiCustomizer::class)

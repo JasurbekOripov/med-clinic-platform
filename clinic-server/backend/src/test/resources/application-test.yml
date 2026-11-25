@@ -1,0 +1,20 @@
+logging:
+  structured:
+    format:
+      console: ""
+  level:
+    root: WARN
+    uz.medclinic: INFO
+springdoc:
+  api-docs:
+    enabled: true
+clinic:
+  security:
+    session-cookie-secure: false
+  vendor:
+    allow-insecure-url: true
+    secret-key-path: ${java.io.tmpdir}/medclinic-clinic-test/secret.key
+    heartbeat-initial-delay: 1h
+    heartbeat-interval: 1h
+    # Public half of src/test/resources/license/test-vendor-private-key.TEST-ONLY.txt (test-only key).
+    dev-keyring: "vk-test-1:MCowBQYDK2VwAyEArDdo6+nEpu9vdbeMJgVcWs/h9BakwqsevUfUDvtnQBg="

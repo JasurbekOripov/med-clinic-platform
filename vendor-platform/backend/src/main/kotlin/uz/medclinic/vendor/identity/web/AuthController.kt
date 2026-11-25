@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import uz.medclinic.vendor.identity.application.AuthService
 import uz.medclinic.vendor.identity.application.LoginResult
-import uz.medclinic.vendor.identity.application.LoginThrottle
+import uz.medclinic.platform.security.LoginThrottle
 import uz.medclinic.vendor.identity.security.StaffPrincipal
 import uz.medclinic.platform.domain.DomainException
 import uz.medclinic.platform.web.ClientInfo

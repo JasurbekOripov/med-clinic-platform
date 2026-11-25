@@ -21,7 +21,7 @@ import org.springframework.test.web.servlet.request.RequestPostProcessor
 import tools.jackson.databind.JsonNode
 import tools.jackson.databind.json.JsonMapper
 import uz.medclinic.common.Ids
-import uz.medclinic.vendor.identity.application.LoginThrottle
+import uz.medclinic.platform.security.LoginThrottle
 import uz.medclinic.vendor.identity.domain.StaffAccount
 import uz.medclinic.vendor.identity.domain.StaffRepository
 import uz.medclinic.vendor.identity.domain.VendorRole

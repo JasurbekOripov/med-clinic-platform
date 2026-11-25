@@ -20,5 +20,6 @@ include(
     ":libs:license",
     ":libs:vendor-protocol",
     ":libs:spring-support",
+    ":clinic-server:backend",
     ":vendor-platform:backend",
 )

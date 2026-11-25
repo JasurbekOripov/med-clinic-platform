@@ -145,6 +145,8 @@ class PairingService(
             deviceId = device.id, clinicId = branch.clinicId, clinicCode = branch.clinic.code, branchId = branch.id,
             branchCode = branch.code, deviceToken = token, heartbeatIntervalSeconds = properties.heartbeatInterval.toSeconds().toInt(),
             licenseFile = license?.fileBytes?.toString(Charsets.UTF_8),
+            clinicName = branch.clinic.name,
+            branchName = branch.name,
         )
     }
 

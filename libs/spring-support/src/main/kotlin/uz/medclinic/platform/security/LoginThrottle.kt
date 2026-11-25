@@ -1,7 +1,6 @@
-package uz.medclinic.vendor.identity.application
+package uz.medclinic.platform.security
 
 import org.springframework.scheduling.annotation.Scheduled
-import org.springframework.stereotype.Component
 import uz.medclinic.platform.domain.DomainException
 import java.time.Clock
 import java.time.Duration
@@ -13,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap
  * IP inside [window] block further attempts for [lockout]. In memory: correct for the single-instance VPS
  * deployment; move to the database or Redis before running several instances.
  */
-@Component
+
 class LoginThrottle(private val clock: Clock) {
     private val maxPerLogin = 5
     private val maxPerIp = 20

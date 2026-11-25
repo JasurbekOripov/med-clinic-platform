@@ -2039,6 +2039,12 @@
           },
           "licenseFile" : {
             "type" : [ "string", "null" ]
+          },
+          "clinicName" : {
+            "type" : [ "string", "null" ]
+          },
+          "branchName" : {
+            "type" : [ "string", "null" ]
           }
         },
         "required" : [ "branchCode", "branchId", "clinicCode", "clinicId", "deviceId", "deviceToken", "heartbeatIntervalSeconds" ]

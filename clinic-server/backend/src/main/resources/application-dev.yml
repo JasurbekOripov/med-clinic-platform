@@ -1,0 +1,14 @@
+# Local development: http, plain logs, API docs, and the dev vendor's license key from the environment.
+clinic:
+  security:
+    session-cookie-secure: false
+  vendor:
+    allow-insecure-url: true
+    dev-keyring: ${CLINIC_DEV_KEYRING:}
+springdoc:
+  api-docs:
+    enabled: true
+logging:
+  structured:
+    format:
+      console: ""
