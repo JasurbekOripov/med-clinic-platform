@@ -1,0 +1,72 @@
+import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router";
+import { toast } from "sonner";
+import { FormError } from "@medclinic/web-ui/components/Common";
+import { Field } from "@medclinic/web-ui/components/Field";
+import { Button } from "@medclinic/web-ui/components/ui/button";
+import { Card, CardContent } from "@medclinic/web-ui/components/ui/card";
+import { Input } from "@medclinic/web-ui/components/ui/input";
+import { fieldErrors } from "@medclinic/web-ui/lib/errors";
+import { useChangePassword, useLogout, useMe } from "@/api/hooks";
+
+const MIN_PASSWORD = 8;
+
+export function ChangePasswordPage() {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+  const { data: me } = useMe();
+  const change = useChangePassword();
+  const logout = useLogout();
+  const { register, handleSubmit, formState, getValues } = useForm<{ currentPassword: string; newPassword: string; repeat: string }>();
+  const server = fieldErrors(t, change.error);
+  const rules = t("auth.passwordRules", { min: MIN_PASSWORD });
+
+  return (
+    <div className="flex min-h-screen items-center justify-center px-4">
+      <Card className="w-full max-w-md">
+        <CardContent className="p-7">
+          <h1 className="text-xl font-semibold">{t("auth.changePassword")}</h1>
+          {me?.mustChangePassword && <p className="mt-3 rounded-lg bg-amber-50 px-3 py-2 text-sm text-amber-900">{t("auth.mustChangeHint")}</p>}
+          <form
+            className="mt-5 space-y-4"
+            onSubmit={handleSubmit(({ currentPassword, newPassword }) =>
+              change.mutate({ currentPassword, newPassword }, {
+                onSuccess: () => {
+                  toast.success(t("auth.passwordChanged"));
+                  navigate("/", { replace: true });
+                },
+              }),
+            )}
+          >
+            <Field label={t("auth.currentPassword")} error={server.currentPassword}>
+              <Input type="password" autoFocus autoComplete="current-password" {...register("currentPassword", { required: true })} />
+            </Field>
+            <Field label={t("auth.newPassword")} hint={rules} error={server.newPassword ?? (formState.errors.newPassword && rules)}>
+              <Input type="password" autoComplete="new-password" {...register("newPassword", { required: true, minLength: MIN_PASSWORD })} />
+            </Field>
+            <Field label={t("auth.repeatPassword")} error={formState.errors.repeat && t("auth.passwordsDontMatch")}>
+              <Input type="password" autoComplete="new-password" {...register("repeat", { validate: (v) => v === getValues("newPassword") })} />
+            </Field>
+            {Object.keys(server).length === 0 && <FormError error={change.error} />}
+            <div className="flex justify-between gap-2 pt-2">
+              <Button variant="ghost" onClick={() => logout.mutate(undefined, { onSettled: () => navigate("/login", { replace: true }) })}>
+                {t("auth.signOut")}
+              </Button>
+              <div className="flex gap-2">
+                {!me?.mustChangePassword && (
+                  <Button variant="secondary" onClick={() => navigate(-1)}>
+                    {t("common.cancel")}
+                  </Button>
+                )}
+                <Button type="submit" loading={change.isPending}>
+                  {t("common.save")}
+                </Button>
+              </div>
+            </div>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
