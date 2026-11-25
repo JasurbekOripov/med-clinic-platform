@@ -22,7 +22,7 @@ languages Uzbek Latin, Uzbek Cyrillic, Russian (+ English for vendor staff).
 | Component | Runs on | Status |
 |---|---|---|
 | `vendor-platform` | Vendor VPS (Linux, Docker Compose) | **V1 in progress** — see [vendor-platform.md](vendor-platform.md) |
-| `clinic-server` | Clinic PC (Windows 10/11, Windows services) | later |
+| `clinic-server` | Clinic PC (Windows 10/11, Windows services) | decisions agreed — see [clinic-server.md](clinic-server.md) |
 | `print-agent` | Any clinic PC with a printer | later |
 | `libs/common` | Shared JVM library: ids, phone, time, errors | V1 |
 | `libs/license` | Shared JVM library: license format, Ed25519 verify | V1 |
