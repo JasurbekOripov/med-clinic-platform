@@ -311,6 +311,94 @@
         }
       }
     },
+    "/api/v1/patients/{id}" : {
+      "get" : {
+        "tags" : [ "patient-controller" ],
+        "operationId" : "get_2",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PatientResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "patient-controller" ],
+        "operationId" : "update_3",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PatientRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PatientResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "patient-controller" ],
+        "operationId" : "delete_1",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        }, {
+          "name" : "version",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "No Content"
+          }
+        }
+      }
+    },
     "/api/v1/staff" : {
       "get" : {
         "tags" : [ "staff-controller" ],
@@ -602,6 +690,114 @@
               "*/*" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/RoleResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/patients" : {
+      "get" : {
+        "tags" : [ "patient-controller" ],
+        "operationId" : "search",
+        "parameters" : [ {
+          "name" : "q",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }, {
+          "name" : "size",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PageResponsePatientResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "patient-controller" ],
+        "operationId" : "create_2",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PatientRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PatientResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/patients/duplicates" : {
+      "post" : {
+        "tags" : [ "patient-controller" ],
+        "operationId" : "duplicates",
+        "parameters" : [ {
+          "name" : "excludeId",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PatientRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/DuplicateResponse"
+                  }
                 }
               }
             }
@@ -974,7 +1170,7 @@
     "/api/v1/audit" : {
       "get" : {
         "tags" : [ "audit-controller" ],
-        "operationId" : "search",
+        "operationId" : "search_1",
         "parameters" : [ {
           "name" : "entityType",
           "in" : "query",
@@ -1351,6 +1547,113 @@
         },
         "required" : [ "activeStaff", "assignable", "id", "permissions", "system", "version" ]
       },
+      "PatientRequest" : {
+        "type" : "object",
+        "properties" : {
+          "lastName" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "firstName" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "patronymic" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "gender" : {
+            "type" : [ "string", "null" ],
+            "enum" : [ "MALE", "FEMALE" ]
+          },
+          "birthDate" : {
+            "type" : [ "string", "null" ],
+            "format" : "date"
+          },
+          "phone" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 32,
+            "minLength" : 0
+          },
+          "address" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 500,
+            "minLength" : 0
+          },
+          "notes" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 2000,
+            "minLength" : 0
+          },
+          "confirmedNotDuplicate" : {
+            "type" : "boolean"
+          },
+          "version" : {
+            "type" : [ "integer", "null" ],
+            "format" : "int32",
+            "minimum" : 0
+          }
+        },
+        "required" : [ "confirmedNotDuplicate" ]
+      },
+      "PatientResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "cardNo" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "lastName" : {
+            "type" : "string"
+          },
+          "firstName" : {
+            "type" : "string"
+          },
+          "patronymic" : {
+            "type" : [ "string", "null" ]
+          },
+          "fullName" : {
+            "type" : "string"
+          },
+          "gender" : {
+            "type" : "string",
+            "enum" : [ "MALE", "FEMALE" ]
+          },
+          "birthDate" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "phone" : {
+            "type" : "string"
+          },
+          "address" : {
+            "type" : [ "string", "null" ]
+          },
+          "notes" : {
+            "type" : [ "string", "null" ]
+          },
+          "createdAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "updatedAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        },
+        "required" : [ "birthDate", "cardNo", "createdAt", "firstName", "fullName", "gender", "id", "lastName", "phone", "updatedAt", "version" ]
+      },
       "StaffWithPasswordResponse" : {
         "type" : "object",
         "properties" : {
@@ -1434,6 +1737,19 @@
             "minLength" : 0
           }
         }
+      },
+      "DuplicateResponse" : {
+        "type" : "object",
+        "properties" : {
+          "patient" : {
+            "$ref" : "#/components/schemas/PatientResponse"
+          },
+          "reason" : {
+            "type" : "string",
+            "enum" : [ "SAME_NAME_AND_BIRTH_DATE", "SAME_PHONE_SIMILAR_NAME" ]
+          }
+        },
+        "required" : [ "patient", "reason" ]
       },
       "LicenseStatusResponse" : {
         "type" : "object",
@@ -1723,6 +2039,34 @@
           }
         },
         "required" : [ "group", "permissions" ]
+      },
+      "PageResponsePatientResponse" : {
+        "type" : "object",
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/PatientResponse"
+            }
+          },
+          "page" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "size" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "totalItems" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "totalPages" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        },
+        "required" : [ "items", "page", "size", "totalItems", "totalPages" ]
       },
       "VendorLinkResponse" : {
         "type" : "object",

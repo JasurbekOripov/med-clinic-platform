@@ -18,6 +18,7 @@ enum class Permission(val group: PermissionGroup) {
     // Registration
     PATIENT_VIEW(PermissionGroup.REGISTRATION),
     PATIENT_EDIT(PermissionGroup.REGISTRATION),
+    PATIENT_DELETE(PermissionGroup.REGISTRATION),
     VISIT_CREATE(PermissionGroup.REGISTRATION),
     VISIT_EDIT_UNPAID(PermissionGroup.REGISTRATION),
     QUEUE_MANAGE(PermissionGroup.REGISTRATION),
@@ -56,4 +57,7 @@ object Permissions {
     const val HAS_AUDIT_VIEW = "hasAuthority('AUDIT_VIEW')"
     const val HAS_LICENSE_MANAGE = "hasAuthority('LICENSE_MANAGE')"
     const val HAS_DATA_IMPORT = "hasAuthority('DATA_IMPORT')"
+    const val HAS_PATIENT_VIEW = "hasAuthority('PATIENT_VIEW')"
+    const val HAS_PATIENT_EDIT = "hasAuthority('PATIENT_EDIT')"
+    const val HAS_PATIENT_DELETE = "hasAuthority('PATIENT_DELETE')"
 }

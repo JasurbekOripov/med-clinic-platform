@@ -78,6 +78,10 @@ abstract class IntegrationTest {
                 "where schemaname = 'public' and tablename <> 'flyway_schema_history'",
         ).query(String::class.java).optional().orElse(null)
         if (!tables.isNullOrBlank()) jdbc.sql("truncate table $tables restart identity cascade").update()
+        // Standalone sequences (card numbers, …) are not reset by "restart identity".
+        jdbc.sql("select sequence_name from information_schema.sequences where sequence_schema = 'public'")
+            .query { rs, _ -> rs.getString(1) }.list()
+            .forEach { jdbc.sql("alter sequence \"$it\" restart").update() }
         jdbc.sql("insert into vendor_link_state (id) values (1)").update()
         installation.refresh()
         licenses.reload()
