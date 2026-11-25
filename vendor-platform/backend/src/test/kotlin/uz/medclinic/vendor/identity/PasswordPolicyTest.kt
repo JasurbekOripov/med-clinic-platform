@@ -4,7 +4,7 @@ import org.assertj.core.api.Assertions.assertThatCode
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
 import uz.medclinic.vendor.identity.domain.PasswordPolicy
-import uz.medclinic.vendor.shared.domain.ValidationException
+import uz.medclinic.platform.domain.ValidationException
 
 class PasswordPolicyTest {
     @Test

@@ -10,9 +10,9 @@ import uz.medclinic.vendor.monitoring.api.AlertType
 import uz.medclinic.vendor.monitoring.domain.DeviceHealth
 import uz.medclinic.vendor.monitoring.domain.HealthRules
 import uz.medclinic.vendor.monitoring.infrastructure.JdbcMonitoringRepository
-import uz.medclinic.vendor.shared.domain.FieldViolation
-import uz.medclinic.vendor.shared.domain.Text
-import uz.medclinic.vendor.shared.domain.ValidationException
+import uz.medclinic.platform.domain.FieldViolation
+import uz.medclinic.platform.domain.Text
+import uz.medclinic.platform.domain.ValidationException
 import uz.medclinic.vendorprotocol.BackupStatus
 import uz.medclinic.vendorprotocol.HeartbeatRequest
 import uz.medclinic.vendorprotocol.HeartbeatResponse

@@ -19,7 +19,7 @@ import org.springframework.security.web.csrf.CsrfException
 import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter
 import org.springframework.session.web.http.CookieSerializer
 import org.springframework.session.web.http.DefaultCookieSerializer
-import uz.medclinic.vendor.shared.web.ProblemWriter
+import uz.medclinic.platform.web.ProblemWriter
 import java.time.Clock
 
 /**

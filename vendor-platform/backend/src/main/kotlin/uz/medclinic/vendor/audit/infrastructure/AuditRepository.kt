@@ -4,12 +4,12 @@ import org.springframework.jdbc.core.simple.JdbcClient
 import org.springframework.stereotype.Repository
 import uz.medclinic.vendor.audit.application.AuditEntry
 import uz.medclinic.vendor.audit.application.AuditFilter
-import uz.medclinic.vendor.shared.domain.Page
-import uz.medclinic.vendor.shared.domain.PageQuery
-import uz.medclinic.vendor.shared.persistence.instant
-import uz.medclinic.vendor.shared.persistence.toDb
-import uz.medclinic.vendor.shared.persistence.uuidOrNull
-import uz.medclinic.vendor.shared.persistence.uuid
+import uz.medclinic.platform.domain.Page
+import uz.medclinic.platform.domain.PageQuery
+import uz.medclinic.platform.persistence.instant
+import uz.medclinic.platform.persistence.toDb
+import uz.medclinic.platform.persistence.uuidOrNull
+import uz.medclinic.platform.persistence.uuid
 import java.sql.ResultSet
 
 @Repository

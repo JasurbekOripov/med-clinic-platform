@@ -2,7 +2,7 @@ package uz.medclinic.vendor.identity.application
 
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
-import uz.medclinic.vendor.shared.domain.DomainException
+import uz.medclinic.platform.domain.DomainException
 import java.time.Clock
 import java.time.Duration
 import java.time.Instant

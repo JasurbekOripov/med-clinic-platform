@@ -1,6 +1,6 @@
 package uz.medclinic.vendor.audit.api
 
-import uz.medclinic.vendor.shared.security.Actor
+import uz.medclinic.platform.security.Actor
 import java.util.UUID
 
 /**

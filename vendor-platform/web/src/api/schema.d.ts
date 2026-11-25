@@ -903,39 +903,11 @@ export interface components {
             clinicName?: string | null;
             branchCode?: string | null;
             branchName?: string | null;
-            details?: components["schemas"]["JsonNode"] | null;
+            details?: Record<string, never> | null;
             /** Format: date-time */
             openedAt: string;
             /** Format: date-time */
             resolvedAt?: string | null;
-        };
-        JsonNode: {
-            float: boolean;
-            null: boolean;
-            container: boolean;
-            string: boolean;
-            boolean: boolean;
-            number: boolean;
-            /** @enum {string} */
-            nodeType: "ARRAY" | "BINARY" | "BOOLEAN" | "MISSING" | "NULL" | "NUMBER" | "OBJECT" | "POJO" | "STRING";
-            integralNumber: boolean;
-            missingNode: boolean;
-            valueNode: boolean;
-            object: boolean;
-            pojo: boolean;
-            floatingPointNumber: boolean;
-            short: boolean;
-            int: boolean;
-            long: boolean;
-            double: boolean;
-            bigDecimal: boolean;
-            bigInteger: boolean;
-            /** @deprecated */
-            textual: boolean;
-            binary: boolean;
-            array: boolean;
-            empty: boolean;
-            embeddedValue: boolean;
         };
         PageResponseAlertResponse: {
             items: components["schemas"]["AlertResponse"][];
@@ -990,8 +962,8 @@ export interface components {
             entityId?: string | null;
             /** Format: uuid */
             clinicId?: string | null;
-            before?: components["schemas"]["JsonNode"] | null;
-            after?: components["schemas"]["JsonNode"] | null;
+            before?: Record<string, never> | null;
+            after?: Record<string, never> | null;
             ip?: string | null;
             requestId?: string | null;
         };

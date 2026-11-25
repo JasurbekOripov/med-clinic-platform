@@ -6,6 +6,7 @@ dependencies {
     implementation(project(":libs:common"))
     implementation(project(":libs:license"))
     implementation(project(":libs:vendor-protocol"))
+    implementation(project(":libs:spring-support"))
 
     implementation("org.springframework.boot:spring-boot-starter-webmvc")
     implementation("org.springframework.boot:spring-boot-starter-security")

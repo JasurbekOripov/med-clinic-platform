@@ -1,6 +1,6 @@
 package uz.medclinic.vendor.identity.domain
 
-import uz.medclinic.vendor.shared.domain.ValidationException
+import uz.medclinic.platform.domain.ValidationException
 import uz.medclinic.vendor.shared.security.Permission
 import java.time.Instant
 import java.util.UUID

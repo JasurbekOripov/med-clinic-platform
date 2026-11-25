@@ -24,9 +24,9 @@ import uz.medclinic.vendor.devices.domain.Device
 import uz.medclinic.vendor.devices.domain.DeviceStatus
 import uz.medclinic.vendor.devices.domain.PairingCode
 import uz.medclinic.vendor.devices.domain.PairingCodeState
-import uz.medclinic.vendor.shared.domain.DomainException
+import uz.medclinic.platform.domain.DomainException
 import uz.medclinic.vendor.shared.security.Permissions
-import uz.medclinic.vendor.shared.web.ClientInfo
+import uz.medclinic.platform.web.ClientInfo
 import uz.medclinic.vendorprotocol.DeviceApi
 import uz.medclinic.vendorprotocol.PairingClaimRequest
 import uz.medclinic.vendorprotocol.PairingClaimResponse

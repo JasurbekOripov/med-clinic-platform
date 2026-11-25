@@ -1,7 +1,7 @@
 package uz.medclinic.vendor.devices.api
 
-import uz.medclinic.vendor.shared.security.Actor
-import uz.medclinic.vendor.shared.security.ActorType
+import uz.medclinic.platform.security.Actor
+import uz.medclinic.platform.security.ActorType
 import java.io.Serial
 import java.io.Serializable
 import java.time.Instant

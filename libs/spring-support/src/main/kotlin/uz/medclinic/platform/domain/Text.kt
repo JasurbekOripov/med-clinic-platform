@@ -1,4 +1,4 @@
-package uz.medclinic.vendor.shared.domain
+package uz.medclinic.platform.domain
 
 /** Input normalisation used by every module before persisting free text. */
 object Text {

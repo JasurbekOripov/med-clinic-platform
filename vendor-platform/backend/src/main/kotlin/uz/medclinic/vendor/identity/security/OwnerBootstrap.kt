@@ -5,7 +5,7 @@ import org.springframework.boot.ApplicationArguments
 import org.springframework.boot.ApplicationRunner
 import org.springframework.stereotype.Component
 import uz.medclinic.vendor.identity.application.StaffService
-import uz.medclinic.vendor.shared.domain.DomainException
+import uz.medclinic.platform.domain.DomainException
 
 /** Creates the first OWNER from configuration on an empty installation; a no-op afterwards. */
 @Component

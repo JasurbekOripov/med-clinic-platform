@@ -1,7 +1,7 @@
 package uz.medclinic.vendor.tenancy.domain
 
-import uz.medclinic.vendor.shared.domain.Page
-import uz.medclinic.vendor.shared.domain.PageQuery
+import uz.medclinic.platform.domain.Page
+import uz.medclinic.platform.domain.PageQuery
 import uz.medclinic.vendor.tenancy.api.TenantStatus
 import java.util.UUID
 

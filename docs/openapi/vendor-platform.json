@@ -2349,11 +2349,7 @@
             "type" : [ "string", "null" ]
           },
           "details" : {
-            "oneOf" : [ {
-              "$ref" : "#/components/schemas/JsonNode"
-            }, {
-              "type" : "null"
-            } ]
+            "type" : [ "object", "null" ]
           },
           "openedAt" : {
             "type" : "string",
@@ -2365,86 +2361,6 @@
           }
         },
         "required" : [ "branchId", "clinicId", "deviceId", "id", "openedAt", "type" ]
-      },
-      "JsonNode" : {
-        "type" : "object",
-        "properties" : {
-          "float" : {
-            "type" : "boolean"
-          },
-          "null" : {
-            "type" : "boolean"
-          },
-          "container" : {
-            "type" : "boolean"
-          },
-          "string" : {
-            "type" : "boolean"
-          },
-          "boolean" : {
-            "type" : "boolean"
-          },
-          "number" : {
-            "type" : "boolean"
-          },
-          "nodeType" : {
-            "type" : "string",
-            "enum" : [ "ARRAY", "BINARY", "BOOLEAN", "MISSING", "NULL", "NUMBER", "OBJECT", "POJO", "STRING" ]
-          },
-          "integralNumber" : {
-            "type" : "boolean"
-          },
-          "missingNode" : {
-            "type" : "boolean"
-          },
-          "valueNode" : {
-            "type" : "boolean"
-          },
-          "object" : {
-            "type" : "boolean"
-          },
-          "pojo" : {
-            "type" : "boolean"
-          },
-          "floatingPointNumber" : {
-            "type" : "boolean"
-          },
-          "short" : {
-            "type" : "boolean"
-          },
-          "int" : {
-            "type" : "boolean"
-          },
-          "long" : {
-            "type" : "boolean"
-          },
-          "double" : {
-            "type" : "boolean"
-          },
-          "bigDecimal" : {
-            "type" : "boolean"
-          },
-          "bigInteger" : {
-            "type" : "boolean"
-          },
-          "textual" : {
-            "type" : "boolean",
-            "deprecated" : true
-          },
-          "binary" : {
-            "type" : "boolean"
-          },
-          "array" : {
-            "type" : "boolean"
-          },
-          "empty" : {
-            "type" : "boolean"
-          },
-          "embeddedValue" : {
-            "type" : "boolean"
-          }
-        },
-        "required" : [ "array", "bigDecimal", "bigInteger", "binary", "boolean", "container", "double", "embeddedValue", "empty", "float", "floatingPointNumber", "int", "integralNumber", "long", "missingNode", "nodeType", "null", "number", "object", "pojo", "short", "string", "textual", "valueNode" ]
       },
       "PageResponseAlertResponse" : {
         "type" : "object",
@@ -2585,18 +2501,10 @@
             "format" : "uuid"
           },
           "before" : {
-            "oneOf" : [ {
-              "$ref" : "#/components/schemas/JsonNode"
-            }, {
-              "type" : "null"
-            } ]
+            "type" : [ "object", "null" ]
           },
           "after" : {
-            "oneOf" : [ {
-              "$ref" : "#/components/schemas/JsonNode"
-            }, {
-              "type" : "null"
-            } ]
+            "type" : [ "object", "null" ]
           },
           "ip" : {
             "type" : [ "string", "null" ]

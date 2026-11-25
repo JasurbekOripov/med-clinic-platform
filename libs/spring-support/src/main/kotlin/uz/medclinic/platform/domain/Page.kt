@@ -1,4 +1,4 @@
-package uz.medclinic.vendor.shared.domain
+package uz.medclinic.platform.domain
 
 /** Zero-based page request with a hard upper bound on [size]. */
 data class PageQuery(val page: Int = 0, val size: Int = DEFAULT_SIZE) {

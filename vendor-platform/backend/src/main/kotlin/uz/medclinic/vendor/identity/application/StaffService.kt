@@ -13,14 +13,14 @@ import uz.medclinic.vendor.identity.domain.StaffRepository
 import uz.medclinic.vendor.identity.domain.TemporaryPasswords
 import uz.medclinic.vendor.identity.domain.VendorRole
 import uz.medclinic.vendor.identity.infrastructure.SessionTerminator
-import uz.medclinic.vendor.shared.domain.DomainException
-import uz.medclinic.vendor.shared.domain.NotFoundException
-import uz.medclinic.vendor.shared.domain.Page
-import uz.medclinic.vendor.shared.domain.PageQuery
-import uz.medclinic.vendor.shared.domain.Text
-import uz.medclinic.vendor.shared.domain.ValidationException
-import uz.medclinic.vendor.shared.domain.VersionConflictException
-import uz.medclinic.vendor.shared.security.CurrentActor
+import uz.medclinic.platform.domain.DomainException
+import uz.medclinic.platform.domain.NotFoundException
+import uz.medclinic.platform.domain.Page
+import uz.medclinic.platform.domain.PageQuery
+import uz.medclinic.platform.domain.Text
+import uz.medclinic.platform.domain.ValidationException
+import uz.medclinic.platform.domain.VersionConflictException
+import uz.medclinic.platform.security.CurrentActor
 import java.time.Clock
 import java.util.UUID
 

@@ -11,9 +11,9 @@ import tools.jackson.databind.json.JsonMapper
 import uz.medclinic.vendor.audit.application.AuditEntry
 import uz.medclinic.vendor.audit.application.AuditFilter
 import uz.medclinic.vendor.audit.application.AuditService
-import uz.medclinic.vendor.shared.domain.PageQuery
+import uz.medclinic.platform.domain.PageQuery
 import uz.medclinic.vendor.shared.security.Permissions
-import uz.medclinic.vendor.shared.web.PageResponse
+import uz.medclinic.platform.web.PageResponse
 import java.time.Instant
 import java.util.UUID
 

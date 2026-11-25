@@ -1,6 +1,6 @@
-package uz.medclinic.vendor.shared.web
+package uz.medclinic.platform.web
 
-import uz.medclinic.vendor.shared.domain.Page
+import uz.medclinic.platform.domain.Page
 
 data class PageResponse<T>(
     val items: List<T>,

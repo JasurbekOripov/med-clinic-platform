@@ -1,7 +1,9 @@
-package uz.medclinic.vendor.shared.web
+package uz.medclinic.platform.web
 
 import jakarta.validation.ConstraintViolation
 import org.slf4j.LoggerFactory
+import org.springframework.core.Ordered
+import org.springframework.core.annotation.Order
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
@@ -17,16 +19,18 @@ import org.springframework.web.context.request.WebRequest
 import org.springframework.web.method.annotation.HandlerMethodValidationException
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
-import uz.medclinic.vendor.shared.domain.DomainException
-import uz.medclinic.vendor.shared.domain.DomainException.Kind
-import uz.medclinic.vendor.shared.domain.FieldViolation
-import uz.medclinic.vendor.shared.domain.ValidationException
+import uz.medclinic.platform.domain.DomainException
+import uz.medclinic.platform.domain.DomainException.Kind
+import uz.medclinic.platform.domain.FieldViolation
+import uz.medclinic.platform.domain.ValidationException
 
 /**
  * Every error leaves the API as RFC 9457 problem+json with a stable `code`, optional `params` and
- * `fieldErrors`. The UI translates codes; messages here are for developers only.
+ * `fieldErrors`. The UI translates codes; messages here are for developers only. Highest precedence so it wins
+ * over Spring Boot's generic problem-details handler.
  */
 @RestControllerAdvice
+@Order(Ordered.HIGHEST_PRECEDENCE)
 class ApiExceptionHandler : ResponseEntityExceptionHandler() {
     private val log = LoggerFactory.getLogger(javaClass)
 

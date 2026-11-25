@@ -21,9 +21,9 @@ import uz.medclinic.vendor.identity.application.StaffService
 import uz.medclinic.vendor.identity.application.UpdateStaffCommand
 import uz.medclinic.vendor.identity.domain.StaffAccount
 import uz.medclinic.vendor.identity.domain.VendorRole
-import uz.medclinic.vendor.shared.domain.PageQuery
+import uz.medclinic.platform.domain.PageQuery
 import uz.medclinic.vendor.shared.security.Permissions
-import uz.medclinic.vendor.shared.web.PageResponse
+import uz.medclinic.platform.web.PageResponse
 import java.time.Instant
 import java.util.UUID
 

@@ -9,8 +9,8 @@ import uz.medclinic.vendor.monitoring.domain.DeviceHealth
 import uz.medclinic.vendor.monitoring.domain.ServerStatus
 import uz.medclinic.vendor.monitoring.domain.ServerStatusRule
 import uz.medclinic.vendor.monitoring.infrastructure.JdbcMonitoringRepository
-import uz.medclinic.vendor.shared.domain.Page
-import uz.medclinic.vendor.shared.domain.PageQuery
+import uz.medclinic.platform.domain.Page
+import uz.medclinic.platform.domain.PageQuery
 import uz.medclinic.vendor.tenancy.api.BranchSummary
 import uz.medclinic.vendor.tenancy.api.TenancyQueries
 import uz.medclinic.vendor.tenancy.api.TenantStatus

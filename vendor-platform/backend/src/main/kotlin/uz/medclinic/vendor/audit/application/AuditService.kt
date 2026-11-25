@@ -8,10 +8,10 @@ import uz.medclinic.common.Ids
 import uz.medclinic.vendor.audit.api.AuditEvent
 import uz.medclinic.vendor.audit.api.AuditRecorder
 import uz.medclinic.vendor.audit.infrastructure.AuditRepository
-import uz.medclinic.vendor.shared.domain.Page
-import uz.medclinic.vendor.shared.domain.PageQuery
-import uz.medclinic.vendor.shared.security.CurrentActor
-import uz.medclinic.vendor.shared.web.ClientInfo
+import uz.medclinic.platform.domain.Page
+import uz.medclinic.platform.domain.PageQuery
+import uz.medclinic.platform.security.CurrentActor
+import uz.medclinic.platform.web.ClientInfo
 import java.time.Clock
 import java.time.Instant
 import java.util.UUID

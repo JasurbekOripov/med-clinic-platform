@@ -1,4 +1,4 @@
-package uz.medclinic.vendor.shared.security
+package uz.medclinic.platform.security
 
 import org.springframework.security.core.context.SecurityContextHolder
 import java.util.UUID

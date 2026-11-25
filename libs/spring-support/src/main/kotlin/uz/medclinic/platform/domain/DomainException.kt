@@ -1,4 +1,4 @@
-package uz.medclinic.vendor.shared.domain
+package uz.medclinic.platform.domain
 
 /**
  * Business failure with a stable, translatable [code]. The web layer maps [kind] to an HTTP status;

@@ -22,8 +22,8 @@ import uz.medclinic.vendor.devices.api.AuthenticatedDevice
 import uz.medclinic.vendor.devices.application.DeviceProperties
 import uz.medclinic.vendor.devices.domain.DeviceRepository
 import uz.medclinic.vendor.devices.domain.DeviceSecrets
-import uz.medclinic.vendor.shared.web.ClientInfo
-import uz.medclinic.vendor.shared.web.ProblemWriter
+import uz.medclinic.platform.web.ClientInfo
+import uz.medclinic.platform.web.ProblemWriter
 import uz.medclinic.vendorprotocol.DeviceApi
 import java.time.Clock
 

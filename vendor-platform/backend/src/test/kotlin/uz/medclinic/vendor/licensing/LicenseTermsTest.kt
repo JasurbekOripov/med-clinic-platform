@@ -4,7 +4,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
 import uz.medclinic.vendor.licensing.domain.LicenseTerms
-import uz.medclinic.vendor.shared.domain.ValidationException
+import uz.medclinic.platform.domain.ValidationException
 import java.time.Instant
 import java.time.LocalDate
 

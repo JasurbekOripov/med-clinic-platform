@@ -1,6 +1,6 @@
-package uz.medclinic.vendor.shared.persistence
+package uz.medclinic.platform.persistence
 
-import uz.medclinic.vendor.shared.domain.VersionConflictException
+import uz.medclinic.platform.domain.VersionConflictException
 import java.sql.ResultSet
 import java.time.Instant
 import java.time.OffsetDateTime

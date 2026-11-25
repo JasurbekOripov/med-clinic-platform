@@ -5,10 +5,10 @@ import uz.medclinic.license.LicenseModules
 import uz.medclinic.license.LicensePayload
 import uz.medclinic.license.LicenseTimeStatus
 import uz.medclinic.license.LicenseValidity
-import uz.medclinic.vendor.shared.domain.DomainException
-import uz.medclinic.vendor.shared.domain.FieldViolation
-import uz.medclinic.vendor.shared.domain.Text
-import uz.medclinic.vendor.shared.domain.ValidationException
+import uz.medclinic.platform.domain.DomainException
+import uz.medclinic.platform.domain.FieldViolation
+import uz.medclinic.platform.domain.Text
+import uz.medclinic.platform.domain.ValidationException
 import java.time.Instant
 import java.time.LocalDate
 import java.util.UUID

@@ -10,8 +10,8 @@ import uz.medclinic.vendor.identity.domain.StaffLogin
 import uz.medclinic.vendor.identity.domain.StaffRepository
 import uz.medclinic.vendor.identity.infrastructure.SessionTerminator
 import uz.medclinic.vendor.identity.security.StaffPrincipal
-import uz.medclinic.vendor.shared.domain.NotFoundException
-import uz.medclinic.vendor.shared.domain.ValidationException
+import uz.medclinic.platform.domain.NotFoundException
+import uz.medclinic.platform.domain.ValidationException
 import java.time.Clock
 
 sealed interface LoginResult {

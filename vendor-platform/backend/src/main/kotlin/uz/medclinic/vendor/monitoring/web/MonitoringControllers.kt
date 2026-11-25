@@ -17,9 +17,9 @@ import uz.medclinic.vendor.monitoring.application.HeartbeatService
 import uz.medclinic.vendor.monitoring.application.MonitoringQueryService
 import uz.medclinic.vendor.monitoring.application.ServerRow
 import uz.medclinic.vendor.monitoring.domain.ServerStatus
-import uz.medclinic.vendor.shared.domain.PageQuery
+import uz.medclinic.platform.domain.PageQuery
 import uz.medclinic.vendor.shared.security.Permissions
-import uz.medclinic.vendor.shared.web.PageResponse
+import uz.medclinic.platform.web.PageResponse
 import uz.medclinic.vendor.tenancy.api.TenantStatus
 import uz.medclinic.vendorprotocol.BackupStatus
 import uz.medclinic.vendorprotocol.DeviceApi

@@ -1,4 +1,4 @@
-package uz.medclinic.vendor.shared.web
+package uz.medclinic.platform.web
 
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.http.HttpStatus

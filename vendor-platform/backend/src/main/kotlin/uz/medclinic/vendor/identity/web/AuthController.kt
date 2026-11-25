@@ -20,8 +20,8 @@ import uz.medclinic.vendor.identity.application.AuthService
 import uz.medclinic.vendor.identity.application.LoginResult
 import uz.medclinic.vendor.identity.application.LoginThrottle
 import uz.medclinic.vendor.identity.security.StaffPrincipal
-import uz.medclinic.vendor.shared.domain.DomainException
-import uz.medclinic.vendor.shared.web.ClientInfo
+import uz.medclinic.platform.domain.DomainException
+import uz.medclinic.platform.web.ClientInfo
 import java.util.UUID
 
 data class LoginRequest(

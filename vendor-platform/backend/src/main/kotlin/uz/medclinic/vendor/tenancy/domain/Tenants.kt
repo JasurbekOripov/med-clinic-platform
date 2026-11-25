@@ -1,10 +1,10 @@
 package uz.medclinic.vendor.tenancy.domain
 
 import uz.medclinic.common.UzPhone
-import uz.medclinic.vendor.shared.domain.DomainException
-import uz.medclinic.vendor.shared.domain.FieldViolation
-import uz.medclinic.vendor.shared.domain.Text
-import uz.medclinic.vendor.shared.domain.ValidationException
+import uz.medclinic.platform.domain.DomainException
+import uz.medclinic.platform.domain.FieldViolation
+import uz.medclinic.platform.domain.Text
+import uz.medclinic.platform.domain.ValidationException
 import uz.medclinic.vendor.tenancy.api.TenantStatus
 import java.time.Instant
 import java.util.UUID

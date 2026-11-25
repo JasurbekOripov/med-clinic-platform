@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServletResponse
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.filter.OncePerRequestFilter
-import uz.medclinic.vendor.shared.web.ProblemWriter
+import uz.medclinic.platform.web.ProblemWriter
 import java.time.Clock
 import java.time.Duration
 

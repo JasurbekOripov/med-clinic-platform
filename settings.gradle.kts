@@ -19,5 +19,6 @@ include(
     ":libs:common",
     ":libs:license",
     ":libs:vendor-protocol",
+    ":libs:spring-support",
     ":vendor-platform:backend",
 )

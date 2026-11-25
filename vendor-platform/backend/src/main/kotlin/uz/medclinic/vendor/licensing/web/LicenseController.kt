@@ -98,7 +98,7 @@ class LicenseController(private val licenses: LicenseService, private val clock:
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize(Permissions.HAS_LICENSE_MANAGE)
     fun renew(@PathVariable id: UUID, @Valid @RequestBody body: LicenseTermsRequest): LicenseResponse {
-        val version = body.version ?: throw uz.medclinic.vendor.shared.domain.ValidationException("version", "validation.not_null")
+        val version = body.version ?: throw uz.medclinic.platform.domain.ValidationException("version", "validation.not_null")
         return LicenseResponse(licenses.renew(id, version, body.terms()), clock.instant())
     }
 

@@ -1,4 +1,4 @@
-package uz.medclinic.vendor.shared.web
+package uz.medclinic.platform.web
 
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.io.Resource

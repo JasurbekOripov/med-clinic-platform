@@ -6,8 +6,8 @@ import org.springframework.security.core.Authentication
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import uz.medclinic.vendor.identity.domain.StaffAccount
 import uz.medclinic.vendor.identity.domain.VendorRole
-import uz.medclinic.vendor.shared.security.Actor
-import uz.medclinic.vendor.shared.security.ActorType
+import uz.medclinic.platform.security.Actor
+import uz.medclinic.platform.security.ActorType
 import uz.medclinic.vendor.shared.security.Permission
 import java.io.Serial
 import java.io.Serializable

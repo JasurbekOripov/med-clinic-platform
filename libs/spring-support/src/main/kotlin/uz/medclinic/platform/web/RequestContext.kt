@@ -1,4 +1,4 @@
-package uz.medclinic.vendor.shared.web
+package uz.medclinic.platform.web
 
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest

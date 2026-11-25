@@ -1,7 +1,7 @@
 package uz.medclinic.vendor.identity.domain
 
-import uz.medclinic.vendor.shared.domain.Page
-import uz.medclinic.vendor.shared.domain.PageQuery
+import uz.medclinic.platform.domain.Page
+import uz.medclinic.platform.domain.PageQuery
 import java.time.Instant
 import java.util.UUID
 
@@ -12,7 +12,7 @@ interface StaffRepository {
     fun count(): Long
     fun countActiveOwners(): Long
 
-    /** Fails with [uz.medclinic.vendor.shared.domain.DomainException] `staff.login_taken` on duplicates. */
+    /** Fails with [uz.medclinic.platform.domain.DomainException] `staff.login_taken` on duplicates. */
     fun insert(staff: StaffAccount)
 
     /** Optimistic update: [StaffAccount.version] must match the stored row; returns the new version. */

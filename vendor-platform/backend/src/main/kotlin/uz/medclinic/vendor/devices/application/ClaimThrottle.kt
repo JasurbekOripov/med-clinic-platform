@@ -1,7 +1,7 @@
 package uz.medclinic.vendor.devices.application
 
 import org.springframework.stereotype.Component
-import uz.medclinic.vendor.shared.domain.DomainException
+import uz.medclinic.platform.domain.DomainException
 import java.time.Clock
 import java.time.Duration
 import java.time.Instant

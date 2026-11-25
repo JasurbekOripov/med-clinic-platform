@@ -3,7 +3,7 @@ package uz.medclinic.vendor.tenancy
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
-import uz.medclinic.vendor.shared.domain.ValidationException
+import uz.medclinic.platform.domain.ValidationException
 import uz.medclinic.vendor.tenancy.api.TenantStatus
 import uz.medclinic.vendor.tenancy.api.TenantStatus.ACTIVE
 import uz.medclinic.vendor.tenancy.api.TenantStatus.ARCHIVED

@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
-import uz.medclinic.vendor.shared.domain.PageQuery
+import uz.medclinic.platform.domain.PageQuery
 import uz.medclinic.vendor.shared.security.Permissions
-import uz.medclinic.vendor.shared.web.PageResponse
+import uz.medclinic.platform.web.PageResponse
 import uz.medclinic.vendor.tenancy.api.TenantStatus
 import uz.medclinic.vendor.tenancy.application.TenancyService
 import uz.medclinic.vendor.tenancy.domain.Branch
@@ -96,7 +96,7 @@ data class BranchResponse(
 }
 
 private fun requireVersion(version: Int?): Int =
-    version ?: throw uz.medclinic.vendor.shared.domain.ValidationException("version", "validation.not_null")
+    version ?: throw uz.medclinic.platform.domain.ValidationException("version", "validation.not_null")
 
 @RestController
 @RequestMapping("/api/v1/clinics")
