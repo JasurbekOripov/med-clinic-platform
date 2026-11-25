@@ -2,12 +2,16 @@
 # Vendor Platform image: React console + Spring Boot backend in one jar. Build context = repository root.
 
 FROM node:22-alpine AS web
-WORKDIR /src/vendor-platform/web
+WORKDIR /src
 RUN corepack enable
-COPY vendor-platform/web/package.json vendor-platform/web/pnpm-lock.yaml ./
-RUN --mount=type=cache,target=/root/.local/share/pnpm/store pnpm install --frozen-lockfile
-COPY vendor-platform/web/ ./
-RUN pnpm build
+# pnpm workspace: install only what the vendor console (and the shared UI package) needs.
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
+COPY libs/web-ui/package.json libs/web-ui/
+COPY vendor-platform/web/package.json vendor-platform/web/
+RUN --mount=type=cache,target=/root/.local/share/pnpm/store pnpm install --frozen-lockfile --filter vendor-console...
+COPY libs/web-ui libs/web-ui
+COPY vendor-platform/web vendor-platform/web
+RUN pnpm --filter vendor-console build
 
 FROM eclipse-temurin:21-jdk-noble AS backend
 WORKDIR /src

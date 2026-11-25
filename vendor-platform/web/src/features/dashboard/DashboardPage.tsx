@@ -4,12 +4,12 @@ import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router";
 import { useServers } from "@/api/hooks";
 import type { ServerRow, ServerStatus } from "@/api/types";
-import { EmptyState, ErrorState, PageHeader, SearchBox, Segmented, Spinner } from "@/components/Common";
+import { EmptyState, ErrorState, PageHeader, SearchBox, Segmented, Spinner } from "@medclinic/web-ui/components/Common";
 import { AlertBadge, ServerStatusBadge } from "@/components/StatusBadge";
-import { Card } from "@/components/ui/card";
-import { Table, Td, Th, Tr } from "@/components/ui/table";
-import { formatAge, formatBytes, formatDateTime, formatUptime } from "@/lib/format";
-import { cn } from "@/lib/utils";
+import { Card } from "@medclinic/web-ui/components/ui/card";
+import { Table, Td, Th, Tr } from "@medclinic/web-ui/components/ui/table";
+import { formatAge, formatBytes, formatDateTime, formatUptime } from "@medclinic/web-ui/lib/format";
+import { cn } from "@medclinic/web-ui/lib/utils";
 
 const FILTERS: (ServerStatus | "")[] = ["", "OFFLINE", "ONLINE", "NEVER_SEEN", "NOT_PAIRED"];
 

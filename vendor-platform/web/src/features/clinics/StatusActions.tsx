@@ -1,8 +1,8 @@
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 import type { TenantStatus } from "@/api/types";
-import { ConfirmDialog } from "@/components/ConfirmDialog";
-import { Button } from "@/components/ui/button";
+import { ConfirmDialog } from "@medclinic/web-ui/components/ConfirmDialog";
+import { Button } from "@medclinic/web-ui/components/ui/button";
 
 type Action = "suspend" | "activate" | "archive" | "restore" | "delete";
 

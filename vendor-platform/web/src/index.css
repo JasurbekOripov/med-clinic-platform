@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@source "../../../libs/web-ui/src";
 
 /* Design tokens: calm neutral UI, large readable type, strong colour only for statuses. */
 @theme {

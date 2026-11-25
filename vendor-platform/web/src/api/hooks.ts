@@ -1,5 +1,5 @@
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { ApiError, http, query } from "./client";
+import { ApiError, http, query } from "@medclinic/web-ui/api/client";
 import type {
   Alert,
   AuditEntry,

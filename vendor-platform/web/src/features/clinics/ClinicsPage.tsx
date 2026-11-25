@@ -4,13 +4,13 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { useClinics } from "@/api/hooks";
 import type { TenantStatus } from "@/api/types";
-import { EmptyState, ErrorState, PageHeader, Pagination, SearchBox, Segmented, Spinner } from "@/components/Common";
+import { EmptyState, ErrorState, PageHeader, Pagination, SearchBox, Segmented, Spinner } from "@medclinic/web-ui/components/Common";
 import { TenantStatusBadge } from "@/components/StatusBadge";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Table, Td, Th, Tr } from "@/components/ui/table";
+import { Button } from "@medclinic/web-ui/components/ui/button";
+import { Card } from "@medclinic/web-ui/components/ui/card";
+import { Table, Td, Th, Tr } from "@medclinic/web-ui/components/ui/table";
 import { usePermissions } from "@/features/auth/permissions";
-import { formatPhone } from "@/lib/format";
+import { formatPhone } from "@medclinic/web-ui/lib/format";
 import { ClinicFormDialog } from "./ClinicFormDialog";
 
 export function ClinicsPage() {

@@ -5,7 +5,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { RouterProvider } from "react-router";
 import { Toaster } from "sonner";
-import { ApiError } from "./api/client";
+import { ApiError } from "@medclinic/web-ui/api/client";
 import { keys } from "./api/hooks";
 import { router } from "./router";
 

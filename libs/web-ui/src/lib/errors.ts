@@ -1,5 +1,5 @@
 import type { TFunction } from "i18next";
-import { ApiError, type FieldError } from "@/api/client";
+import { ApiError, type FieldError } from "@medclinic/web-ui/api/client";
 
 /** Turns any thrown value into a user-facing, translated sentence. */
 export function errorMessage(t: TFunction, error: unknown): string {

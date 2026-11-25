@@ -4,13 +4,13 @@ import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { useSaveClinic } from "@/api/hooks";
 import { type Clinic, type ClinicRequest, REGIONS, type Region } from "@/api/types";
-import { FormError } from "@/components/Common";
-import { Field } from "@/components/Field";
-import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogFooter, DialogTitle } from "@/components/ui/dialog";
-import { Input, PhoneInput, Select, Textarea } from "@/components/ui/input";
-import { fieldErrors } from "@/lib/errors";
-import { formatPhoneInput, isEmptyPhone, isValidUzPhone } from "@/lib/phone";
+import { FormError } from "@medclinic/web-ui/components/Common";
+import { Field } from "@medclinic/web-ui/components/Field";
+import { Button } from "@medclinic/web-ui/components/ui/button";
+import { Dialog, DialogContent, DialogFooter, DialogTitle } from "@medclinic/web-ui/components/ui/dialog";
+import { Input, PhoneInput, Select, Textarea } from "@medclinic/web-ui/components/ui/input";
+import { fieldErrors } from "@medclinic/web-ui/lib/errors";
+import { formatPhoneInput, isEmptyPhone, isValidUzPhone } from "@medclinic/web-ui/lib/phone";
 
 interface Values {
   name: string;

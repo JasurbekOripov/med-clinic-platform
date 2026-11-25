@@ -1,7 +1,7 @@
 import { ChevronDown } from "lucide-react";
 import * as React from "react";
-import { formatPhoneInput, nationalDigits } from "@/lib/phone";
-import { cn } from "@/lib/utils";
+import { formatPhoneInput, nationalDigits } from "@medclinic/web-ui/lib/phone";
+import { cn } from "@medclinic/web-ui/lib/utils";
 
 const fieldClass =
   "w-full rounded-lg border border-border bg-surface px-3 text-sm shadow-xs placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-60 aria-[invalid=true]:border-danger";

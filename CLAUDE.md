@@ -21,7 +21,9 @@ Read `docs/ARCHITECTURE.md` (system rules) and the component doc (e.g. `docs/ven
 
 ## Commands
 - Backend + libs tests (Docker needed for Testcontainers): `./gradlew test`
-- Web: `cd vendor-platform/web && pnpm install && pnpm dev` (proxies /api to :8080) / `pnpm test` / `pnpm typecheck` / `pnpm build`
+- Web (pnpm workspace at the repo root): `pnpm install` once, then `pnpm -r test` / `pnpm -r typecheck`;
+  per app `cd vendor-platform/web && pnpm dev` (proxies /api to :8080) / `pnpm build`
+- Shared web UI lives in `libs/web-ui` (imported as `@medclinic/web-ui/...`); shared Spring code in `libs/spring-support`
 - API contract changed? `./gradlew :vendor-platform:backend:test --tests '*OpenApiExportTest'` then `cd vendor-platform/web && pnpm gen:api`
 - Local run: `docker compose -f deploy/vendor/docker-compose.yml up --build`
 

@@ -3,10 +3,10 @@ import { useTranslation } from "react-i18next";
 import { NavLink, Outlet, useNavigate } from "react-router";
 import { useLogout } from "@/api/hooks";
 import type { Permission } from "@/api/types";
-import { EmptyState } from "@/components/Common";
-import { Button } from "@/components/ui/button";
+import { EmptyState } from "@medclinic/web-ui/components/Common";
+import { Button } from "@medclinic/web-ui/components/ui/button";
 import { usePermissions } from "@/features/auth/permissions";
-import { cn } from "@/lib/utils";
+import { cn } from "@medclinic/web-ui/lib/utils";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 
 const NAV: { to: string; label: string; icon: typeof Activity; permission: Permission }[] = [

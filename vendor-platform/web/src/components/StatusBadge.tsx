@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import type { AlertType, LicenseStatus, ServerStatus, TenantStatus } from "@/api/types";
-import { Badge, type BadgeTone } from "./ui/badge";
+import { Badge, type BadgeTone } from "@medclinic/web-ui/components/ui/badge";
 
 const TENANT: Record<TenantStatus, BadgeTone> = { ACTIVE: "green", SUSPENDED: "amber", ARCHIVED: "gray" };
 const SERVER: Record<ServerStatus, BadgeTone> = { ONLINE: "green", OFFLINE: "red", NEVER_SEEN: "amber", NOT_PAIRED: "gray" };

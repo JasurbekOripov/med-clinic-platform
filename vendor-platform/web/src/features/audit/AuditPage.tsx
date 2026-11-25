@@ -2,11 +2,11 @@ import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { type AuditSearch, useAudit } from "@/api/hooks";
 import type { AuditEntry } from "@/api/types";
-import { EmptyState, ErrorState, PageHeader, Pagination, Spinner } from "@/components/Common";
-import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Table, Td, Th, Tr } from "@/components/ui/table";
-import { formatDateTime } from "@/lib/format";
+import { EmptyState, ErrorState, PageHeader, Pagination, Spinner } from "@medclinic/web-ui/components/Common";
+import { Card } from "@medclinic/web-ui/components/ui/card";
+import { Input } from "@medclinic/web-ui/components/ui/input";
+import { Table, Td, Th, Tr } from "@medclinic/web-ui/components/ui/table";
+import { formatDateTime } from "@medclinic/web-ui/lib/format";
 
 export function AuditPage() {
   const { t } = useTranslation();

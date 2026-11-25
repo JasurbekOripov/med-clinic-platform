@@ -17,7 +17,8 @@
     "noEmit": true,
     "types": ["vitest/globals", "@testing-library/jest-dom", "node"],
     "baseUrl": ".",
-    "paths": { "@/*": ["src/*"] }
+    "paths": { "@/*": ["src/*"], "@medclinic/web-ui/*": ["../../libs/web-ui/src/*"] }
   },
-  "include": ["src", "vite.config.ts"]
+  "include": ["src", "vite.config.ts", "../../libs/web-ui/src"],
+  "exclude": ["../../libs/web-ui/src/**/*.test.ts", "../../libs/web-ui/src/**/*.test.tsx", "../../libs/web-ui/src/test-setup.ts"]
 }

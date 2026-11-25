@@ -1,0 +1,6 @@
+packages:
+  - libs/web-ui
+  - vendor-platform/web
+  - clinic-server/web
+onlyBuiltDependencies:
+  - esbuild

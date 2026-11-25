@@ -4,16 +4,16 @@ import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { useCancelPairingCode, useCreatePairingCode, useDevices, usePairingCodes, useRevokeDevice } from "@/api/hooks";
 import type { Branch, Device, PairingCode } from "@/api/types";
-import { CopyButton, EmptyState, ErrorState, FormError, Spinner } from "@/components/Common";
-import { ConfirmDialog } from "@/components/ConfirmDialog";
-import { Field } from "@/components/Field";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Table, Td, Th, Tr } from "@/components/ui/table";
+import { CopyButton, EmptyState, ErrorState, FormError, Spinner } from "@medclinic/web-ui/components/Common";
+import { ConfirmDialog } from "@medclinic/web-ui/components/ConfirmDialog";
+import { Field } from "@medclinic/web-ui/components/Field";
+import { Badge } from "@medclinic/web-ui/components/ui/badge";
+import { Button } from "@medclinic/web-ui/components/ui/button";
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@medclinic/web-ui/components/ui/dialog";
+import { Input } from "@medclinic/web-ui/components/ui/input";
+import { Table, Td, Th, Tr } from "@medclinic/web-ui/components/ui/table";
 import { usePermissions } from "@/features/auth/permissions";
-import { formatDateTime } from "@/lib/format";
+import { formatDateTime } from "@medclinic/web-ui/lib/format";
 
 const STATE_TONE = { OPEN: "blue", CLAIMED: "green", CANCELLED: "gray", EXPIRED: "gray" } as const;
 

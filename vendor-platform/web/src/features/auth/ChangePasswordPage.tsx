@@ -3,12 +3,12 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import { useChangePassword, useLogout, useMe } from "@/api/hooks";
-import { FormError } from "@/components/Common";
-import { Field } from "@/components/Field";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { fieldErrors } from "@/lib/errors";
+import { FormError } from "@medclinic/web-ui/components/Common";
+import { Field } from "@medclinic/web-ui/components/Field";
+import { Button } from "@medclinic/web-ui/components/ui/button";
+import { Card, CardContent } from "@medclinic/web-ui/components/ui/card";
+import { Input } from "@medclinic/web-ui/components/ui/input";
+import { fieldErrors } from "@medclinic/web-ui/lib/errors";
 
 /** Mirrors the server rule (PasswordPolicy.MIN_LENGTH); the server stays authoritative. */
 const PASSWORD_MIN_LENGTH = 8;

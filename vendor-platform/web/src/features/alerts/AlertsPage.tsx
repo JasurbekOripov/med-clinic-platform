@@ -2,11 +2,11 @@ import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
 import { useAlerts } from "@/api/hooks";
-import { EmptyState, ErrorState, PageHeader, Pagination, Segmented, Spinner } from "@/components/Common";
+import { EmptyState, ErrorState, PageHeader, Pagination, Segmented, Spinner } from "@medclinic/web-ui/components/Common";
 import { AlertBadge } from "@/components/StatusBadge";
-import { Card } from "@/components/ui/card";
-import { Table, Td, Th, Tr } from "@/components/ui/table";
-import { formatDateTime } from "@/lib/format";
+import { Card } from "@medclinic/web-ui/components/ui/card";
+import { Table, Td, Th, Tr } from "@medclinic/web-ui/components/ui/table";
+import { formatDateTime } from "@medclinic/web-ui/lib/format";
 
 export function AlertsPage() {
   const { t } = useTranslation();

@@ -1,8 +1,8 @@
 import { AlertTriangle, Check, Copy, Inbox, Loader2, Search } from "lucide-react";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
-import { errorMessage } from "@/lib/errors";
-import { cn } from "@/lib/utils";
+import { errorMessage } from "@medclinic/web-ui/lib/errors";
+import { cn } from "@medclinic/web-ui/lib/utils";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 

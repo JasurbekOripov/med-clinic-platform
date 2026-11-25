@@ -1,6 +1,6 @@
 import { Languages } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { Select } from "@/components/ui/input";
+import { Select } from "@medclinic/web-ui/components/ui/input";
 import { LANGUAGES } from "@/i18n";
 
 export function LanguageSwitcher() {

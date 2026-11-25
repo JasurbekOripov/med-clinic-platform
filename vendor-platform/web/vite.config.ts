@@ -7,7 +7,12 @@ import { defineConfig } from "vite";
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: {
-    alias: { "@": fileURLToPath(new URL("./src", import.meta.url)) },
+    alias: {
+      "@medclinic/web-ui": fileURLToPath(new URL("../../libs/web-ui/src", import.meta.url)),
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
+    },
+    // One React instance even though shared sources live outside this package.
+    dedupe: ["react", "react-dom", "i18next", "react-i18next", "@tanstack/react-query"],
   },
   server: {
     port: 5173,

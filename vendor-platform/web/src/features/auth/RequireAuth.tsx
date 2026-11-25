@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Navigate, Outlet, useLocation } from "react-router";
 import { useMe } from "@/api/hooks";
 import type { Permission } from "@/api/types";
-import { EmptyState, ErrorState, Spinner } from "@/components/Common";
+import { EmptyState, ErrorState, Spinner } from "@medclinic/web-ui/components/Common";
 import { usePermissions } from "./permissions";
 
 export function RequireAuth() {
