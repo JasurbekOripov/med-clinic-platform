@@ -1,5 +1,5 @@
 import type * as React from "react";
-import { AlertTriangle, ClipboardList, FileSpreadsheet, Home, KeyRound, LogOut, Settings, ShieldCheck, UserRoundCog, Users } from "lucide-react";
+import { AlertTriangle, ClipboardList, Contact, FileSpreadsheet, Home, KeyRound, LogOut, Settings, ShieldCheck, UserRoundCog, Users } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { NavLink, Outlet, useNavigate } from "react-router";
 import { EmptyState, Spinner } from "@medclinic/web-ui/components/Common";
@@ -16,6 +16,7 @@ import { StopScreen } from "./StopScreen";
 
 export const NAV = [
   { to: "/", label: "nav.home", icon: Home, hint: null, needs: [] as string[] },
+  { to: "/patients", label: "nav.patients", icon: Contact, hint: "home.patientsHint", needs: ["PATIENT_VIEW"] },
   { to: "/staff", label: "nav.staff", icon: Users, hint: "home.staffHint", needs: ["STAFF_VIEW"] },
   { to: "/roles", label: "nav.roles", icon: UserRoundCog, hint: "home.rolesHint", needs: ["STAFF_VIEW"] },
   { to: "/settings", label: "nav.settings", icon: Settings, hint: "home.settingsHint", needs: ["SETTINGS_MANAGE"] },

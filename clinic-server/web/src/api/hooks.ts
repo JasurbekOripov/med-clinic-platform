@@ -2,6 +2,9 @@ import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tansta
 import { ApiError, http, query, readCookie } from "@medclinic/web-ui/api/client";
 import type {
   AuditEntry,
+  DuplicateCandidate,
+  Patient,
+  PatientRequest,
   ImportPreview,
   ImportResult,
   LicenseStatus,
@@ -30,6 +33,8 @@ export const keys = {
   permissions: ["permissions"] as const,
   vendorLink: ["vendor-link"] as const,
   audit: (params: object) => ["audit", params] as const,
+  patients: (params: object) => ["patients", params] as const,
+  patient: (id: string) => ["patient", id] as const,
 };
 
 /** Multipart upload with the CSRF header (file inputs). */
@@ -263,4 +268,52 @@ export function useAudit(params: { action?: string; entityType?: string; page: n
     queryFn: () => http.get<Page<AuditEntry>>(`/api/v1/audit${query({ ...params, size: 50 })}`),
     placeholderData: keepPreviousData,
   });
+}
+
+// ---------- patients ----------
+
+export function usePatients(params: { q?: string; page: number }) {
+  return useQuery({
+    queryKey: keys.patients(params),
+    queryFn: () => http.get<Page<Patient>>(`/api/v1/patients${query({ ...params, size: 30 })}`),
+    placeholderData: keepPreviousData,
+  });
+}
+
+export function usePatient(id: string) {
+  return useQuery({ queryKey: keys.patient(id), queryFn: () => http.get<Patient>(`/api/v1/patients/${id}`) });
+}
+
+export function useSavePatient() {
+  const invalidate = useInvalidate();
+  return useMutation({
+    mutationFn: ({ id, body }: { id?: string; body: PatientRequest }) =>
+      id ? http.put<Patient>(`/api/v1/patients/${id}`, body) : http.post<Patient>("/api/v1/patients", body),
+    onSuccess: (p) => invalidate(["patients"], ["patient", p.id]),
+  });
+}
+
+export function useDeletePatient() {
+  const invalidate = useInvalidate();
+  return useMutation({
+    mutationFn: ({ id, version }: { id: string; version: number }) => http.delete(`/api/v1/patients/${id}${query({ version })}`),
+    onSuccess: () => invalidate(["patients"]),
+  });
+}
+
+/** Live duplicate check while the form is filled in (only once enough is typed to be meaningful). */
+export function useDuplicateCheck(body: Partial<PatientRequest>, excludeId: string | undefined, enabled: boolean) {
+  return useQuery({
+    queryKey: ["patients", "duplicates", body, excludeId],
+    queryFn: () => http.post<DuplicateCandidate[]>(`/api/v1/patients/duplicates${query({ excludeId })}`, body),
+    enabled,
+    staleTime: 10_000,
+  });
+}
+
+/** Candidates attached to a 409 `patient.possible_duplicate` response. */
+export function duplicateCandidates(error: unknown): DuplicateCandidate[] {
+  return error instanceof ApiError && error.code === "patient.possible_duplicate"
+    ? ((error.body.candidates as DuplicateCandidate[] | undefined) ?? [])
+    : [];
 }

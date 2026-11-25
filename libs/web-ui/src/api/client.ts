@@ -15,6 +15,8 @@ export class ApiError extends Error {
     readonly params: Record<string, unknown> = {},
     readonly fieldErrors: FieldError[] = [],
     readonly requestId?: string,
+    /** The whole problem body, for endpoint-specific extras (e.g. duplicate candidates). */
+    readonly body: Record<string, unknown> = {},
   ) {
     super(code);
     this.name = "ApiError";
@@ -48,8 +50,8 @@ async function toApiError(response: Response): Promise<ApiError> {
       params?: Record<string, unknown>;
       fieldErrors?: FieldError[];
       requestId?: string;
-    };
-    return new ApiError(response.status, body.code ?? `http.${response.status}`, body.params ?? {}, body.fieldErrors ?? [], body.requestId);
+    } & Record<string, unknown>;
+    return new ApiError(response.status, body.code ?? `http.${response.status}`, body.params ?? {}, body.fieldErrors ?? [], body.requestId, body);
   } catch {
     return new ApiError(response.status, response.status >= 500 ? "common.internal_error" : `http.${response.status}`);
   }

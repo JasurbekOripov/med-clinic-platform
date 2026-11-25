@@ -20,6 +20,10 @@ export type ImportPreview = S["ImportPreviewResponse"];
 export type ImportRow = S["ImportRow"];
 export type ImportResult = S["ImportResultResponse"];
 export type AuditEntry = S["AuditEntryResponse"];
+export type Patient = S["PatientResponse"];
+export type PatientRequest = S["PatientRequest"];
+export type DuplicateCandidate = S["DuplicateResponse"];
+export type Gender = Patient["gender"];
 
 export interface Page<T> {
   items: T[];

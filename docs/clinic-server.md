@@ -4,7 +4,7 @@ The program that runs **inside each clinic**: one server PC holds the database a
 staff PC over the clinic LAN. All patient and clinic data lives only here. See [ARCHITECTURE.md](ARCHITECTURE.md)
 for system-wide rules; this document records what the owner decided for the Clinic Server.
 
-Status: **M1 implemented** (see §7). Next: M2 registration, queue and Print Agent.
+Status: **M1 implemented** (see §7); M2 in progress (patients done, see §8). Next: visits, queue and Print Agent.
 
 ## 1. Deployment
 
@@ -95,3 +95,11 @@ Shared code lives in `libs/spring-support` (errors, paging, request ids, SPA ser
 **Before the first real release:** put the vendor's production public key into
 `clinic-server/backend/src/main/resources/license/keyring.properties` (from the Vendor Platform's license keys page).
 Development and tests use `clinic.vendor.dev-keyring`, honoured only in the dev/test profiles.
+
+## 8. M2 as built so far
+
+| Module | Contents |
+|---|---|
+| `patients` | patient card (card number from a sequence, names, gender, birth date, phone required, address, notes), soft delete (`PATIENT_DELETE`, Admin), audit on every change. One search box: up to 6 digits = card number, 7+ digits = phone, otherwise name in Latin or Cyrillic (`NameNormalizer` + `pg_trgm`). Duplicate warning (same name + birth date, or same phone + similar name) while typing and again on save (409 `patient.possible_duplicate` with candidates); Reception may confirm "different person". No merge (owner's decision). |
+
+Web: keyboard-first patients screen (type → ↑/↓ → Enter, F2 = new patient), patient page with a visits-history placeholder.

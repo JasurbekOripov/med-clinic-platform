@@ -7,6 +7,8 @@ import { HomePage } from "./features/home/HomePage";
 import { ImportPage } from "./features/import/ImportPage";
 import { AppLayout, NotFound } from "./features/layout/AppLayout";
 import { LicensePage } from "./features/license/LicensePage";
+import { PatientDetailPage } from "./features/patients/PatientDetailPage";
+import { PatientsPage } from "./features/patients/PatientsPage";
 import { RolesPage } from "./features/roles/RolesPage";
 import { SettingsPage } from "./features/settings/SettingsPage";
 import { SetupPage } from "./features/setup/SetupPage";
@@ -26,6 +28,8 @@ export const router = createBrowserRouter([
             element: <AppLayout />,
             children: [
               { index: true, element: <HomePage /> },
+              { path: "patients", element: <RequirePermission all={["PATIENT_VIEW"]}><PatientsPage /></RequirePermission> },
+              { path: "patients/:id", element: <RequirePermission all={["PATIENT_VIEW"]}><PatientDetailPage /></RequirePermission> },
               { path: "staff", element: <RequirePermission all={["STAFF_VIEW"]}><StaffPage /></RequirePermission> },
               { path: "roles", element: <RequirePermission all={["STAFF_VIEW"]}><RolesPage /></RequirePermission> },
               { path: "settings", element: <RequirePermission all={["SETTINGS_MANAGE"]}><SettingsPage /></RequirePermission> },

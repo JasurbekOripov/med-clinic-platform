@@ -84,6 +84,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/patients/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["get_2"];
+        put: operations["update_3"];
+        post?: never;
+        delete: operations["delete_1"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/staff": {
         parameters: {
             query?: never;
@@ -190,6 +206,38 @@ export interface paths {
         get: operations["list_1"];
         put?: never;
         post: operations["create_1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/patients": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["search"];
+        put?: never;
+        post: operations["create_2"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/patients/duplicates": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["duplicates"];
         delete?: never;
         options?: never;
         head?: never;
@@ -443,7 +491,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["search"];
+        get: operations["search_1"];
         put?: never;
         post?: never;
         delete?: never;
@@ -548,6 +596,44 @@ export interface components {
             /** Format: int32 */
             version: number;
         };
+        PatientRequest: {
+            lastName?: string | null;
+            firstName?: string | null;
+            patronymic?: string | null;
+            /** @enum {string|null} */
+            gender?: "MALE" | "FEMALE" | null;
+            /** Format: date */
+            birthDate?: string | null;
+            phone?: string | null;
+            address?: string | null;
+            notes?: string | null;
+            confirmedNotDuplicate: boolean;
+            /** Format: int32 */
+            version?: number | null;
+        };
+        PatientResponse: {
+            /** Format: uuid */
+            id: string;
+            /** Format: int64 */
+            cardNo: number;
+            lastName: string;
+            firstName: string;
+            patronymic?: string | null;
+            fullName: string;
+            /** @enum {string} */
+            gender: "MALE" | "FEMALE";
+            /** Format: date */
+            birthDate: string;
+            phone: string;
+            address?: string | null;
+            notes?: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+            /** Format: int32 */
+            version: number;
+        };
         StaffWithPasswordResponse: {
             staff: components["schemas"]["StaffResponse"];
             temporaryPassword: string;
@@ -572,6 +658,11 @@ export interface components {
             login?: string | null;
             password?: string | null;
             vendorSupportPassword?: string | null;
+        };
+        DuplicateResponse: {
+            patient: components["schemas"]["PatientResponse"];
+            /** @enum {string} */
+            reason: "SAME_NAME_AND_BIRTH_DATE" | "SAME_PHONE_SIMILAR_NAME";
         };
         LicenseStatusResponse: {
             /** @enum {string} */
@@ -672,6 +763,17 @@ export interface components {
             /** @enum {string} */
             group: "ADMINISTRATION" | "REGISTRATION" | "CASHIER" | "FINANCE" | "MEDICAL";
             permissions: string[];
+        };
+        PageResponsePatientResponse: {
+            items: components["schemas"]["PatientResponse"][];
+            /** Format: int32 */
+            page: number;
+            /** Format: int32 */
+            size: number;
+            /** Format: int64 */
+            totalItems: number;
+            /** Format: int32 */
+            totalPages: number;
         };
         VendorLinkResponse: {
             vendorUrl?: string | null;
@@ -1012,6 +1114,76 @@ export interface operations {
             };
         };
     };
+    get_2: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PatientResponse"];
+                };
+            };
+        };
+    };
+    update_3: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PatientRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PatientResponse"];
+                };
+            };
+        };
+    };
+    delete_1: {
+        parameters: {
+            query: {
+                version: number;
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     list: {
         parameters: {
             query?: {
@@ -1228,6 +1400,80 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["RoleResponse"];
+                };
+            };
+        };
+    };
+    search: {
+        parameters: {
+            query?: {
+                q?: string;
+                page?: number;
+                size?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponsePatientResponse"];
+                };
+            };
+        };
+    };
+    create_2: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PatientRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PatientResponse"];
+                };
+            };
+        };
+    };
+    duplicates: {
+        parameters: {
+            query?: {
+                excludeId?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PatientRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["DuplicateResponse"][];
                 };
             };
         };
@@ -1562,7 +1808,7 @@ export interface operations {
             };
         };
     };
-    search: {
+    search_1: {
         parameters: {
             query?: {
                 entityType?: string;

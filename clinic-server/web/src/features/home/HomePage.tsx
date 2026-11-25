@@ -35,13 +35,13 @@ export function HomePage() {
           ))}
         </div>
       )}
-      <Card className="mt-8 flex items-start gap-4 border-dashed bg-accent-warm/40 p-6">
+      {!can("PATIENT_VIEW") && <Card className="mt-8 flex items-start gap-4 border-dashed bg-accent-warm/40 p-6">
         <Sparkles className="mt-0.5 size-6 shrink-0 text-amber-600" aria-hidden />
         <div>
           <div className="font-semibold">{t("home.workspaceSoon")}</div>
           <p className="mt-1 text-sm text-muted-foreground">{t("home.workspaceSoonHint")}</p>
         </div>
-      </Card>
+      </Card>}
     </>
   );
 }
