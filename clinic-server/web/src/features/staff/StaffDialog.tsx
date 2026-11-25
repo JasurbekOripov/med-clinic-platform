@@ -57,7 +57,8 @@ export function StaffDialog({
     setDenied(new Set(staff?.denied ?? []));
     setShowPermissions((staff?.granted.length ?? 0) + (staff?.denied.length ?? 0) > 0);
     save.reset();
-  }, [open, staff]);
+    // Roles may still be loading when the dialog opens: re-run once they arrive so a role is preselected.
+  }, [open, staff, roles.length]);
 
   const role = roles.find((r) => r.id === watch("roleId"));
   const rolePermissions = new Set(role?.permissions ?? []);

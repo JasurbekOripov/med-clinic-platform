@@ -4,7 +4,7 @@ The program that runs **inside each clinic**: one server PC holds the database a
 staff PC over the clinic LAN. All patient and clinic data lives only here. See [ARCHITECTURE.md](ARCHITECTURE.md)
 for system-wide rules; this document records what the owner decided for the Clinic Server.
 
-Status: decisions agreed, M1 not started.
+Status: **M1 implemented** (see §7). Next: M2 registration, queue and Print Agent.
 
 ## 1. Deployment
 
@@ -78,3 +78,20 @@ upload → preview with errors and possible duplicates → confirm. Nothing is s
 7. Web shell in Uzbek Latin, Uzbek Cyrillic and Russian; tests; seed data.
 
 Later milestones (M2–M9) follow the original plan; their module-specific questions are asked at each milestone.
+
+## 7. M1 as built
+
+| Module (`clinic-server/backend`) | Contents |
+|---|---|
+| `identity` | role templates per clinic (Admin, Vendor support locked), custom roles, per-person granted/denied permissions, staff (never deleted), signatures, sessions (`CSESSION`), throttled login, last-Admin rule, license user limit (vendor account not counted) |
+| `settings` | clinic profile, logo, letterhead and receipt texts, working hours, idle lock minutes; public subset for the login page |
+| `audit` | append-only, rows carry `clinic_id`/`branch_id` from `ClinicContext` |
+| `vendorlink` | first-run setup (pair → first Admin), AES-GCM encrypted device token, heartbeat every minute (technical data only), automatic renewal/revocation, offline verification against build-time keys (`license/keyring.properties`), grace banner then stop, clock rollback guard (vendor time resets it), `.lic` upload |
+| `imports` | Excel template in the user's language → preview with per-row problems → confirm valid rows; staff import with one-time passwords |
+
+Shared code lives in `libs/spring-support` (errors, paging, request ids, SPA serving, login throttle) and `libs/web-ui`
+(components, API client, formatting, phone input). Web app: `clinic-server/web` (Uzbek Latin, Uzbek Cyrillic, Russian).
+
+**Before the first real release:** put the vendor's production public key into
+`clinic-server/backend/src/main/resources/license/keyring.properties` (from the Vendor Platform's license keys page).
+Development and tests use `clinic.vendor.dev-keyring`, honoured only in the dev/test profiles.

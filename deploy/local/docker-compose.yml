@@ -1,0 +1,75 @@
+# Local trial of the whole system on one computer (macOS/Linux/Windows with Docker):
+#   docker compose -f deploy/local/docker-compose.yml up --build
+#   Vendor Platform: http://localhost:8080   (owner / Change-Me-Now-2026)
+#   Clinic Server:   http://localhost:8081   (first-run setup; vendor address: http://vendor:8080)
+# Development profiles only: plain http, generated keys. Production differs (see deploy/vendor/README.md).
+name: medclinic-local
+
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: vendor
+      POSTGRES_USER: medclinic
+      POSTGRES_PASSWORD: local-only
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./init-databases.sql:/docker-entrypoint-initdb.d/init-databases.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U medclinic -d vendor"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  vendor:
+    image: medclinic/vendor-platform:local
+    build:
+      context: ../..
+      dockerfile: deploy/vendor/Dockerfile
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      DB_URL: jdbc:postgresql://db:5432/vendor
+      DB_USER: medclinic
+      DB_PASSWORD: local-only
+      LICENSE_SIGNING_KEY_ID: vk-dev-1
+      LICENSE_SIGNING_KEY_PATH: /app/keys/vendor-license.pem
+      VENDOR_BOOTSTRAP_OWNER_LOGIN: owner
+      VENDOR_BOOTSTRAP_OWNER_PASSWORD: Change-Me-Now-2026
+    volumes:
+      - signing-keys:/app/keys
+    ports:
+      - "127.0.0.1:8080:8080"
+
+  clinic:
+    image: medclinic/clinic-server:local
+    build:
+      context: ../..
+      dockerfile: deploy/clinic/Dockerfile
+    depends_on:
+      db:
+        condition: service_healthy
+      vendor:
+        condition: service_started
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      DB_URL: jdbc:postgresql://db:5432/clinic
+      DB_USER: medclinic
+      DB_PASSWORD: local-only
+      CLINIC_SECRET_KEY_PATH: /app/data/secret.key
+    # The clinic trusts the vendor's (generated, dev-only) license key: wait until the vendor created it,
+    # then pass its public half. A real Clinic Server build has the vendor's key built in instead.
+    entrypoint: ["sh", "/app/local-entrypoint.sh"]
+    volumes:
+      - clinic-data:/app/data
+      - signing-keys:/vendor-keys:ro
+      - ./clinic-entrypoint.sh:/app/local-entrypoint.sh:ro
+    ports:
+      - "127.0.0.1:8081:8081"
+
+volumes:
+  db-data:
+  signing-keys:
+  clinic-data:

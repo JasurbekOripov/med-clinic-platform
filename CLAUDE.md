@@ -1,6 +1,6 @@
 # CLAUDE.md — project conventions
 
-Read `docs/ARCHITECTURE.md` (system rules) and the component doc (e.g. `docs/vendor-platform.md`) before changing code.
+Read `docs/ARCHITECTURE.md` (system rules) and the component doc (`docs/vendor-platform.md`, `docs/clinic-server.md`) before changing code.
 
 ## Non-negotiables
 - Patient personal data never leaves the Clinic Server. The Vendor Platform must never store it.
@@ -25,7 +25,8 @@ Read `docs/ARCHITECTURE.md` (system rules) and the component doc (e.g. `docs/ven
   per app `cd vendor-platform/web && pnpm dev` (proxies /api to :8080) / `pnpm build`
 - Shared web UI lives in `libs/web-ui` (imported as `@medclinic/web-ui/...`); shared Spring code in `libs/spring-support`
 - API contract changed? `./gradlew :vendor-platform:backend:test --tests '*OpenApiExportTest'` then `cd vendor-platform/web && pnpm gen:api`
-- Local run: `docker compose -f deploy/vendor/docker-compose.yml up --build`
+- API contract (clinic): `./gradlew :clinic-server:backend:test --tests '*OpenApiExportTest'` then `cd clinic-server/web && pnpm gen:api`
+- Local run of everything: `docker compose -f deploy/local/docker-compose.yml up --build` (vendor :8080, clinic :8081)
 
 ## Web console conventions
 - All user-facing text via i18next keys in all 4 locales (`src/i18n/locales/*.json`); the parity test fails on missing keys.
