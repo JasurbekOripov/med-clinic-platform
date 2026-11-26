@@ -492,7 +492,12 @@
       "age_order": "“Yoshdan” “Yoshgacha”dan kichik boʻlsin",
       "state_needs_female": "Bu holat faqat ayollar uchun",
       "service_has_form": "Xizmat “{{form}}” shakliga bogʻlangan",
-      "template_conflict": "Bunday nom yoki xizmat band"
+      "template_conflict": "Bunday nom yoki xizmat band",
+      "result_ready": "Natija tayyor. Oʻzgartirish uchun “Tuzatish”dan foydalaning.",
+      "result_empty": "Avval natijalarni kiriting",
+      "result_not_ready": "Natija hali tayyor emas",
+      "unknown_row": "Bunday koʻrsatkich yoʻq",
+      "value_invalid": "Notoʻgʻri qiymat"
     }
   },
   "gender": {
@@ -780,6 +785,44 @@
     "copySuffix": "(nusxa)",
     "noServicesLinked": "Xizmatga bogʻlanmagan",
     "confirmDelete": "“{{name}}” shaklini oʻchirasizmi?",
-    "deleteHint": "Kiritilgan natijalar saqlanib qoladi."
+    "deleteHint": "Kiritilgan natijalar saqlanib qoladi.",
+    "work": "Ishlar",
+    "workSubtitle": "Toʻlangan tahlillar. Roʻyxat oʻzi yangilanadi.",
+    "noWork": "Hozircha tahlillar yoʻq",
+    "toDo": "Bajarilishi kerak: {{count}}",
+    "doneToday": "Bugun tayyor: {{count}}",
+    "status": {
+      "WAITING": "Kutilmoqda",
+      "DRAFT": "Jarayonda",
+      "READY": "Tayyor"
+    },
+    "indicator": "Koʻrsatkich",
+    "result": "Natija",
+    "norm": "Meʼyor",
+    "comment": "Izoh",
+    "patientState": "Bemor holati",
+    "stateNone": "Alohida holat yoʻq",
+    "stateHint": "Shaklda shu holat uchun meʼyor boʻlsa, oʻshanisi qoʻllanadi.",
+    "noNorm": "meʼyor kiritilmagan",
+    "saveDraft": "Saqlash",
+    "ready": "Tayyor",
+    "readyDone": "Natija tayyor — shifokor va qabulxona koʻradi",
+    "correct": "Tuzatish",
+    "saveCorrection": "Tuzatishni saqlash",
+    "correctTitle": "Natijani tuzatish",
+    "correctHint": "Natija allaqachon chop etilgan boʻlishi mumkin. Sabab jurnalga yoziladi va blankda koʻrsatiladi.",
+    "correctedNote": "Tuzatilgan: {{date}}. Sabab: {{reason}}",
+    "performedBy": "Laborant",
+    "results": "Tahlil natijalari",
+    "abnormalCount": "Meʼyordan tashqari: {{count}}",
+    "legend": "↑ yuqori, ↓ past, ↑↑ / ↓↓ xavfli qiymat; meʼyor bemorning jinsi, yoshi va holatiga qarab tanlangan.",
+    "flag": {
+      "LOW": "Meʼyordan past",
+      "HIGH": "Meʼyordan yuqori",
+      "CRITICAL_LOW": "Xavfli darajada past",
+      "CRITICAL_HIGH": "Xavfli darajada yuqori",
+      "ABNORMAL": "Meʼyordan tashqari",
+      "critical": "Xavfli qiymat"
+    }
   }
 }

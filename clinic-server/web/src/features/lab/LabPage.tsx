@@ -11,12 +11,41 @@ import { cn } from "@medclinic/web-ui/lib/utils";
 import { useLabTemplateMutations, useLabTemplates, useServices } from "@/api/hooks";
 import type { LabTemplate } from "@/api/types";
 import { usePermissions } from "@/features/auth/permissions";
+import { Segmented } from "@medclinic/web-ui/components/Common";
 import { copyOf, LabFormEditor } from "./LabFormEditor";
+import { ResultEntry } from "./ResultEntry";
+import { WorkList } from "./WorkList";
 
 type Editing = { template?: LabTemplate; initial?: Pick<LabTemplate, "name" | "rows" | "serviceIds"> };
 
-/** Laboratory: result forms (this step); the work list of paid tests is added next to it. */
+/** Laboratory: the work list of paid tests (lab workers) and the result forms (who manages them). */
 export function LabPage() {
+  const { t } = useTranslation();
+  const { can } = usePermissions();
+  const work = can("LAB_WORK");
+  const [tab, setTab] = React.useState<"work" | "forms">(work ? "work" : "forms");
+  const [openResult, setOpenResult] = React.useState<string | null>(null);
+  if (openResult) return <ResultEntry id={openResult} onClose={() => setOpenResult(null)} />;
+  const tabs = [
+    ...(work ? [{ value: "work" as const, label: t("lab.work") }] : []),
+    ...(can("LAB_TEMPLATES_MANAGE") ? [{ value: "forms" as const, label: t("lab.forms") }] : []),
+  ];
+  return (
+    <>
+      {tabs.length > 1 && <div className="mb-5"><Segmented value={tab} onChange={setTab} options={tabs} /></div>}
+      {tab === "work" ? (
+        <>
+          <PageHeader title={t("lab.work")} subtitle={t("lab.workSubtitle")} />
+          <WorkList onOpen={setOpenResult} />
+        </>
+      ) : (
+        <LabForms />
+      )}
+    </>
+  );
+}
+
+function LabForms() {
   const { t } = useTranslation();
   const { can } = usePermissions();
   const manage = can("LAB_TEMPLATES_MANAGE");

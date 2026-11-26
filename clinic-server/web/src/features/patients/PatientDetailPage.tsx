@@ -14,6 +14,7 @@ import type { Patient, VisitItem } from "@/api/types";
 import { usePermissions } from "@/features/auth/permissions";
 import { ConclusionEditor } from "@/features/conclusions/ConclusionEditor";
 import { PatientConclusions, usePrintConclusion } from "@/features/conclusions/PatientConclusions";
+import { PatientLabResults } from "@/features/lab/PatientLabResults";
 import { PatientVisits } from "@/features/visits/PatientVisits";
 import { ageOn } from "./age";
 import { PatientDialog } from "./PatientDialog";
@@ -78,6 +79,7 @@ function PatientBody({ p }: { p: Patient }) {
         </CardContent>
       </Card>
       {canReadConclusions && <PatientConclusions patient={p} query={conclusions} />}
+      {(canReadConclusions || can("LAB_WORK")) && <PatientLabResults patientId={p.id} />}
       <PatientVisits
         patientId={p.id}
         conclusions={can("CONSULTATION_WRITE") ? { concluded, meId: me.data?.id, write: setWriting } : undefined}

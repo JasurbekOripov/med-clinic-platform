@@ -4,7 +4,11 @@ import type {
   Agent,
   AgentRequest,
   AuditEntry,
+  LabResult,
   LabTemplate,
+  LabWorkItem,
+  PhysioState,
+  RowValue,
   LabTemplateRequest,
   Conclusion,
   ConclusionTemplate,
@@ -542,3 +546,36 @@ export function useLabTemplates() {
 }
 
 export const useLabTemplateMutations = () => useCatalogMutation<LabTemplateRequest, LabTemplate>("/api/v1/lab/templates", "lab");
+
+export function useLabWork() {
+  return useQuery({ queryKey: ["lab", "work"], queryFn: () => http.get<LabWorkItem[]>("/api/v1/lab/work"), refetchInterval: 15_000 });
+}
+
+/** One result; [state] previews the norms for another physiological state before it is saved. */
+export function useLabResult(id: string, state?: PhysioState, customState?: string) {
+  return useQuery({
+    queryKey: ["lab", "result", id, state ?? null, customState ?? null],
+    queryFn: () => http.get<LabResult>(`/api/v1/lab/results/${id}${query({ state, customState })}`),
+    placeholderData: keepPreviousData,
+  });
+}
+
+export function usePatientLabResults(patientId: string, enabled: boolean) {
+  return useQuery({
+    queryKey: ["lab", "patient", patientId],
+    queryFn: () => http.get<LabResult[]>(`/api/v1/lab/results${query({ patientId })}`),
+    enabled,
+  });
+}
+
+type ResultBody = { state: PhysioState; customState?: string; values: Record<string, RowValue>; comment?: string; reason?: string; version: number };
+
+export function useLabResultActions() {
+  const invalidate = useInvalidate();
+  const done = () => invalidate(["lab"]);
+  return {
+    save: useMutation({ mutationFn: ({ id, ...b }: ResultBody & { id: string }) => http.put<LabResult>(`/api/v1/lab/results/${id}`, b), onSuccess: done }),
+    ready: useMutation({ mutationFn: ({ id, version }: { id: string; version: number }) => http.post<LabResult>(`/api/v1/lab/results/${id}/ready`, { version }), onSuccess: done }),
+    correct: useMutation({ mutationFn: ({ id, ...b }: ResultBody & { id: string }) => http.post<LabResult>(`/api/v1/lab/results/${id}/correct`, b), onSuccess: done }),
+  };
+}

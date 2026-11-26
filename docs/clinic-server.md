@@ -4,7 +4,7 @@ The program that runs **inside each clinic**: one server PC holds the database a
 staff PC over the clinic LAN. All patient and clinic data lives only here. See [ARCHITECTURE.md](ARCHITECTURE.md)
 for system-wide rules; this document records what the owner decided for the Clinic Server.
 
-Status: **M1 implemented** (see §7); **M2 implemented** (see §8); M3 doctor's conclusions implemented (§9). Next: M4 laboratory.
+Status: **M1 implemented** (see §7); **M2 implemented** (see §8); M3 doctor's conclusions (§9) and M4 laboratory (§11) implemented. Next: M5 cashier shifts, refunds and debts.
 
 ## 1. Deployment
 
@@ -148,6 +148,12 @@ by Reception. The program ships with **no medical values**.
 |---|---|
 | `lab` | result forms (`LAB_TEMPLATES_MANAGE`, now in the Lab role template): rows of kind header / number / choice / positive-negative / text; number rows carry reference ranges qualified by sex, age (days, months, years; upper bound exclusive) and physiological state (pregnancy trimester, cycle phase, postmenopause, custom label), kind normal or critical (partitioning as in CLSI EP28 / HL7 FHIR `ObservationDefinition.qualifiedInterval`). The most specific matching range is used; critical limits are checked first; with no matching range the value is printed without a norm, never guessed. Changing rows stores a new version (results keep theirs). A price-list service has at most one form. Audited. |
 
-Web: "Laboratoriya" → forms list (copy, edit, delete) and the editor (rows, choice options, ranges table).
-Next: lab work list (paid services with a form), result entry with the patient's state, "Tayyor", results in the
-patient history, A4 print with ↑ ↓ and critical marks.
+Results: paid (or Admin-allowed, `VisitItemsAllowed`) services with a form appear on the lab work list in the same
+transaction. The lab (`LAB_WORK`) saves values validated against the form version, picks the patient's state when the
+form has state ranges (norms preview for that state), and presses "Tayyor"; afterwards corrections need a reason, are
+audited and printed. Norms and flags are computed on the server; the entry screen marks ↑ ↓ live with the bounds the
+server chose. Doctors, nurses and Reception (`RESULTS_HANDOVER`) read ready results only.
+
+Web: "Laboratoriya" → work list ("Ishlar") and forms ("Shakllar"); result entry; "Tahlil natijalari" on the patient
+page; A4 printout on the shared letterhead (values outside the norm bold with ↑/↓, ↑↑/↓↓ for critical, the norm used,
+the patient's state, the lab worker's signature).

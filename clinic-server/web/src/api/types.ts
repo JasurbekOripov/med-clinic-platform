@@ -52,6 +52,11 @@ export type FormRow = S["FormRow"];
 export type RowKind = FormRow["kind"];
 export type ReferenceRange = S["ReferenceRange"];
 export type PhysioState = ReferenceRange["state"];
+export type LabWorkItem = S["WorkItemResponse"];
+export type LabResult = S["LabResultResponse"];
+export type LabResultRow = S["ResultRowResponse"];
+export type LabFlag = NonNullable<LabResultRow["flag"]>;
+export type RowValue = S["RowValue"];
 
 export interface Page<T> {
   items: T[];
