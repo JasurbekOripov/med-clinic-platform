@@ -2,6 +2,12 @@ import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tansta
 import { ApiError, http, query, readCookie } from "@medclinic/web-ui/api/client";
 import type {
   AuditEntry,
+  DiscountType,
+  DiscountTypeRequest,
+  Doctor,
+  ServiceGroup,
+  ServiceItem,
+  ServiceRequest,
   DuplicateCandidate,
   Patient,
   PatientRequest,
@@ -35,6 +41,10 @@ export const keys = {
   audit: (params: object) => ["audit", params] as const,
   patients: (params: object) => ["patients", params] as const,
   patient: (id: string) => ["patient", id] as const,
+  serviceGroups: ["catalog", "groups"] as const,
+  services: ["catalog", "services"] as const,
+  doctors: ["catalog", "doctors"] as const,
+  discounts: ["catalog", "discounts"] as const,
 };
 
 /** Multipart upload with the CSRF header (file inputs). */
@@ -317,3 +327,40 @@ export function duplicateCandidates(error: unknown): DuplicateCandidate[] {
     ? ((error.body.candidates as DuplicateCandidate[] | undefined) ?? [])
     : [];
 }
+
+// ---------- price list (catalog) ----------
+
+export function useServiceGroups() {
+  return useQuery({ queryKey: keys.serviceGroups, queryFn: () => http.get<ServiceGroup[]>("/api/v1/catalog/groups") });
+}
+
+export function useServices() {
+  return useQuery({ queryKey: keys.services, queryFn: () => http.get<ServiceItem[]>("/api/v1/catalog/services") });
+}
+
+export function useDoctors() {
+  return useQuery({ queryKey: keys.doctors, queryFn: () => http.get<Doctor[]>("/api/v1/catalog/doctors") });
+}
+
+export function useDiscountTypes() {
+  return useQuery({ queryKey: keys.discounts, queryFn: () => http.get<DiscountType[]>("/api/v1/catalog/discounts") });
+}
+
+/** Create/update/delete for one catalog collection; every change refreshes the whole price list. */
+function useCatalogMutation<B, R>(path: string) {
+  const invalidate = useInvalidate();
+  const save = useMutation({
+    mutationFn: ({ id, body }: { id?: string; body: B }) => (id ? http.put<R>(`${path}/${id}`, body) : http.post<R>(path, body)),
+    onSuccess: () => invalidate(["catalog"]),
+  });
+  const remove = useMutation({
+    mutationFn: ({ id, version }: { id: string; version: number }) => http.delete(`${path}/${id}${query({ version })}`),
+    onSuccess: () => invalidate(["catalog"]),
+  });
+  return { save, remove };
+}
+
+export const useServiceGroupMutations = () =>
+  useCatalogMutation<{ name: string; sortOrder: number; version?: number }, ServiceGroup>("/api/v1/catalog/groups");
+export const useServiceMutations = () => useCatalogMutation<ServiceRequest, ServiceItem>("/api/v1/catalog/services");
+export const useDiscountMutations = () => useCatalogMutation<DiscountTypeRequest, DiscountType>("/api/v1/catalog/discounts");

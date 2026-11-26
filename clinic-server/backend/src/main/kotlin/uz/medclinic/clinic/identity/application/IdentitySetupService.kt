@@ -10,6 +10,7 @@ import uz.medclinic.clinic.identity.api.CreatedStaff
 import uz.medclinic.clinic.identity.api.IdentitySetup
 import uz.medclinic.clinic.identity.api.NewStaff
 import uz.medclinic.clinic.identity.api.StaffDirectory
+import uz.medclinic.clinic.identity.api.StaffRef
 import uz.medclinic.clinic.identity.domain.PasswordPolicy
 import uz.medclinic.clinic.identity.domain.Role
 import uz.medclinic.clinic.identity.domain.RoleRepository
@@ -17,6 +18,7 @@ import uz.medclinic.clinic.identity.domain.RoleTemplate
 import uz.medclinic.clinic.identity.domain.StaffFilter
 import uz.medclinic.clinic.identity.domain.StaffLogin
 import uz.medclinic.clinic.identity.domain.StaffRepository
+import uz.medclinic.clinic.shared.Permission
 import uz.medclinic.common.Ids
 import uz.medclinic.platform.domain.DomainException
 import uz.medclinic.platform.domain.PageQuery
@@ -41,6 +43,9 @@ class IdentitySetupService(
             audit.record(AuditEvent("role.created", "role", role.id, after = mapOf("template" to template)))
         }
     }
+
+    @Transactional(readOnly = true)
+    override fun activeWith(permission: Permission): List<StaffRef> = staff.activeWith(permission).map { (id, name) -> StaffRef(id, name) }
 
     @Transactional(readOnly = true)
     override fun hasActiveAdmin(): Boolean = staff.countActiveWithTemplate(RoleTemplate.ADMIN) > 0

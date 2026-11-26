@@ -1,5 +1,6 @@
 import { ChevronDown } from "lucide-react";
 import * as React from "react";
+import { caretAfterDigits, groupDigits, parseAmount } from "@medclinic/web-ui/lib/money";
 import { formatPhoneInput, nationalDigits } from "@medclinic/web-ui/lib/phone";
 import { cn } from "@medclinic/web-ui/lib/utils";
 
@@ -55,6 +56,48 @@ export const PhoneInput = React.forwardRef<HTMLInputElement, React.InputHTMLAttr
 );
 PhoneInput.displayName = "PhoneInput";
 Select.displayName = "Select";
+
+/**
+ * Whole-sum amount field: shows "150 000" while typing and keeps the caret in place; reports a number,
+ * or `null` when empty. [suffix] is the translated currency label shown inside the field.
+ */
+export const MoneyInput = React.forwardRef<
+  HTMLInputElement,
+  Omit<React.InputHTMLAttributes<HTMLInputElement>, "value" | "onChange"> & {
+    value: number | null | undefined;
+    onValueChange: (value: number | null) => void;
+    suffix?: string;
+  }
+>(({ value, onValueChange, suffix, className, ...props }, ref) => (
+  <div className="relative">
+    <Input
+      ref={ref}
+      inputMode="numeric"
+      autoComplete="off"
+      value={value === null || value === undefined ? "" : groupDigits(String(value))}
+      onChange={(e) => {
+        const input = e.target;
+        const digitsBefore = input.value.slice(0, input.selectionStart ?? input.value.length).replace(/\D/g, "").length;
+        const next = parseAmount(input.value);
+        // Guard against absurd pastes; the server validates the real limit.
+        if (next !== null && next > Number.MAX_SAFE_INTEGER) return;
+        onValueChange(next);
+        const formatted = next === null ? "" : groupDigits(String(next));
+        requestAnimationFrame(() => {
+          if (document.activeElement !== input) return;
+          const caret = caretAfterDigits(formatted, digitsBefore);
+          input.setSelectionRange(caret, caret);
+        });
+      }}
+      className={cn("text-right tabular-nums", suffix && "pr-14", className)}
+      {...props}
+    />
+    {suffix && (
+      <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">{suffix}</span>
+    )}
+  </div>
+));
+MoneyInput.displayName = "MoneyInput";
 
 export function Label({ className, ...props }: React.LabelHTMLAttributes<HTMLLabelElement>) {
   return <label className={cn("text-sm font-medium text-foreground", className)} {...props} />;

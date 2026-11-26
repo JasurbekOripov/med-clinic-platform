@@ -24,6 +24,12 @@ export type Patient = S["PatientResponse"];
 export type PatientRequest = S["PatientRequest"];
 export type DuplicateCandidate = S["DuplicateResponse"];
 export type Gender = Patient["gender"];
+export type ServiceGroup = S["ServiceGroupResponse"];
+export type ServiceItem = S["ServiceResponse"];
+export type ServiceRequest = S["ServiceRequest"];
+export type Doctor = S["DoctorResponse"];
+export type DiscountType = S["DiscountTypeResponse"];
+export type DiscountTypeRequest = S["DiscountTypeRequest"];
 
 export interface Page<T> {
   items: T[];

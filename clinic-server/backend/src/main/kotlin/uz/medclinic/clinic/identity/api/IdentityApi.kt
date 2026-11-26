@@ -1,5 +1,6 @@
 package uz.medclinic.clinic.identity.api
 
+import uz.medclinic.clinic.shared.Permission
 import java.util.UUID
 
 /** Used by the first-run setup and by importers. */
@@ -17,7 +18,16 @@ data class NewStaff(val login: String, val fullName: String, val position: Strin
 
 data class CreatedStaff(val id: UUID, val login: String, val fullName: String, val temporaryPassword: String)
 
+data class StaffRef(val id: UUID, val fullName: String)
+
 interface StaffDirectory {
+    /**
+     * Active staff of non-system roles who effectively hold [permission] (role plus personal grants minus denials),
+     * e.g. doctors = `CONSULTATION_WRITE`. Admin and Vendor support accounts are not listed: a doctor who is also
+     * the owner works under a separate doctor account.
+     */
+    fun activeWith(permission: Permission): List<StaffRef>
+
     /** Normalised login, or null when it does not match the login rules. */
     fun normaliseLogin(raw: String): String?
 

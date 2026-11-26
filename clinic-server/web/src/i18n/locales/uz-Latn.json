@@ -11,7 +11,8 @@
     "import": "Import",
     "audit": "Audit jurnali",
     "license": "Litsenziya",
-    "patients": "Bemorlar"
+    "patients": "Bemorlar",
+    "priceList": "Narxlar"
   },
   "common": {
     "save": "Saqlash",
@@ -47,7 +48,8 @@
     "print": "Chop etish",
     "createdAt": "Yaratilgan",
     "uploadFile": "Fayl tanlash",
-    "remove": "Olib tashlash"
+    "remove": "Olib tashlash",
+    "sum": "soʻm"
   },
   "home": {
     "morning": "Xayrli tong, {{name}}",
@@ -62,7 +64,8 @@
     "importHint": "Excel orqali roʻyxatlarni yuklash",
     "auditHint": "Kim, qachon, nima qilgani",
     "licenseHint": "Litsenziya va vendor bilan aloqa",
-    "patientsHint": "Bemorlarni topish va roʻyxatga olish"
+    "patientsHint": "Bemorlarni topish va roʻyxatga olish",
+    "priceListHint": "Xizmatlar, narxlar va chegirmalar"
   },
   "auth": {
     "title": "Tizimga kirish",
@@ -410,11 +413,23 @@
       "import_wrong_template": "Fayl shablon asosida emas ({{column}}-ustun). Shablonni yuklab oling.",
       "import_too_many_rows": "Bir martada {{max}} tadan koʻp qator boʻlmasin",
       "birth_date_future": "Sana kelajakda boʻlishi mumkin emas",
-      "birth_date_too_old": "Sanani tekshiring"
+      "birth_date_too_old": "Sanani tekshiring",
+      "service_code": "Faqat lotin harflari, raqamlar, nuqta va chiziqcha"
     },
     "patient": {
       "possible_duplicate": "Bu bemor allaqachon roʻyxatda boʻlishi mumkin.",
       "already_deleted": "Bemor allaqachon oʻchirilgan."
+    },
+    "catalog": {
+      "group_name_taken": "Bunday nomli guruh bor.",
+      "service_name_taken": "Bu guruhda bunday nomli xizmat bor.",
+      "service_code_or_name_taken": "Bunday kod yoki nomli xizmat bor.",
+      "discount_name_taken": "Bunday nomli chegirma bor.",
+      "group_not_empty": "Guruhda xizmatlar bor. Avval ularni oʻchiring yoki boshqa guruhga oʻtkazing.",
+      "unknown_group": "Guruh topilmadi",
+      "unknown_doctor": "Shifokor topilmadi",
+      "duplicate_doctor": "Shifokor ikki marta kiritilgan",
+      "doctor_prices_not_per_doctor": "Shifokor narxlari faqat “oʻz narxi” belgilanganda"
     }
   },
   "gender": {
@@ -450,5 +465,47 @@
     "history": "Tashriflar tarixi",
     "historySoon": "Tashriflar, tahlillar va koʻriklar keyingi bosqichda shu yerda koʻrinadi.",
     "notes": "Izoh"
+  },
+  "catalog": {
+    "title": "Narxlar roʻyxati",
+    "subtitle": "Narxlarni faqat administrator oʻzgartiradi. Har bir oʻzgarish jurnalga yoziladi.",
+    "services": "Xizmatlar",
+    "discounts": "Chegirmalar",
+    "searchPlaceholder": "Xizmat nomi yoki kodi",
+    "newGroup": "Yangi guruh",
+    "editGroup": "Guruhni tahrirlash",
+    "groupName": "Guruh nomi",
+    "groupNameHint": "Masalan: Konsultatsiyalar, Laboratoriya, UZI",
+    "noGroups": "Hali xizmatlar yoʻq",
+    "noGroupsHint": "Avval guruh yarating, keyin unga xizmatlar qoʻshing.",
+    "groupEmpty": "Bu guruhda xizmat yoʻq.",
+    "addService": "Xizmat",
+    "newService": "Yangi xizmat",
+    "editService": "Xizmatni tahrirlash",
+    "serviceName": "Xizmat nomi",
+    "code": "Kod",
+    "group": "Guruh",
+    "price": "Narx",
+    "basePrice": "Asosiy narx",
+    "perDoctor": "Har bir shifokorning oʻz narxi bor",
+    "perDoctorHint": "Konsultatsiyalar uchun. Oʻz narxi kiritilmagan shifokorlar asosiy narxni oladi.",
+    "perDoctorBadge": "Shifokor narxi: {{count}}",
+    "doctorPrices": "Shifokorlar narxi",
+    "doctorPricesHint": "Boʻsh qoldirilsa — asosiy narx.",
+    "noDoctors": "Konsultatsiya yozish huquqiga ega faol xodim yoʻq.",
+    "formerDoctor": "Ishdan ketgan xodim",
+    "inactive": "Faol emas",
+    "activeLabel": "Faol (roʻyxatga olishda koʻrinadi)",
+    "confirmDeleteGroup": "“{{name}}” guruhini oʻchirasizmi?",
+    "confirmDeleteService": "“{{name}}” xizmatini oʻchirasizmi?",
+    "deleteServiceHint": "Oldingi tashriflardagi narxlar oʻzgarmaydi. Vaqtincha yashirish uchun “Faol”ni oʻchiring.",
+    "discountsHint": "Roʻyxatga olishda tashrif uchun bitta chegirma tanlanadi.",
+    "newDiscount": "Yangi chegirma",
+    "editDiscount": "Chegirmani tahrirlash",
+    "discountName": "Nomi",
+    "discountNameHint": "Masalan: Nafaqaxoʻr, Nogironligi bor",
+    "percent": "Foiz",
+    "noDiscounts": "Chegirmalar yoʻq",
+    "confirmDeleteDiscount": "“{{name}}” chegirmasini oʻchirasizmi?"
   }
 }

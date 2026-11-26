@@ -179,6 +179,16 @@ class JdbcStaffRepository(private val jdbc: JdbcClient, private val clinic: Clin
     override fun idsWithRole(roleId: UUID): List<UUID> =
         jdbc.sql("select id from staff where role_id = :id").param("id", roleId).query { rs, _ -> rs.uuid("id") }.list()
 
+    override fun activeWith(permission: Permission): List<Pair<UUID, String>> =
+        jdbc.sql(
+            """
+            select s.id, s.full_name from staff s join role r on r.id = s.role_id
+            where s.active and not r.system and r.deleted_at is null
+              and (:p = any(r.permissions) or :p = any(s.granted)) and not (:p = any(s.denied))
+            order by s.full_name, s.id
+            """,
+        ).param("p", permission.name).query { rs, _ -> rs.uuid("id") to rs.getString("full_name") }.list()
+
     override fun lockAdmins() {
         jdbc.sql(
             "select s.id from staff s join role r on r.id = s.role_id where r.template = 'ADMIN' order by s.id for update of s",

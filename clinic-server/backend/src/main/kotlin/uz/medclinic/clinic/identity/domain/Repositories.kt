@@ -1,5 +1,6 @@
 package uz.medclinic.clinic.identity.domain
 
+import uz.medclinic.clinic.shared.Permission
 import uz.medclinic.platform.domain.Page
 import uz.medclinic.platform.domain.PageQuery
 import java.time.Instant
@@ -28,6 +29,7 @@ interface StaffRepository {
     fun countActiveLicensed(): Long
     fun countActiveWithTemplate(template: RoleTemplate): Long
     fun idsWithRole(roleId: UUID): List<UUID>
+    fun activeWith(permission: Permission): List<Pair<UUID, String>>
 
     /** Serialises concurrent changes to Admin accounts (last-Admin rule) inside the current transaction. */
     fun lockAdmins()

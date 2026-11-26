@@ -4,7 +4,7 @@ The program that runs **inside each clinic**: one server PC holds the database a
 staff PC over the clinic LAN. All patient and clinic data lives only here. See [ARCHITECTURE.md](ARCHITECTURE.md)
 for system-wide rules; this document records what the owner decided for the Clinic Server.
 
-Status: **M1 implemented** (see §7); M2 in progress (patients done, see §8). Next: visits, queue and Print Agent.
+Status: **M1 implemented** (see §7); M2 in progress (patients and price list done, see §8). Next: visits, basic cashier, queue.
 
 ## 1. Deployment
 
@@ -100,6 +100,14 @@ Development and tests use `clinic.vendor.dev-keyring`, honoured only in the dev/
 
 | Module | Contents |
 |---|---|
+| `catalog` | price list, changed only with `PRICE_LIST_MANAGE` (Admin); read by reception and cashiers. Groups → services (optional code, one name as the clinic writes it, price in whole UZS). A service can have **an own price per doctor** (consultations; doctors = active staff of non-system roles with `CONSULTATION_WRITE`; no own price → base price). Lab and other services: one price for all. Services can be deactivated or soft-deleted; visits will copy name and price, so past visits never change. **Discount types** (name + 1–100 %), created by the Admin; Reception picks one per visit from a list (no document number). Percent discount rounds half up to whole sum. Every change audited. |
 | `patients` | patient card (card number from a sequence, names, gender, birth date, phone required, address, notes), soft delete (`PATIENT_DELETE`, Admin), audit on every change. One search box: up to 6 digits = card number, 7+ digits = phone, otherwise name in Latin or Cyrillic (`NameNormalizer` + `pg_trgm`). Duplicate warning (same name + birth date, or same phone + similar name) while typing and again on save (409 `patient.possible_duplicate` with candidates); Reception may confirm "different person". No merge (owner's decision). |
 
 Web: keyboard-first patients screen (type → ↑/↓ → Enter, F2 = new patient), patient page with a visits-history placeholder.
+
+M2 decisions (owner, 2026-11): consultation price differs per doctor, lab price is the same for everyone; one queue per
+doctor/room with daily ticket numbers; pay first, then the patient appears in the queue (basic cashier in M2: take
+payment, receipt; shifts, refunds and debts in M5); one discount per visit chosen from the Admin's list; no automatic
+repeat-visit price (the doctor orders a new service at full price); referral agents managed by the Admin with a fixed
+amount, totals in the Admin report; printing from Chrome (80 mm receipt / A4) until printer models are known; no TV
+screen for now; doctors' and lab's opening of patient cards is audited.
