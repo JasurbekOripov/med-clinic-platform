@@ -7,6 +7,7 @@ import { HomePage } from "./features/home/HomePage";
 import { ImportPage } from "./features/import/ImportPage";
 import { AppLayout, NotFound } from "./features/layout/AppLayout";
 import { PriceListPage } from "./features/catalog/PriceListPage";
+import { AgentsPage } from "./features/agents/AgentsPage";
 import { LicensePage } from "./features/license/LicensePage";
 import { PatientDetailPage } from "./features/patients/PatientDetailPage";
 import { PatientsPage } from "./features/patients/PatientsPage";
@@ -32,6 +33,7 @@ export const router = createBrowserRouter([
               { path: "patients", element: <RequirePermission all={["PATIENT_VIEW"]}><PatientsPage /></RequirePermission> },
               { path: "patients/:id", element: <RequirePermission all={["PATIENT_VIEW"]}><PatientDetailPage /></RequirePermission> },
               { path: "prices", element: <RequirePermission all={["PRICE_LIST_MANAGE"]}><PriceListPage /></RequirePermission> },
+              { path: "agents", element: <RequirePermission all={["AGENT_MANAGE"]}><AgentsPage /></RequirePermission> },
               { path: "staff", element: <RequirePermission all={["STAFF_VIEW"]}><StaffPage /></RequirePermission> },
               { path: "roles", element: <RequirePermission all={["STAFF_VIEW"]}><RolesPage /></RequirePermission> },
               { path: "settings", element: <RequirePermission all={["SETTINGS_MANAGE"]}><SettingsPage /></RequirePermission> },

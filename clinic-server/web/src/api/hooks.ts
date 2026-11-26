@@ -1,6 +1,8 @@
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ApiError, http, query, readCookie } from "@medclinic/web-ui/api/client";
 import type {
+  Agent,
+  AgentRequest,
   AuditEntry,
   DiscountType,
   DiscountTypeRequest,
@@ -45,6 +47,7 @@ export const keys = {
   services: ["catalog", "services"] as const,
   doctors: ["catalog", "doctors"] as const,
   discounts: ["catalog", "discounts"] as const,
+  agents: ["agents"] as const,
 };
 
 /** Multipart upload with the CSRF header (file inputs). */
@@ -346,16 +349,16 @@ export function useDiscountTypes() {
   return useQuery({ queryKey: keys.discounts, queryFn: () => http.get<DiscountType[]>("/api/v1/catalog/discounts") });
 }
 
-/** Create/update/delete for one catalog collection; every change refreshes the whole price list. */
-function useCatalogMutation<B, R>(path: string) {
+/** Create/update/delete for one reference list; every change refreshes the queries under [prefix]. */
+function useCatalogMutation<B, R>(path: string, prefix: string = "catalog") {
   const invalidate = useInvalidate();
   const save = useMutation({
     mutationFn: ({ id, body }: { id?: string; body: B }) => (id ? http.put<R>(`${path}/${id}`, body) : http.post<R>(path, body)),
-    onSuccess: () => invalidate(["catalog"]),
+    onSuccess: () => invalidate([prefix]),
   });
   const remove = useMutation({
     mutationFn: ({ id, version }: { id: string; version: number }) => http.delete(`${path}/${id}${query({ version })}`),
-    onSuccess: () => invalidate(["catalog"]),
+    onSuccess: () => invalidate([prefix]),
   });
   return { save, remove };
 }
@@ -364,3 +367,11 @@ export const useServiceGroupMutations = () =>
   useCatalogMutation<{ name: string; sortOrder: number; version?: number }, ServiceGroup>("/api/v1/catalog/groups");
 export const useServiceMutations = () => useCatalogMutation<ServiceRequest, ServiceItem>("/api/v1/catalog/services");
 export const useDiscountMutations = () => useCatalogMutation<DiscountTypeRequest, DiscountType>("/api/v1/catalog/discounts");
+
+// ---------- referral agents ----------
+
+export function useAgents() {
+  return useQuery({ queryKey: keys.agents, queryFn: () => http.get<Agent[]>("/api/v1/agents") });
+}
+
+export const useAgentMutations = () => useCatalogMutation<AgentRequest, Agent>("/api/v1/agents", "agents");

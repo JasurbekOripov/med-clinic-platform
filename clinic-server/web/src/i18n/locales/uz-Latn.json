@@ -12,7 +12,8 @@
     "audit": "Audit jurnali",
     "license": "Litsenziya",
     "patients": "Bemorlar",
-    "priceList": "Narxlar"
+    "priceList": "Narxlar",
+    "agents": "Agentlar"
   },
   "common": {
     "save": "Saqlash",
@@ -65,7 +66,8 @@
     "auditHint": "Kim, qachon, nima qilgani",
     "licenseHint": "Litsenziya va vendor bilan aloqa",
     "patientsHint": "Bemorlarni topish va roʻyxatga olish",
-    "priceListHint": "Xizmatlar, narxlar va chegirmalar"
+    "priceListHint": "Xizmatlar, narxlar va chegirmalar",
+    "agentsHint": "Bemor yuboruvchilar va ularning haqi"
   },
   "auth": {
     "title": "Tizimga kirish",
@@ -233,7 +235,8 @@
     "LAB_TEMPLATES_MANAGE": "Tahlil shablonlari",
     "INPATIENT_WORK": "Statsionar",
     "OPERATIONS_WORK": "Operatsiyalar",
-    "PATIENT_DELETE": "Bemorni oʻchirish"
+    "PATIENT_DELETE": "Bemorni oʻchirish",
+    "AGENT_MANAGE": "Agentlar"
   },
   "settings": {
     "title": "Sozlamalar",
@@ -430,6 +433,9 @@
       "unknown_doctor": "Shifokor topilmadi",
       "duplicate_doctor": "Shifokor ikki marta kiritilgan",
       "doctor_prices_not_per_doctor": "Shifokor narxlari faqat “oʻz narxi” belgilanganda"
+    },
+    "agent": {
+      "name_taken": "Bunday nomli agent bor."
     }
   },
   "gender": {
@@ -507,5 +513,20 @@
     "percent": "Foiz",
     "noDiscounts": "Chegirmalar yoʻq",
     "confirmDeleteDiscount": "“{{name}}” chegirmasini oʻchirasizmi?"
+  },
+  "agents": {
+    "title": "Agentlar",
+    "subtitle": "Bemor yuborgan har bir toʻlangan tashrif uchun agentga belgilangan summa hisoblanadi.",
+    "new": "Yangi agent",
+    "edit": "Agentni tahrirlash",
+    "empty": "Agentlar yoʻq",
+    "name": "Ism yoki tashkilot",
+    "nameHint": "Bir xil ismli agentlarni farqlash uchun joyini yozing, masalan: Dr. Rahimov (Chilonzor)",
+    "fee": "Bir tashrif uchun haq",
+    "feeHint": "Roʻyxatga olishdagi summa saqlanadi; keyin oʻzgartirish eski tashriflarga taʼsir qilmaydi.",
+    "perVisit": "har bir toʻlangan tashrif",
+    "activeLabel": "Faol (roʻyxatga olishda tanlash mumkin)",
+    "confirmDelete": "“{{name}}” agentini oʻchirasizmi?",
+    "deleteHint": "Oldingi tashriflardagi maʼlumotlar saqlanib qoladi."
   }
 }

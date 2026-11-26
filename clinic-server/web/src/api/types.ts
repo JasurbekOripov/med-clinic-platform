@@ -30,6 +30,8 @@ export type ServiceRequest = S["ServiceRequest"];
 export type Doctor = S["DoctorResponse"];
 export type DiscountType = S["DiscountTypeResponse"];
 export type DiscountTypeRequest = S["DiscountTypeRequest"];
+export type Agent = S["AgentResponse"];
+export type AgentRequest = S["AgentRequest"];
 
 export interface Page<T> {
   items: T[];

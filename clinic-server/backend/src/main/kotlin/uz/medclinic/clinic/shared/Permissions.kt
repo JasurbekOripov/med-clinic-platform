@@ -34,6 +34,7 @@ enum class Permission(val group: PermissionGroup) {
     PAID_SERVICE_CANCEL(PermissionGroup.FINANCE),
     EMERGENCY_ALLOW(PermissionGroup.FINANCE),
     PRICE_LIST_MANAGE(PermissionGroup.FINANCE),
+    AGENT_MANAGE(PermissionGroup.FINANCE),
     REPORTS_VIEW(PermissionGroup.FINANCE),
 
     // Medical work
@@ -63,5 +64,10 @@ object Permissions {
     const val HAS_PRICE_LIST_MANAGE = "hasAuthority('PRICE_LIST_MANAGE')"
 
     /** Reading the price list and discount types: who manages it, and who orders or takes money for services. */
+    const val HAS_AGENT_MANAGE = "hasAuthority('AGENT_MANAGE')"
+
+    /** Agents list: who manages agents, and Reception, who records which agent referred a visit. */
+    const val HAS_AGENT_READ = "hasAnyAuthority('AGENT_MANAGE', 'VISIT_CREATE')"
+
     const val HAS_CATALOG_READ = "hasAnyAuthority('PRICE_LIST_MANAGE', 'VISIT_CREATE', 'PAYMENT_ACCEPT')"
 }
