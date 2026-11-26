@@ -31,6 +31,9 @@ interface StaffDirectory {
     /** Any staff member (also deactivated ones), e.g. for the cashier's name on a receipt. */
     fun find(id: UUID): StaffRef?
 
+    /** Signature image (bytes, content type) for printed documents, or null when none was uploaded. */
+    fun signature(id: UUID): Pair<ByteArray, String>?
+
     /** Normalised login, or null when it does not match the login rules. */
     fun normaliseLogin(raw: String): String?
 

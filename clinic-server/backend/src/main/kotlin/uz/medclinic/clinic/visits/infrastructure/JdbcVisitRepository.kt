@@ -64,6 +64,10 @@ class JdbcVisitRepository(private val jdbc: JdbcClient, private val clinic: Clin
                 .param("patientId", patientId).param("limit", limit).query(::mapVisit).list(),
         )
 
+    override fun findByItem(itemId: UUID): Visit? =
+        jdbc.sql("select v.* from visit v join visit_item i on i.visit_id = v.id where i.id = :id").param("id", itemId)
+            .query(::mapVisit).optional().orElse(null)?.let { withItems(listOf(it)).single() }
+
     override fun findUnpaid(offset: Long, limit: Int): Pair<List<Visit>, Long> {
         val where = "exists (select 1 from visit_item i where i.visit_id = v.id and i.status = 'UNPAID')"
         val total = jdbc.sql("select count(*) from visit v where $where").query(Long::class.java).single()

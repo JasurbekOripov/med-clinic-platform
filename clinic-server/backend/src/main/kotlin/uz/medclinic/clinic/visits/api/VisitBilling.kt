@@ -34,6 +34,21 @@ interface VisitBilling {
     fun markPaid(visitId: UUID, itemIds: Set<UUID>, paymentId: UUID, at: Instant)
 }
 
+/** One ordered service as medical modules see it. */
+data class VisitItemInfo(
+    val itemId: UUID,
+    val visitId: UUID,
+    val patientId: UUID,
+    val serviceName: String,
+    val doctorId: UUID?,
+    /** Paid, or allowed by the Admin before payment: medical staff may work on it. */
+    val visibleToMedicalStaff: Boolean,
+)
+
+interface VisitQueries {
+    fun item(itemId: UUID): VisitItemInfo?
+}
+
 /** A service that has just been paid, with what queues need to route it to a room. */
 data class PaidItem(
     val id: UUID,

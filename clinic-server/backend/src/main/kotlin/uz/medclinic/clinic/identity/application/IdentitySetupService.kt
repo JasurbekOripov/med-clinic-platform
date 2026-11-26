@@ -48,6 +48,9 @@ class IdentitySetupService(
     override fun activeWith(permission: Permission): List<StaffRef> = staff.activeWith(permission).map { (id, name) -> StaffRef(id, name) }
 
     @Transactional(readOnly = true)
+    override fun signature(id: UUID): Pair<ByteArray, String>? = staff.signature(id)
+
+    @Transactional(readOnly = true)
     override fun find(id: UUID): StaffRef? = staff.findById(id)?.let { StaffRef(it.id, it.profile.fullName) }
 
     @Transactional(readOnly = true)

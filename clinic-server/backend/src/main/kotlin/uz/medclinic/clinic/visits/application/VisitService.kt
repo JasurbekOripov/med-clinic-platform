@@ -12,7 +12,9 @@ import uz.medclinic.clinic.visits.api.BillableItem
 import uz.medclinic.clinic.visits.api.BillableVisit
 import uz.medclinic.clinic.visits.api.PaidItem
 import uz.medclinic.clinic.visits.api.VisitBilling
+import uz.medclinic.clinic.visits.api.VisitItemInfo
 import uz.medclinic.clinic.visits.api.VisitItemsPaid
+import uz.medclinic.clinic.visits.api.VisitQueries
 import uz.medclinic.clinic.visits.domain.ItemStatus
 import uz.medclinic.clinic.visits.domain.OrderedService
 import uz.medclinic.clinic.visits.domain.Visit
@@ -40,7 +42,14 @@ class VisitService(
     private val audit: AuditRecorder,
     private val events: ApplicationEventPublisher,
     private val clock: Clock,
-) : VisitBilling {
+) : VisitBilling, VisitQueries {
+    @Transactional(readOnly = true)
+    override fun item(itemId: UUID): VisitItemInfo? {
+        val visit = visits.findByItem(itemId) ?: return null
+        val item = visit.items.first { it.id == itemId }
+        return VisitItemInfo(item.id, visit.id, visit.patientId, item.serviceName, item.doctorId, item.visibleToMedicalStaff)
+    }
+
     @Transactional
     fun create(patientId: UUID, discountTypeId: UUID?, agentId: UUID?, orders: List<ServiceOrder>): Visit {
         patients.find(patientId) ?: throw ValidationException("patientId", "visit.unknown_patient")

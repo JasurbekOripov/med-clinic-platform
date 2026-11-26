@@ -80,5 +80,10 @@ object Permissions {
     /** Queue lists: reception, doctors and lab (their own rooms), and the Admin who sets queues up. */
     const val HAS_QUEUE_READ = "hasAnyAuthority('QUEUE_MANAGE', 'CONSULTATION_WRITE', 'LAB_WORK', 'SETTINGS_MANAGE')"
 
+    const val HAS_CONSULTATION_WRITE = "hasAuthority('CONSULTATION_WRITE')"
+
+    /** Reading conclusions: doctors and nurses (history), Reception handing ready results to the patient. */
+    const val HAS_CONCLUSION_READ = "hasAnyAuthority('CONSULTATION_WRITE', 'MEDICAL_HISTORY_VIEW', 'RESULTS_HANDOVER')"
+
     const val HAS_CATALOG_READ = "hasAnyAuthority('PRICE_LIST_MANAGE', 'VISIT_CREATE', 'PAYMENT_ACCEPT')"
 }

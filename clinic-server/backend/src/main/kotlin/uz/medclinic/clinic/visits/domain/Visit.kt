@@ -165,6 +165,7 @@ interface VisitRepository {
     /** Saves the visit row (optimistic version check) and all its items. */
     fun update(visit: Visit): Visit
     fun findByPatient(patientId: UUID, limit: Int): List<Visit>
+    fun findByItem(itemId: UUID): Visit?
 
     /** Visits with at least one unpaid service, newest first. */
     fun findUnpaid(offset: Long, limit: Int): Pair<List<Visit>, Long>
