@@ -8,6 +8,8 @@ import uz.medclinic.clinic.cashier.domain.Payment
 import uz.medclinic.clinic.cashier.domain.PaymentLine
 import uz.medclinic.clinic.cashier.domain.PaymentMethod
 import uz.medclinic.clinic.cashier.domain.PaymentRepository
+import uz.medclinic.clinic.cashier.domain.ShiftRepository
+import uz.medclinic.clinic.cashier.domain.ShiftStatus
 import uz.medclinic.clinic.identity.api.StaffDirectory
 import uz.medclinic.clinic.visits.api.BillableVisit
 import uz.medclinic.clinic.visits.api.VisitBilling
@@ -30,6 +32,7 @@ class PaymentService(
     private val payments: PaymentRepository,
     private val visits: VisitBilling,
     private val staff: StaffDirectory,
+    private val shifts: ShiftRepository,
     private val audit: AuditRecorder,
     private val clock: Clock,
 ) {
@@ -46,6 +49,9 @@ class PaymentService(
     @Transactional
     fun pay(visitId: UUID, itemIds: Set<UUID>, method: PaymentMethod, expectedAmount: Long): Payment {
         if (itemIds.isEmpty()) throw ValidationException("itemIds", "validation.not_empty")
+        // Money goes into the cashier's open shift; the row lock keeps a closing Z report from missing this payment.
+        val shift = shifts.findOpen(CurrentActor.staffId())?.let { shifts.lock(it.id) }?.takeIf { it.status == ShiftStatus.OPEN }
+            ?: throw DomainException("shift.not_open", DomainException.Kind.CONFLICT)
         val visit = visits.lockForPayment(visitId, itemIds)
         if (visit.total != expectedAmount) throw AmountChangedException(expectedAmount, visit.total)
         val cashierId = CurrentActor.staffId()
@@ -57,6 +63,7 @@ class PaymentService(
                 method = method, cashierId = cashierId, cashierName = cashierName,
                 lines = visit.items.map { PaymentLine(it.id, it.serviceName, it.doctorName, it.price, it.discount, it.amount) },
                 createdAt = now,
+                shiftId = shift.id,
             ),
         )
         visits.markPaid(visitId, itemIds, payment.id, now)

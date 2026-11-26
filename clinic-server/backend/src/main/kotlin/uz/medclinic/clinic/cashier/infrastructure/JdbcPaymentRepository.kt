@@ -10,6 +10,7 @@ import uz.medclinic.clinic.shared.ClinicContext
 import uz.medclinic.platform.persistence.instant
 import uz.medclinic.platform.persistence.toDb
 import uz.medclinic.platform.persistence.uuid
+import uz.medclinic.platform.persistence.uuidOrNull
 import java.sql.ResultSet
 import java.util.UUID
 
@@ -20,16 +21,16 @@ class JdbcPaymentRepository(private val jdbc: JdbcClient, private val clinic: Cl
         val receiptNo = jdbc.sql(
             """
             insert into payment (id, clinic_id, branch_id, receipt_no, visit_id, visit_no, patient_id, amount, method, cashier_id,
-                                 cashier_name, created_at)
+                                 cashier_name, created_at, shift_id)
             values (:id, :clinicId, :branchId, nextval('receipt_no_seq'), :visitId, :visitNo, :patientId, :amount, :method,
-                    :cashierId, :cashierName, :createdAt)
+                    :cashierId, :cashierName, :createdAt, :shiftId)
             returning receipt_no
             """,
         )
             .param("id", payment.id).param("clinicId", identity.clinicId).param("branchId", identity.branchId)
             .param("visitId", payment.visitId).param("visitNo", payment.visitNo).param("patientId", payment.patientId)
             .param("amount", payment.amount).param("method", payment.method.name).param("cashierId", payment.cashierId)
-            .param("cashierName", payment.cashierName).param("createdAt", payment.createdAt.toDb())
+            .param("cashierName", payment.cashierName).param("createdAt", payment.createdAt.toDb()).param("shiftId", payment.shiftId)
             .query(Long::class.java).single()
         payment.lines.forEachIndexed { i, line ->
             jdbc.sql(
@@ -50,6 +51,13 @@ class JdbcPaymentRepository(private val jdbc: JdbcClient, private val clinic: Cl
 
     override fun findByVisit(visitId: UUID): List<Payment> =
         withLines(jdbc.sql("select * from payment where visit_id = :visitId order by created_at, receipt_no").param("visitId", visitId).query(::header).list())
+
+    override fun findLineByItem(visitItemId: UUID): Pair<Payment, PaymentLine>? {
+        val paymentId = jdbc.sql("select payment_id from payment_line where visit_item_id = :id").param("id", visitItemId)
+            .query { rs, _ -> rs.uuid("payment_id") }.optional().orElse(null) ?: return null
+        val payment = findById(paymentId) ?: return null
+        return payment to payment.lines.first { it.visitItemId == visitItemId }
+    }
 
     /** A payment row before its lines are loaded. */
     private class Header(val id: UUID, val build: (List<PaymentLine>) -> Payment)
@@ -77,6 +85,7 @@ class JdbcPaymentRepository(private val jdbc: JdbcClient, private val clinic: Cl
         val cashierId = rs.uuid("cashier_id")
         val cashierName = rs.getString("cashier_name")
         val createdAt = rs.instant("created_at")
-        return Header(id) { lines -> Payment(id, receiptNo, visitId, visitNo, patientId, method, cashierId, cashierName, lines, createdAt) }
+        val shiftId = rs.uuidOrNull("shift_id")
+        return Header(id) { lines -> Payment(id, receiptNo, visitId, visitNo, patientId, method, cashierId, cashierName, lines, createdAt, shiftId) }
     }
 }

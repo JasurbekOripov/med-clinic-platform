@@ -65,6 +65,10 @@ object Permissions {
     const val HAS_VISIT_EDIT_UNPAID = "hasAuthority('VISIT_EDIT_UNPAID')"
     const val HAS_EMERGENCY_ALLOW = "hasAuthority('EMERGENCY_ALLOW')"
     const val HAS_PAYMENT_ACCEPT = "hasAuthority('PAYMENT_ACCEPT')"
+    const val HAS_SHIFT_MANAGE = "hasAuthority('SHIFT_MANAGE')"
+    const val HAS_REFUND = "hasAuthority('REFUND')"
+    const val HAS_DEBT_VIEW = "hasAuthority('DEBT_VIEW')"
+    const val HAS_REPORTS_VIEW = "hasAuthority('REPORTS_VIEW')"
 
     /** Reprinting receipts and room slips: the cashier, and Reception when the patient lost a slip. */
     const val HAS_RECEIPT_REPRINT = "hasAnyAuthority('PAYMENT_ACCEPT', 'VISIT_CREATE')"

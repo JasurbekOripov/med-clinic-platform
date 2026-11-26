@@ -2248,6 +2248,200 @@
         }
       }
     },
+    "/api/v1/cashier/shifts" : {
+      "get" : {
+        "tags" : [ "shift-controller" ],
+        "operationId" : "list_4",
+        "parameters" : [ {
+          "name" : "from",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "date"
+          }
+        }, {
+          "name" : "to",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "date"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/ShiftSummary"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "shift-controller" ],
+        "operationId" : "open",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/OpenShiftRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ShiftResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/cashier/shifts/{id}/close" : {
+      "post" : {
+        "tags" : [ "shift-controller" ],
+        "operationId" : "close",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CloseShiftRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ShiftResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/cashier/shifts/current/expenses" : {
+      "post" : {
+        "tags" : [ "shift-controller" ],
+        "operationId" : "expense",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ExpenseRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ShiftResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/cashier/refunds" : {
+      "post" : {
+        "tags" : [ "shift-controller" ],
+        "operationId" : "approve",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/RefundRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RefundResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/cashier/refunds/{id}/pay-out" : {
+      "post" : {
+        "tags" : [ "shift-controller" ],
+        "operationId" : "payOut",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CloseShiftRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RefundResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/cashier/payments" : {
       "get" : {
         "tags" : [ "cashier-controller" ],
@@ -2401,7 +2595,7 @@
     "/api/v1/agents" : {
       "get" : {
         "tags" : [ "agent-controller" ],
-        "operationId" : "list_4",
+        "operationId" : "list_5",
         "responses" : {
           "200" : {
             "description" : "OK",
@@ -2802,9 +2996,9 @@
         }
       }
     },
-    "/api/v1/cashier/payments/{id}" : {
+    "/api/v1/cashier/shifts/{id}" : {
       "get" : {
-        "tags" : [ "cashier-controller" ],
+        "tags" : [ "shift-controller" ],
         "operationId" : "get_7",
         "parameters" : [ {
           "name" : "id",
@@ -2821,7 +3015,115 @@
             "content" : {
               "*/*" : {
                 "schema" : {
+                  "$ref" : "#/components/schemas/ShiftResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/cashier/shifts/current" : {
+      "get" : {
+        "tags" : [ "shift-controller" ],
+        "operationId" : "current",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ShiftResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/cashier/refunds/pending" : {
+      "get" : {
+        "tags" : [ "shift-controller" ],
+        "operationId" : "pending",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/RefundResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/cashier/payments/{id}" : {
+      "get" : {
+        "tags" : [ "cashier-controller" ],
+        "operationId" : "get_8",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
                   "$ref" : "#/components/schemas/PaymentResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/cashier/expense-recipients" : {
+      "get" : {
+        "tags" : [ "shift-controller" ],
+        "operationId" : "recipients",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/StaffRef"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/cashier/debts" : {
+      "get" : {
+        "tags" : [ "shift-controller" ],
+        "operationId" : "debts",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/DebtResponse"
+                  }
                 }
               }
             }
@@ -3046,7 +3348,7 @@
           },
           "status" : {
             "type" : "string",
-            "enum" : [ "UNPAID", "PAID", "CANCELLED" ]
+            "enum" : [ "UNPAID", "PAID", "CANCELLED", "REFUNDED" ]
           },
           "paidAt" : {
             "type" : [ "string", "null" ],
@@ -4769,6 +5071,266 @@
           }
         }
       },
+      "OpenShiftRequest" : {
+        "type" : "object",
+        "properties" : {
+          "openingCash" : {
+            "type" : [ "integer", "null" ],
+            "format" : "int64"
+          }
+        }
+      },
+      "ExpenseResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "recipientName" : {
+            "type" : "string"
+          },
+          "amount" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "comment" : {
+            "type" : "string"
+          },
+          "createdAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        },
+        "required" : [ "amount", "comment", "createdAt", "id", "recipientName" ]
+      },
+      "PatientRef" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "cardNo" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "fullName" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "cardNo", "fullName", "id" ]
+      },
+      "RefundResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "serviceName" : {
+            "type" : "string"
+          },
+          "patient" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/PatientRef"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "amount" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "originalMethod" : {
+            "type" : "string",
+            "enum" : [ "CASH", "CARD", "TRANSFER" ]
+          },
+          "reason" : {
+            "type" : "string"
+          },
+          "approvedByName" : {
+            "type" : "string"
+          },
+          "approvedAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "status" : {
+            "type" : "string",
+            "enum" : [ "APPROVED", "PAID_OUT" ]
+          },
+          "paidOutAt" : {
+            "type" : [ "string", "null" ],
+            "format" : "date-time"
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        },
+        "required" : [ "amount", "approvedAt", "approvedByName", "id", "originalMethod", "reason", "serviceName", "status", "version" ]
+      },
+      "ShiftResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "shiftNo" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "cashierName" : {
+            "type" : "string"
+          },
+          "status" : {
+            "type" : "string",
+            "enum" : [ "OPEN", "CLOSED" ]
+          },
+          "openingCash" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "openedAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "closedAt" : {
+            "type" : [ "string", "null" ],
+            "format" : "date-time"
+          },
+          "totals" : {
+            "$ref" : "#/components/schemas/ShiftTotals"
+          },
+          "expectedCash" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "countedCash" : {
+            "type" : [ "integer", "null" ],
+            "format" : "int64"
+          },
+          "difference" : {
+            "type" : [ "integer", "null" ],
+            "format" : "int64"
+          },
+          "closeNote" : {
+            "type" : [ "string", "null" ]
+          },
+          "expenses" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ExpenseResponse"
+            }
+          },
+          "refunds" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/RefundResponse"
+            }
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        },
+        "required" : [ "cashierName", "expectedCash", "expenses", "id", "openedAt", "openingCash", "refunds", "shiftNo", "status", "totals", "version" ]
+      },
+      "ShiftTotals" : {
+        "type" : "object",
+        "properties" : {
+          "cash" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "card" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "transfer" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "payments" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "refunds" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "refundCount" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "expenses" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "expenseCount" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        },
+        "required" : [ "card", "cash", "expenseCount", "expenses", "payments", "refundCount", "refunds", "transfer" ]
+      },
+      "CloseShiftRequest" : {
+        "type" : "object",
+        "properties" : {
+          "countedCash" : {
+            "type" : [ "integer", "null" ],
+            "format" : "int64"
+          },
+          "note" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 500,
+            "minLength" : 0
+          },
+          "version" : {
+            "type" : [ "integer", "null" ],
+            "format" : "int32"
+          }
+        }
+      },
+      "ExpenseRequest" : {
+        "type" : "object",
+        "properties" : {
+          "recipientStaffId" : {
+            "type" : [ "string", "null" ],
+            "format" : "uuid"
+          },
+          "recipientName" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 200,
+            "minLength" : 0
+          },
+          "amount" : {
+            "type" : [ "integer", "null" ],
+            "format" : "int64"
+          },
+          "comment" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 1000,
+            "minLength" : 0
+          }
+        }
+      },
+      "RefundRequest" : {
+        "type" : "object",
+        "properties" : {
+          "visitItemId" : {
+            "type" : [ "string", "null" ],
+            "format" : "uuid"
+          },
+          "reason" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 500,
+            "minLength" : 0
+          }
+        }
+      },
       "PaymentRequest" : {
         "type" : "object",
         "properties" : {
@@ -4796,23 +5358,6 @@
           }
         },
         "required" : [ "itemIds" ]
-      },
-      "PatientRef" : {
-        "type" : "object",
-        "properties" : {
-          "id" : {
-            "type" : "string",
-            "format" : "uuid"
-          },
-          "cardNo" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "fullName" : {
-            "type" : "string"
-          }
-        },
-        "required" : [ "cardNo", "fullName", "id" ]
       },
       "PaymentLineResponse" : {
         "type" : "object",
@@ -5353,6 +5898,94 @@
         "required" : [ "items", "page", "size", "totalItems", "totalPages" ]
       },
       "UnpaidVisitResponse" : {
+        "type" : "object",
+        "properties" : {
+          "visitId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "visitNo" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "patient" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/PatientRef"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "createdAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/BillableItem"
+            }
+          },
+          "total" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        },
+        "required" : [ "createdAt", "items", "total", "visitId", "visitNo" ]
+      },
+      "ShiftSummary" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "shiftNo" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "cashierName" : {
+            "type" : "string"
+          },
+          "status" : {
+            "type" : "string",
+            "enum" : [ "OPEN", "CLOSED" ]
+          },
+          "openedAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "closedAt" : {
+            "type" : [ "string", "null" ],
+            "format" : "date-time"
+          },
+          "totals" : {
+            "$ref" : "#/components/schemas/ShiftTotals"
+          },
+          "expectedCash" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "difference" : {
+            "type" : [ "integer", "null" ],
+            "format" : "int64"
+          }
+        },
+        "required" : [ "cashierName", "expectedCash", "id", "openedAt", "shiftNo", "status", "totals" ]
+      },
+      "StaffRef" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "fullName" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "fullName", "id" ]
+      },
+      "DebtResponse" : {
         "type" : "object",
         "properties" : {
           "visitId" : {

@@ -30,6 +30,7 @@ interface StaffRepository {
     fun countActiveWithTemplate(template: RoleTemplate): Long
     fun idsWithRole(roleId: UUID): List<UUID>
     fun activeWith(permission: Permission): List<Pair<UUID, String>>
+    fun activeAll(): List<Pair<UUID, String>>
 
     /** Serialises concurrent changes to Admin accounts (last-Admin rule) inside the current transaction. */
     fun lockAdmins()

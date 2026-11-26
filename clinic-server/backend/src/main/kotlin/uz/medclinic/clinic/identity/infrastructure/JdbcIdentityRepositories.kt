@@ -189,6 +189,11 @@ class JdbcStaffRepository(private val jdbc: JdbcClient, private val clinic: Clin
             """,
         ).param("p", permission.name).query { rs, _ -> rs.uuid("id") to rs.getString("full_name") }.list()
 
+    override fun activeAll(): List<Pair<UUID, String>> =
+        jdbc.sql(
+            "select s.id, s.full_name from staff s join role r on r.id = s.role_id where s.active and r.template is distinct from 'VENDOR_SUPPORT' order by s.full_name, s.id",
+        ).query { rs, _ -> rs.uuid("id") to rs.getString("full_name") }.list()
+
     override fun lockAdmins() {
         jdbc.sql(
             "select s.id from staff s join role r on r.id = s.role_id where r.template = 'ADMIN' order by s.id for update of s",

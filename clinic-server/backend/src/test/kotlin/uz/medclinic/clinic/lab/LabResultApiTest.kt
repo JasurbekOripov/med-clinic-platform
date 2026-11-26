@@ -49,6 +49,8 @@ class LabResultApiTest : IntegrationTest() {
             lab,
         ).andExpect { status { isCreated() } }
         patientId = id(post("/api/v1/patients", """{"lastName":"Karimova","firstName":"Dilnoza","gender":"FEMALE","birthDate":"1990-03-01","phone":"901234567"}""", reception))
+        // Payments go into the cashier's open shift.
+        post("/api/v1/cashier/shifts", "{}", cashier).andExpect { status { isCreated() } }
     }
 
     private fun post(path: String, json: String, as_: StaffMember): ResultActionsDsl = mockMvc.post(path) {

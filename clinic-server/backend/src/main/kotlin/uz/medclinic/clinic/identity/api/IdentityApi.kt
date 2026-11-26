@@ -28,6 +28,9 @@ interface StaffDirectory {
      */
     fun activeWith(permission: Permission): List<StaffRef>
 
+    /** All active staff (e.g. who received cash from the drawer), sorted by name. */
+    fun active(): List<StaffRef>
+
     /** Any staff member (also deactivated ones), e.g. for the cashier's name on a receipt. */
     fun find(id: UUID): StaffRef?
 

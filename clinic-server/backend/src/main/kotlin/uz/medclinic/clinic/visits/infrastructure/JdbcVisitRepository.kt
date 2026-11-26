@@ -68,6 +68,17 @@ class JdbcVisitRepository(private val jdbc: JdbcClient, private val clinic: Clin
         jdbc.sql("select v.* from visit v join visit_item i on i.visit_id = v.id where i.id = :id").param("id", itemId)
             .query(::mapVisit).optional().orElse(null)?.let { withItems(listOf(it)).single() }
 
+    override fun findAllowedUnpaid(limit: Int): List<Visit> =
+        withItems(
+            jdbc.sql(
+                """
+                select v.* from visit v
+                where exists (select 1 from visit_item i where i.visit_id = v.id and i.status = 'UNPAID' and i.allowed_at is not null)
+                order by v.created_at, v.id limit :limit
+                """,
+            ).param("limit", limit).query(::mapVisit).list(),
+        )
+
     override fun findUnpaid(offset: Long, limit: Int): Pair<List<Visit>, Long> {
         val where = "exists (select 1 from visit_item i where i.visit_id = v.id and i.status = 'UNPAID')"
         val total = jdbc.sql("select count(*) from visit v where $where").query(Long::class.java).single()
@@ -85,14 +96,15 @@ class JdbcVisitRepository(private val jdbc: JdbcClient, private val clinic: Clin
             """
             insert into visit_item (id, visit_id, service_id, service_name, group_name, doctor_id, doctor_name, price, discount, status,
                                     payment_id, paid_at, allowed_by, allowed_at, allow_reason, cancelled_by, cancelled_at, cancel_reason,
-                                    created_by, created_at)
+                                    created_by, created_at, refunded_at)
             values (:id, :visitId, :serviceId, :serviceName, :groupName, :doctorId, :doctorName, :price, :discount, :status,
                     :paymentId, :paidAt, :allowedBy, :allowedAt, :allowReason, :cancelledBy, :cancelledAt, :cancelReason,
-                    :createdBy, :createdAt)
+                    :createdBy, :createdAt, :refundedAt)
             on conflict (id) do update set
                 discount = excluded.discount, status = excluded.status, payment_id = excluded.payment_id, paid_at = excluded.paid_at,
                 allowed_by = excluded.allowed_by, allowed_at = excluded.allowed_at, allow_reason = excluded.allow_reason,
-                cancelled_by = excluded.cancelled_by, cancelled_at = excluded.cancelled_at, cancel_reason = excluded.cancel_reason
+                cancelled_by = excluded.cancelled_by, cancelled_at = excluded.cancelled_at, cancel_reason = excluded.cancel_reason,
+                refunded_at = excluded.refunded_at
             """,
         )
             .param("id", item.id).param("visitId", visitId).param("serviceId", item.serviceId)
@@ -102,7 +114,7 @@ class JdbcVisitRepository(private val jdbc: JdbcClient, private val clinic: Clin
             .param("allowedBy", item.allowance?.by).param("allowedAt", item.allowance?.at.toDbOrNull())
             .param("allowReason", item.allowance?.reason).param("cancelledBy", item.cancellation?.by)
             .param("cancelledAt", item.cancellation?.at.toDbOrNull()).param("cancelReason", item.cancellation?.reason)
-            .param("createdBy", item.createdBy).param("createdAt", item.createdAt.toDb())
+            .param("createdBy", item.createdBy).param("createdAt", item.createdAt.toDb()).param("refundedAt", item.refundedAt.toDbOrNull())
             .update()
     }
 
@@ -159,5 +171,6 @@ class JdbcVisitRepository(private val jdbc: JdbcClient, private val clinic: Clin
         cancellation = rs.instantOrNull("cancelled_at")?.let { Cancellation(rs.uuidOrNull("cancelled_by"), it, rs.getString("cancel_reason")) },
         createdBy = rs.uuidOrNull("created_by"),
         createdAt = rs.instant("created_at"),
+        refundedAt = rs.instantOrNull("refunded_at"),
     )
 }

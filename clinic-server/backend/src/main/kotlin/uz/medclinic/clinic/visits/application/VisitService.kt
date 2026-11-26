@@ -11,6 +11,7 @@ import uz.medclinic.clinic.patients.api.PatientQueries
 import uz.medclinic.clinic.visits.api.BillableItem
 import uz.medclinic.clinic.visits.api.BillableVisit
 import uz.medclinic.clinic.visits.api.PaidItem
+import uz.medclinic.clinic.visits.api.RefundedItem
 import uz.medclinic.clinic.visits.api.VisitBilling
 import uz.medclinic.clinic.visits.api.VisitItemInfo
 import uz.medclinic.clinic.visits.api.VisitItemsAllowed
@@ -140,6 +141,20 @@ class VisitService(
             .map { PaidItem(it.id, it.serviceId, it.serviceName, it.doctorId, it.doctorName, it.amount) }
         events.publishEvent(VisitItemsPaid(visitId, updated.patientId, paid, paymentId, at))
     }
+
+    @Transactional
+    override fun markRefunded(itemId: UUID, at: Instant): RefundedItem {
+        val found = visits.findByItem(itemId) ?: throw NotFoundException(ENTITY, itemId)
+        val current = visits.lock(found.id) ?: throw NotFoundException(ENTITY, found.id)
+        val updated = visits.update(current.refund(itemId, at))
+        audit.record(AuditEvent("visit.service_refunded", ENTITY, current.id, before = snapshot(current), after = snapshot(updated)))
+        val item = updated.items.first { it.id == itemId }
+        return RefundedItem(item.id, updated.id, updated.patientId, item.serviceName, item.paymentId!!, item.amount)
+    }
+
+    @Transactional(readOnly = true)
+    override fun debts(): List<BillableVisit> =
+        visits.findAllowedUnpaid(500).map { v -> billable(v, v.items.filter { it.status == ItemStatus.UNPAID && it.allowance != null }) }
 
     // ---- helpers
 

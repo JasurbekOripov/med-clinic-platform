@@ -6,7 +6,8 @@ import uz.medclinic.platform.domain.ValidationException
 import java.time.Instant
 import java.util.UUID
 
-enum class ItemStatus { UNPAID, PAID, CANCELLED }
+/** REFUNDED: paid, then cancelled by the Admin with the money returned (see the cashier module). */
+enum class ItemStatus { UNPAID, PAID, CANCELLED, REFUNDED }
 
 /** Discount chosen for the whole visit (one per visit), copied from the Admin's discount types. */
 data class VisitDiscount(val typeId: UUID, val name: String, val percent: Int) {
@@ -40,10 +41,12 @@ data class VisitItem(
     val cancellation: Cancellation?,
     val createdBy: UUID?,
     val createdAt: Instant,
+    val refundedAt: Instant? = null,
 ) {
     init {
         require(price >= 0 && discount in 0..price)
-        require((status == ItemStatus.PAID) == (paymentId != null && paidAt != null))
+        require((status == ItemStatus.PAID || status == ItemStatus.REFUNDED) == (paymentId != null && paidAt != null))
+        require((status == ItemStatus.REFUNDED) == (refundedAt != null))
         require((status == ItemStatus.CANCELLED) == (cancellation != null))
     }
 
@@ -78,7 +81,8 @@ data class Visit(
     val updatedAt: Instant,
     val version: Int,
 ) {
-    val activeItems: List<VisitItem> get() = items.filter { it.status != ItemStatus.CANCELLED }
+    /** Services the patient still gets: not cancelled and not refunded. */
+    val activeItems: List<VisitItem> get() = items.filter { it.status != ItemStatus.CANCELLED && it.status != ItemStatus.REFUNDED }
     val total: Long get() = activeItems.sumOf { it.amount }
     val paid: Long get() = items.filter { it.status == ItemStatus.PAID }.sumOf { it.amount }
     val unpaid: Long get() = total - paid
@@ -98,7 +102,7 @@ data class Visit(
         val why = requiredReason(reason)
         val item = item(itemId)
         when (item.status) {
-            ItemStatus.PAID -> throw DomainException("visit.item_already_paid")
+            ItemStatus.PAID, ItemStatus.REFUNDED -> throw DomainException("visit.item_already_paid")
             ItemStatus.CANCELLED -> throw DomainException("visit.item_already_cancelled")
             ItemStatus.UNPAID -> Unit
         }
@@ -136,6 +140,13 @@ data class Visit(
         return targets
     }
 
+    /** Admin's refund of a paid service (the cashier pays the money out); returns the updated visit. */
+    fun refund(itemId: UUID, now: Instant): Visit {
+        val target = item(itemId)
+        if (target.status != ItemStatus.PAID) throw DomainException("visit.item_not_refundable")
+        return replace(target.copy(status = ItemStatus.REFUNDED, refundedAt = now), now)
+    }
+
     fun markPaid(itemIds: Set<UUID>, paymentId: UUID, now: Instant): Visit =
         requirePayable(itemIds).fold(this) { v, it -> v.replace(it.copy(status = ItemStatus.PAID, paymentId = paymentId, paidAt = now), now) }
 
@@ -166,6 +177,9 @@ interface VisitRepository {
     fun update(visit: Visit): Visit
     fun findByPatient(patientId: UUID, limit: Int): List<Visit>
     fun findByItem(itemId: UUID): Visit?
+
+    /** Visits with services the Admin allowed before payment that are still unpaid (debts), oldest first. */
+    fun findAllowedUnpaid(limit: Int): List<Visit>
 
     /** Visits with at least one unpaid service, newest first. */
     fun findUnpaid(offset: Long, limit: Int): Pair<List<Visit>, Long>

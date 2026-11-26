@@ -708,6 +708,86 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/cashier/shifts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["list_4"];
+        put?: never;
+        post: operations["open"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/cashier/shifts/{id}/close": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["close"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/cashier/shifts/current/expenses": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["expense"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/cashier/refunds": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["approve"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/cashier/refunds/{id}/pay-out": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["payOut"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/cashier/payments": {
         parameters: {
             query?: never;
@@ -795,7 +875,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["list_4"];
+        get: operations["list_5"];
         put?: never;
         post: operations["create_6"];
         delete?: never;
@@ -1028,7 +1108,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/v1/cashier/payments/{id}": {
+    "/api/v1/cashier/shifts/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -1036,6 +1116,86 @@ export interface paths {
             cookie?: never;
         };
         get: operations["get_7"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/cashier/shifts/current": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["current"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/cashier/refunds/pending": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["pending"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/cashier/payments/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["get_8"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/cashier/expense-recipients": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["recipients"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/cashier/debts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["debts"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1135,7 +1295,7 @@ export interface components {
             /** Format: int64 */
             amount: number;
             /** @enum {string} */
-            status: "UNPAID" | "PAID" | "CANCELLED";
+            status: "UNPAID" | "PAID" | "CANCELLED" | "REFUNDED";
             /** Format: date-time */
             paidAt?: string | null;
             allowed: boolean;
@@ -1727,6 +1887,112 @@ export interface components {
         NoteRequest: {
             text?: string | null;
         };
+        OpenShiftRequest: {
+            /** Format: int64 */
+            openingCash?: number | null;
+        };
+        ExpenseResponse: {
+            /** Format: uuid */
+            id: string;
+            recipientName: string;
+            /** Format: int64 */
+            amount: number;
+            comment: string;
+            /** Format: date-time */
+            createdAt: string;
+        };
+        PatientRef: {
+            /** Format: uuid */
+            id: string;
+            /** Format: int64 */
+            cardNo: number;
+            fullName: string;
+        };
+        RefundResponse: {
+            /** Format: uuid */
+            id: string;
+            serviceName: string;
+            patient?: components["schemas"]["PatientRef"] | null;
+            /** Format: int64 */
+            amount: number;
+            /** @enum {string} */
+            originalMethod: "CASH" | "CARD" | "TRANSFER";
+            reason: string;
+            approvedByName: string;
+            /** Format: date-time */
+            approvedAt: string;
+            /** @enum {string} */
+            status: "APPROVED" | "PAID_OUT";
+            /** Format: date-time */
+            paidOutAt?: string | null;
+            /** Format: int32 */
+            version: number;
+        };
+        ShiftResponse: {
+            /** Format: uuid */
+            id: string;
+            /** Format: int64 */
+            shiftNo: number;
+            cashierName: string;
+            /** @enum {string} */
+            status: "OPEN" | "CLOSED";
+            /** Format: int64 */
+            openingCash: number;
+            /** Format: date-time */
+            openedAt: string;
+            /** Format: date-time */
+            closedAt?: string | null;
+            totals: components["schemas"]["ShiftTotals"];
+            /** Format: int64 */
+            expectedCash: number;
+            /** Format: int64 */
+            countedCash?: number | null;
+            /** Format: int64 */
+            difference?: number | null;
+            closeNote?: string | null;
+            expenses: components["schemas"]["ExpenseResponse"][];
+            refunds: components["schemas"]["RefundResponse"][];
+            /** Format: int32 */
+            version: number;
+        };
+        ShiftTotals: {
+            /** Format: int64 */
+            cash: number;
+            /** Format: int64 */
+            card: number;
+            /** Format: int64 */
+            transfer: number;
+            /** Format: int32 */
+            payments: number;
+            /** Format: int64 */
+            refunds: number;
+            /** Format: int32 */
+            refundCount: number;
+            /** Format: int64 */
+            expenses: number;
+            /** Format: int32 */
+            expenseCount: number;
+        };
+        CloseShiftRequest: {
+            /** Format: int64 */
+            countedCash?: number | null;
+            note?: string | null;
+            /** Format: int32 */
+            version?: number | null;
+        };
+        ExpenseRequest: {
+            /** Format: uuid */
+            recipientStaffId?: string | null;
+            recipientName?: string | null;
+            /** Format: int64 */
+            amount?: number | null;
+            comment?: string | null;
+        };
+        RefundRequest: {
+            /** Format: uuid */
+            visitItemId?: string | null;
+            reason?: string | null;
+        };
         PaymentRequest: {
             /** Format: uuid */
             visitId?: string | null;
@@ -1735,13 +2001,6 @@ export interface components {
             method?: "CASH" | "CARD" | "TRANSFER" | null;
             /** Format: int64 */
             amount?: number | null;
-        };
-        PatientRef: {
-            /** Format: uuid */
-            id: string;
-            /** Format: int64 */
-            cardNo: number;
-            fullName: string;
         };
         PaymentLineResponse: {
             serviceName: string;
@@ -1944,6 +2203,41 @@ export interface components {
             totalPages: number;
         };
         UnpaidVisitResponse: {
+            /** Format: uuid */
+            visitId: string;
+            /** Format: int64 */
+            visitNo: number;
+            patient?: components["schemas"]["PatientRef"] | null;
+            /** Format: date-time */
+            createdAt: string;
+            items: components["schemas"]["BillableItem"][];
+            /** Format: int64 */
+            total: number;
+        };
+        ShiftSummary: {
+            /** Format: uuid */
+            id: string;
+            /** Format: int64 */
+            shiftNo: number;
+            cashierName: string;
+            /** @enum {string} */
+            status: "OPEN" | "CLOSED";
+            /** Format: date-time */
+            openedAt: string;
+            /** Format: date-time */
+            closedAt?: string | null;
+            totals: components["schemas"]["ShiftTotals"];
+            /** Format: int64 */
+            expectedCash: number;
+            /** Format: int64 */
+            difference?: number | null;
+        };
+        StaffRef: {
+            /** Format: uuid */
+            id: string;
+            fullName: string;
+        };
+        DebtResponse: {
             /** Format: uuid */
             visitId: string;
             /** Format: int64 */
@@ -3778,6 +4072,153 @@ export interface operations {
             };
         };
     };
+    list_4: {
+        parameters: {
+            query: {
+                from: string;
+                to: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ShiftSummary"][];
+                };
+            };
+        };
+    };
+    open: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OpenShiftRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ShiftResponse"];
+                };
+            };
+        };
+    };
+    close: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CloseShiftRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ShiftResponse"];
+                };
+            };
+        };
+    };
+    expense: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ExpenseRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ShiftResponse"];
+                };
+            };
+        };
+    };
+    approve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RefundRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["RefundResponse"];
+                };
+            };
+        };
+    };
+    payOut: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CloseShiftRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["RefundResponse"];
+                };
+            };
+        };
+    };
     byVisit: {
         parameters: {
             query: {
@@ -3912,7 +4353,7 @@ export interface operations {
             };
         };
     };
-    list_4: {
+    list_5: {
         parameters: {
             query?: never;
             header?: never;
@@ -4272,7 +4713,109 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    "*/*": components["schemas"]["ShiftResponse"];
+                };
+            };
+        };
+    };
+    current: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ShiftResponse"];
+                };
+            };
+        };
+    };
+    pending: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["RefundResponse"][];
+                };
+            };
+        };
+    };
+    get_8: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
                     "*/*": components["schemas"]["PaymentResponse"];
+                };
+            };
+        };
+    };
+    recipients: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["StaffRef"][];
+                };
+            };
+        };
+    };
+    debts: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["DebtResponse"][];
                 };
             };
         };

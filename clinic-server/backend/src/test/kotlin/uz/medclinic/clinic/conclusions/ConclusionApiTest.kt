@@ -36,6 +36,8 @@ class ConclusionApiTest : IntegrationTest() {
         val service = id(post("/api/v1/catalog/services", """{"groupId":"$group","name":"Kardiolog","price":150000,"perDoctor":true}""", admin))
         patientId = id(post("/api/v1/patients", """{"lastName":"Karimova","firstName":"Dilnoza","gender":"FEMALE","birthDate":"1955-04-12","phone":"901234567"}""", reception))
         visit = json(post("/api/v1/visits", """{"patientId":"$patientId","services":[{"serviceId":"$service","doctorId":"${doctor.id}"}]}""", reception))
+        // Payments go into the cashier's open shift.
+        post("/api/v1/cashier/shifts", "{}", cashier).andExpect { status { isCreated() } }
     }
 
     private fun post(path: String, body: String, as_: StaffMember): ResultActionsDsl = mockMvc.post(path) {

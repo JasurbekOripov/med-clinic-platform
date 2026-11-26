@@ -39,6 +39,8 @@ class QueueApiTest : IntegrationTest() {
         sugar = id(post("/api/v1/catalog/services", """{"groupId":"$lab","name":"Glyukoza","price":30000}""", admin))
         cardioQueue = id(post("/api/v1/queues", """{"name":"Kardiolog","prefix":"k","room":"12","doctorId":"${doctor.id}"}""", admin))
         labQueue = id(post("/api/v1/queues", """{"name":"Laboratoriya","prefix":"L","room":"3","serviceIds":["$blood","$sugar"]}""", admin))
+        // Payments go into the cashier's open shift.
+        post("/api/v1/cashier/shifts", "{}", cashier).andExpect { status { isCreated() } }
     }
 
     private fun post(path: String, json: String, as_: StaffMember): ResultActionsDsl = mockMvc.post(path) {

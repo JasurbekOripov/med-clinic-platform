@@ -26,6 +26,8 @@ data class Payment(
     val cashierName: String,
     val lines: List<PaymentLine>,
     val createdAt: Instant,
+    /** The cashier's open shift the money went into (null only for payments made before shifts existed). */
+    val shiftId: UUID? = null,
 ) {
     init {
         require(lines.isNotEmpty())
@@ -39,4 +41,7 @@ interface PaymentRepository {
     fun insert(payment: Payment): Payment
     fun findById(id: UUID): Payment?
     fun findByVisit(visitId: UUID): List<Payment>
+
+    /** The payment and line that paid for one ordered service. */
+    fun findLineByItem(visitItemId: UUID): Pair<Payment, PaymentLine>?
 }
