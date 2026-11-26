@@ -17,6 +17,8 @@ import uz.medclinic.clinic.cashier.domain.Payment
 import uz.medclinic.clinic.cashier.domain.PaymentMethod
 import uz.medclinic.clinic.patients.api.PatientQueries
 import uz.medclinic.clinic.patients.api.PatientSummary
+import uz.medclinic.clinic.queues.api.TicketQueries
+import uz.medclinic.clinic.queues.api.TicketSlip
 import uz.medclinic.clinic.shared.Permissions
 import uz.medclinic.clinic.visits.api.BillableItem
 import uz.medclinic.platform.domain.PageQuery
@@ -50,6 +52,8 @@ data class PaymentResponse(
     val method: PaymentMethod,
     val cashierName: String,
     val lines: List<PaymentLineResponse>,
+    /** One slip per room with its queue number, printed together with the receipt. */
+    val slips: List<TicketSlip>,
     val createdAt: Instant,
 )
 
@@ -63,7 +67,7 @@ data class PaymentRequest(
 
 @RestController
 @RequestMapping("/api/v1/cashier")
-class CashierController(private val payments: PaymentService, private val patients: PatientQueries) {
+class CashierController(private val payments: PaymentService, private val patients: PatientQueries, private val tickets: TicketQueries) {
     @GetMapping("/unpaid")
     @PreAuthorize(Permissions.HAS_PAYMENT_ACCEPT)
     fun unpaid(@RequestParam(required = false) page: Int?, @RequestParam(required = false) size: Int?): PageResponse<UnpaidVisitResponse> {
@@ -98,6 +102,6 @@ class CashierController(private val payments: PaymentService, private val patien
 
     private fun response(p: Payment) = PaymentResponse(
         p.id, p.receiptNo, p.visitId, p.visitNo, patients.find(p.patientId)?.let(::PatientRef), p.amount, p.method, p.cashierName,
-        p.lines.map { PaymentLineResponse(it.serviceName, it.doctorName, it.price, it.discount, it.amount) }, p.createdAt,
+        p.lines.map { PaymentLineResponse(it.serviceName, it.doctorName, it.price, it.discount, it.amount) }, tickets.byPayment(p.id), p.createdAt,
     )
 }

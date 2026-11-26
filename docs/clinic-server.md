@@ -4,7 +4,7 @@ The program that runs **inside each clinic**: one server PC holds the database a
 staff PC over the clinic LAN. All patient and clinic data lives only here. See [ARCHITECTURE.md](ARCHITECTURE.md)
 for system-wide rules; this document records what the owner decided for the Clinic Server.
 
-Status: **M1 implemented** (see §7); M2 in progress (patients, price list, agents, visits and basic cashier done, see §8). Next: queues.
+Status: **M1 implemented** (see §7); **M2 implemented** (see §8). Next: M3 doctor's workspace.
 
 ## 1. Deployment
 
@@ -104,7 +104,8 @@ Development and tests use `clinic.vendor.dev-keyring`, honoured only in the dev/
 | `agents` | referral agents managed with `AGENT_MANAGE` (Admin): name, optional phone, **fixed fee per paid referred visit** (UZS), notes, active. Reception reads the list to record who referred a visit; the visit will copy the fee, the Admin report sums fees owed and payouts. Soft delete, audited. |
 | `visits` | a visit groups services ordered for one patient; name, price, the visit's single discount and the agent fee are copied at ordering. Reception (`VISIT_CREATE`) orders, a consultation needs a doctor (doctor's own price); `VISIT_EDIT_UNPAID` cancels only unpaid services (reason required) and changes the discount (re-prices unpaid services only); the agent is fixed after the first payment. **Doctors, lab and nurses get only paid services or those the Admin allowed** (`EMERGENCY_ALLOW`, reason required, the amount stays owed) — enforced by the server. Publishes `VisitItemsPaid`. |
 | `cashier` | basic cashier (`PAYMENT_ACCEPT`): list of visits with unpaid services, pay chosen services in cash, card or transfer; the visit row is locked so a service is paid once, and the total the cashier saw must still match (409 `payment.amount_changed`). Immutable payment with copied lines and a receipt number; 80 mm receipt printed from Chrome with the clinic's receipt texts (`/settings/print`). Shifts (X/Z), refunds (Admin) and the debts list come in M5. |
-| `patients` | patient card (card number from a sequence, names, gender, birth date, phone required, address, notes), soft delete (`PATIENT_DELETE`, Admin), audit on every change. One search box: up to 6 digits = card number, 7+ digits = phone, otherwise name in Latin or Cyrillic (`NameNormalizer` + `pg_trgm`). Duplicate warning (same name + birth date, or same phone + similar name) while typing and again on save (409 `patient.possible_duplicate` with candidates); Reception may confirm "different person". No merge (owner's decision). |
+| `queues` | queues set up by the Admin (`SETTINGS_MANAGE`): name, 1–2 letter prefix, room, optionally a doctor; services without a doctor are listed in one queue each. On payment (same transaction, `VisitItemsPaid`) every paid service is routed — the chosen doctor's queue first, otherwise the service's queue — and **one ticket per room** gets the day's next number (Tashkent date, restarts daily, atomic counter): `K-001`, `L-015`. The cashier prints one 80 mm slip per room plus the money receipt, each on its own page so the printer cuts between them. Queue screen: today's tickets in number order, "seen" toggle (audited); doctors call by the number on the slip, no TV or calling system. Services with no queue get no slip. |
+| `patients` | patient card (card number from a sequence, names, gender, birth date, phone required, address, notes), soft delete (`PATIENT_DELETE`, Admin), audit on every change. One search box: up to 6 digits = card number, 7+ digits = phone, otherwise name in Latin or Cyrillic (`NameNormalizer` + `pg_trgm`). Duplicate warning (same name + birth date, or same phone + similar name) while typing and again on save (409 `patient.possible_duplicate` with candidates); Reception may confirm "different person". No merge (owner's decision). Medical staff opening a card is audited (`patient.viewed`, once per person and patient per 30 minutes). |
 
 Web: keyboard-first patients screen (type → ↑/↓ → Enter, F2 = new patient), patient page with a visits-history placeholder.
 
@@ -113,4 +114,4 @@ doctor/room with daily ticket numbers; pay first, then the patient appears in th
 payment, receipt; shifts, refunds and debts in M5); one discount per visit chosen from the Admin's list; no automatic
 repeat-visit price (the doctor orders a new service at full price); referral agents managed by the Admin with a fixed
 amount, totals in the Admin report; printing from Chrome (80 mm receipt / A4) until printer models are known; no TV
-screen for now; doctors' and lab's opening of patient cards is audited.
+screen for now (doctors call by the number on the slip); one slip per room plus one money receipt; doctors' and lab's opening of patient cards is audited.

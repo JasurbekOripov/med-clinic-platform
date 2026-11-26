@@ -1,5 +1,5 @@
 import type * as React from "react";
-import { AlertTriangle, ClipboardList, Contact, Handshake, Tags, Wallet, FileSpreadsheet, Home, KeyRound, LogOut, Settings, ShieldCheck, UserRoundCog, Users } from "lucide-react";
+import { AlertTriangle, ClipboardList, Contact, Handshake, ListOrdered, Tags, Wallet, FileSpreadsheet, Home, KeyRound, LogOut, Settings, ShieldCheck, UserRoundCog, Users } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { NavLink, Outlet, useNavigate } from "react-router";
 import { EmptyState, Spinner } from "@medclinic/web-ui/components/Common";
@@ -14,9 +14,15 @@ import { IdleLock } from "./IdleLock";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { StopScreen } from "./StopScreen";
 
-export const NAV = [
-  { to: "/", label: "nav.home", icon: Home, hint: null, needs: [] as string[] },
+/** Queue screen: reception, doctors, lab and the Admin who sets queues up (mirrors `HAS_QUEUE_READ`). */
+export const QUEUE_READERS = ["QUEUE_MANAGE", "CONSULTATION_WRITE", "LAB_WORK", "SETTINGS_MANAGE"];
+
+type NavItem = { to: string; label: string; icon: typeof Home; hint: string | null; needs: string[]; any?: string[] };
+
+export const NAV: NavItem[] = [
+  { to: "/", label: "nav.home", icon: Home, hint: null, needs: [] },
   { to: "/patients", label: "nav.patients", icon: Contact, hint: "home.patientsHint", needs: ["PATIENT_VIEW"] },
+  { to: "/queue", label: "nav.queue", icon: ListOrdered, hint: "home.queueHint", needs: [], any: QUEUE_READERS },
   { to: "/cashier", label: "nav.cashier", icon: Wallet, hint: "home.cashierHint", needs: ["PAYMENT_ACCEPT"] },
   { to: "/prices", label: "nav.priceList", icon: Tags, hint: "home.priceListHint", needs: ["PRICE_LIST_MANAGE"] },
   { to: "/agents", label: "nav.agents", icon: Handshake, hint: "home.agentsHint", needs: ["AGENT_MANAGE"] },
@@ -34,7 +40,7 @@ export function AppLayout() {
   const license = useLicense();
   const logout = useLogout();
   const navigate = useNavigate();
-  const items = NAV.filter((n) => can(...n.needs));
+  const items = NAV.filter((n) => canOpen(n, can));
   const signOut = () => logout.mutate(undefined, { onSettled: () => navigate("/login", { replace: true }) });
 
   if (!me) return null;
@@ -120,4 +126,9 @@ function Banner({ children }: { children: React.ReactNode }) {
 export function NotFound() {
   const { t } = useTranslation();
   return <EmptyState text={t("errors.common.not_found")} />;
+}
+
+/** Whether the menu item is shown: all of `needs` and, when set, one of `any`. */
+export function canOpen(item: NavItem, can: (...permissions: string[]) => boolean): boolean {
+  return can(...item.needs) && (!item.any || item.any.some((p) => can(p)));
 }

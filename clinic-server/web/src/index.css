@@ -52,3 +52,13 @@
     background: white;
   }
 }
+
+/* Each printed document on its own page: receipt printers cut between pages. */
+@media print {
+  .print-page {
+    break-after: page;
+  }
+  .print-page:last-child {
+    break-after: auto;
+  }
+}

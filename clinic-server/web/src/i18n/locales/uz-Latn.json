@@ -14,7 +14,8 @@
     "patients": "Bemorlar",
     "priceList": "Narxlar",
     "agents": "Agentlar",
-    "cashier": "Kassa"
+    "cashier": "Kassa",
+    "queue": "Navbat"
   },
   "common": {
     "save": "Saqlash",
@@ -69,7 +70,8 @@
     "patientsHint": "Bemorlarni topish va roʻyxatga olish",
     "priceListHint": "Xizmatlar, narxlar va chegirmalar",
     "agentsHint": "Bemor yuboruvchilar va ularning haqi",
-    "cashierHint": "Toʻlovlarni qabul qilish va chek chiqarish"
+    "cashierHint": "Toʻlovlarni qabul qilish va chek chiqarish",
+    "queueHint": "Bugungi toʻlangan bemorlar raqam boʻyicha"
   },
   "auth": {
     "title": "Tizimga kirish",
@@ -419,7 +421,8 @@
       "import_too_many_rows": "Bir martada {{max}} tadan koʻp qator boʻlmasin",
       "birth_date_future": "Sana kelajakda boʻlishi mumkin emas",
       "birth_date_too_old": "Sanani tekshiring",
-      "service_code": "Faqat lotin harflari, raqamlar, nuqta va chiziqcha"
+      "service_code": "Faqat lotin harflari, raqamlar, nuqta va chiziqcha",
+      "queue_prefix": "1–2 ta lotin harfi"
     },
     "patient": {
       "possible_duplicate": "Bu bemor allaqachon roʻyxatda boʻlishi mumkin.",
@@ -455,6 +458,18 @@
     },
     "payment": {
       "amount_changed": "Tashrif oʻzgargan, summa endi boshqa. Roʻyxat yangilandi — qayta tekshiring."
+    },
+    "queue": {
+      "prefix_taken": "Bu harf band",
+      "name_taken": "Bunday nomli navbat bor",
+      "doctor_has_queue": "Bu shifokorning navbati bor",
+      "service_in_other_queue": "Xizmat “{{queue}}” navbatiga biriktirilgan",
+      "nothing_routed": "Shifokor yoki kamida bitta xizmat tanlang",
+      "duplicate": "Bunday navbat bor"
+    },
+    "ticket": {
+      "already_done": "Bu bemor allaqachon qabul qilingan",
+      "not_done": "Bu bemor hali kutmoqda"
     }
   },
   "gender": {
@@ -599,7 +614,8 @@
     "method": "Toʻlov usuli",
     "toReceive": "Qabul qilinadi",
     "accept": "Toʻlovni qabul qilish",
-    "receiptTitle": "Chek №{{no}}"
+    "receiptTitle": "Chek №{{no}}",
+    "printAll": "Chop etish ({{count}} ta)"
   },
   "receipt": {
     "number": "Chek №",
@@ -609,5 +625,37 @@
     "total": "JAMI",
     "method": "Toʻlov",
     "cashier": "Kassir"
+  },
+  "queues": {
+    "title": "Navbat",
+    "subtitle": "Bugun toʻlov qilgan bemorlar talondagi raqam tartibida. Roʻyxat oʻzi yangilanadi.",
+    "setup": "Sozlash",
+    "setupTitle": "Navbatlarni sozlash",
+    "setupSubtitle": "Har bir xona yoki shifokor uchun harf va unga tegishli xizmatlar. Raqamlar har kuni 1 dan boshlanadi.",
+    "new": "Yangi navbat",
+    "edit": "Navbatni tahrirlash",
+    "name": "Nomi",
+    "nameHint": "Masalan: Kardiolog, Laboratoriya, UZI",
+    "prefix": "Harf",
+    "roomLabel": "Xona",
+    "room": "{{room}}-xona",
+    "doctor": "Shifokor",
+    "noDoctor": "Shifokorsiz (xona)",
+    "doctorHint": "Shifokor tanlansa, uning konsultatsiyalari va u bilan buyurilgan xizmatlar shu navbatga tushadi.",
+    "doctorServices": "Shifokor xizmatlari",
+    "services": "Shu xonada bajariladigan xizmatlar",
+    "noServices": "Narxlar roʻyxatida xizmat yoʻq",
+    "activeLabel": "Faol",
+    "confirmDelete": "“{{name}}” navbatini oʻchirasizmi?",
+    "none": "Navbatlar hali sozlanmagan",
+    "noneHint": "“Sozlash” orqali xona va shifokorlar uchun navbat yarating.",
+    "emptyToday": "Bugun bu navbatda hech kim yoʻq",
+    "waiting": "Kutmoqda: {{count}}",
+    "seen": "Qabul qilingan: {{count}}",
+    "next": "Navbatdagi",
+    "markSeen": "Qabul qilindi",
+    "undoSeen": "Qaytarish",
+    "slips": "Talonlar",
+    "slipHint": "Talonni xonaga koʻrsating"
   }
 }

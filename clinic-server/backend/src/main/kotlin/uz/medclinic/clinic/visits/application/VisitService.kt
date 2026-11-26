@@ -10,6 +10,7 @@ import uz.medclinic.clinic.catalog.api.CatalogQueries
 import uz.medclinic.clinic.patients.api.PatientQueries
 import uz.medclinic.clinic.visits.api.BillableItem
 import uz.medclinic.clinic.visits.api.BillableVisit
+import uz.medclinic.clinic.visits.api.PaidItem
 import uz.medclinic.clinic.visits.api.VisitBilling
 import uz.medclinic.clinic.visits.api.VisitItemsPaid
 import uz.medclinic.clinic.visits.domain.ItemStatus
@@ -122,7 +123,9 @@ class VisitService(
         val current = visits.lock(visitId) ?: throw NotFoundException(ENTITY, visitId)
         val updated = visits.update(current.markPaid(itemIds, paymentId, at))
         audit.record(AuditEvent("visit.services_paid", ENTITY, visitId, before = snapshot(current), after = snapshot(updated)))
-        events.publishEvent(VisitItemsPaid(visitId, updated.patientId, itemIds, paymentId, at))
+        val paid = updated.items.filter { it.id in itemIds }
+            .map { PaidItem(it.id, it.serviceId, it.serviceName, it.doctorId, it.doctorName, it.amount) }
+        events.publishEvent(VisitItemsPaid(visitId, updated.patientId, paid, paymentId, at))
     }
 
     // ---- helpers

@@ -50,6 +50,9 @@ class CatalogService(
     }
 
     @Transactional(readOnly = true)
+    override fun existingServices(ids: Set<UUID>): Set<UUID> = if (ids.isEmpty()) emptySet() else services.findAll().map { it.id }.filter { it in ids }.toSet()
+
+    @Transactional(readOnly = true)
     override fun discount(id: UUID): DiscountInfo {
         val d = discounts.findById(id)?.takeIf { it.active } ?: throw ValidationException("discountTypeId", "catalog.unknown_discount")
         return DiscountInfo(d.id, d.name, d.percent)

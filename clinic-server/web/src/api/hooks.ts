@@ -8,6 +8,9 @@ import type {
   Payment,
   PaymentMethod,
   PrintSettings,
+  Queue,
+  QueueRequest,
+  Ticket,
   UnpaidVisit,
   Visit,
   DiscountType,
@@ -57,6 +60,8 @@ export const keys = {
   patientVisits: (patientId: string) => ["visits", "patient", patientId] as const,
   unpaid: (page: number) => ["cashier", "unpaid", page] as const,
   printSettings: ["settings", "print"] as const,
+  queues: ["queues"] as const,
+  tickets: (queueId: string) => ["queues", "tickets", queueId] as const,
 };
 
 /** Multipart upload with the CSRF header (file inputs). */
@@ -455,4 +460,31 @@ export function useVisitPayments(visitId: string | undefined) {
 
 export function usePrintSettings() {
   return useQuery({ queryKey: keys.printSettings, queryFn: () => http.get<PrintSettings>("/api/v1/settings/print"), staleTime: 5 * 60_000 });
+}
+
+// ---------- queues ----------
+
+export function useQueues() {
+  return useQuery({ queryKey: keys.queues, queryFn: () => http.get<Queue[]>("/api/v1/queues") });
+}
+
+export const useQueueMutations = () => useCatalogMutation<QueueRequest, Queue>("/api/v1/queues", "queues");
+
+export function useQueueTickets(queueId: string | undefined) {
+  return useQuery({
+    queryKey: keys.tickets(queueId ?? ""),
+    queryFn: () => http.get<Ticket[]>(`/api/v1/queues/${queueId}/tickets`),
+    enabled: Boolean(queueId),
+    // New paid patients appear without reloading the page.
+    refetchInterval: 15_000,
+  });
+}
+
+export function useTicketDone() {
+  const invalidate = useInvalidate();
+  return useMutation({
+    mutationFn: ({ id, done, version }: { id: string; done: boolean; version: number }) =>
+      http.post<void>(`/api/v1/queues/tickets/${id}/done`, { done, version }),
+    onSettled: () => invalidate(["queues", "tickets"]),
+  });
 }

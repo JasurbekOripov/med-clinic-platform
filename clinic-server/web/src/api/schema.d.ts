@@ -100,6 +100,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/queues/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["update_4"];
+        post?: never;
+        delete: operations["delete_1"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/patients/{id}": {
         parameters: {
             query?: never;
@@ -108,9 +124,9 @@ export interface paths {
             cookie?: never;
         };
         get: operations["get_3"];
-        put: operations["update_4"];
+        put: operations["update_5"];
         post?: never;
-        delete: operations["delete_1"];
+        delete: operations["delete_2"];
         options?: never;
         head?: never;
         patch?: never;
@@ -172,9 +188,9 @@ export interface paths {
             cookie?: never;
         };
         get?: never;
-        put: operations["update_5"];
+        put: operations["update_6"];
         post?: never;
-        delete: operations["delete_2"];
+        delete: operations["delete_3"];
         options?: never;
         head?: never;
         patch?: never;
@@ -356,6 +372,38 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/queues": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["list_2"];
+        put?: never;
+        post: operations["create_3"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/queues/tickets/{id}/done": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["done"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/patients": {
         parameters: {
             query?: never;
@@ -365,7 +413,7 @@ export interface paths {
         };
         get: operations["search"];
         put?: never;
-        post: operations["create_3"];
+        post: operations["create_4"];
         delete?: never;
         options?: never;
         head?: never;
@@ -571,9 +619,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["list_2"];
+        get: operations["list_3"];
         put?: never;
-        post: operations["create_4"];
+        post: operations["create_5"];
         delete?: never;
         options?: never;
         head?: never;
@@ -620,6 +668,22 @@ export interface paths {
             cookie?: never;
         };
         get: operations["print"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/queues/{id}/tickets": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["tickets"];
         put?: never;
         post?: never;
         delete?: never;
@@ -953,6 +1017,31 @@ export interface components {
             /** Format: int32 */
             version: number;
         };
+        QueueRequest: {
+            name?: string | null;
+            prefix?: string | null;
+            room?: string | null;
+            /** Format: uuid */
+            doctorId?: string | null;
+            serviceIds: string[];
+            active: boolean;
+            /** Format: int32 */
+            version?: number | null;
+        };
+        QueueResponse: {
+            /** Format: uuid */
+            id: string;
+            name: string;
+            prefix: string;
+            room?: string | null;
+            /** Format: uuid */
+            doctorId?: string | null;
+            doctorName?: string | null;
+            serviceIds: string[];
+            active: boolean;
+            /** Format: int32 */
+            version: number;
+        };
         PatientRequest: {
             lastName?: string | null;
             firstName?: string | null;
@@ -1140,6 +1229,11 @@ export interface components {
             password?: string | null;
             vendorSupportPassword?: string | null;
         };
+        TicketDoneRequest: {
+            done: boolean;
+            /** Format: int32 */
+            version?: number | null;
+        };
         DuplicateResponse: {
             patient: components["schemas"]["PatientResponse"];
             /** @enum {string} */
@@ -1245,8 +1339,25 @@ export interface components {
             method: "CASH" | "CARD" | "TRANSFER";
             cashierName: string;
             lines: components["schemas"]["PaymentLineResponse"][];
+            slips: components["schemas"]["TicketSlip"][];
             /** Format: date-time */
             createdAt: string;
+        };
+        SlipLine: {
+            serviceName: string;
+            doctorName?: string | null;
+            /** Format: int64 */
+            amount: number;
+        };
+        TicketSlip: {
+            /** Format: uuid */
+            id: string;
+            label: string;
+            queueName: string;
+            room?: string | null;
+            /** Format: date */
+            day: string;
+            lines: components["schemas"]["SlipLine"][];
         };
         ChangePasswordRequest: {
             currentPassword: string;
@@ -1294,6 +1405,34 @@ export interface components {
             receiptHeader?: string | null;
             receiptFooter?: string | null;
             hasLogo: boolean;
+        };
+        TicketLine: {
+            serviceName: string;
+            doctorName?: string | null;
+        };
+        TicketPatient: {
+            /** Format: uuid */
+            id: string;
+            /** Format: int64 */
+            cardNo: number;
+            fullName: string;
+        };
+        TicketResponse: {
+            /** Format: uuid */
+            id: string;
+            label: string;
+            /** Format: int32 */
+            number: number;
+            /** @enum {string} */
+            status: "WAITING" | "DONE";
+            patient?: components["schemas"]["TicketPatient"] | null;
+            lines: components["schemas"]["TicketLine"][];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            doneAt?: string | null;
+            /** Format: int32 */
+            version: number;
         };
         PermissionGroupResponse: {
             /** @enum {string} */
@@ -1739,6 +1878,54 @@ export interface operations {
             };
         };
     };
+    update_4: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["QueueRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["QueueResponse"];
+                };
+            };
+        };
+    };
+    delete_1: {
+        parameters: {
+            query: {
+                version: number;
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     get_3: {
         parameters: {
             query?: never;
@@ -1761,7 +1948,7 @@ export interface operations {
             };
         };
     };
-    update_4: {
+    update_5: {
         parameters: {
             query?: never;
             header?: never;
@@ -1787,7 +1974,7 @@ export interface operations {
             };
         };
     };
-    delete_1: {
+    delete_2: {
         parameters: {
             query: {
                 version: number;
@@ -1953,7 +2140,7 @@ export interface operations {
             };
         };
     };
-    update_5: {
+    update_6: {
         parameters: {
             query?: never;
             header?: never;
@@ -1979,7 +2166,7 @@ export interface operations {
             };
         };
     };
-    delete_2: {
+    delete_3: {
         parameters: {
             query: {
                 version: number;
@@ -2346,6 +2533,74 @@ export interface operations {
             };
         };
     };
+    list_2: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["QueueResponse"][];
+                };
+            };
+        };
+    };
+    create_3: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["QueueRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["QueueResponse"];
+                };
+            };
+        };
+    };
+    done: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TicketDoneRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     search: {
         parameters: {
             query?: {
@@ -2370,7 +2625,7 @@ export interface operations {
             };
         };
     };
-    create_3: {
+    create_4: {
         parameters: {
             query?: never;
             header?: never;
@@ -2762,7 +3017,7 @@ export interface operations {
             };
         };
     };
-    list_2: {
+    list_3: {
         parameters: {
             query?: never;
             header?: never;
@@ -2782,7 +3037,7 @@ export interface operations {
             };
         };
     };
-    create_4: {
+    create_5: {
         parameters: {
             query?: never;
             header?: never;
@@ -2862,6 +3117,30 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["PrintSettingsResponse"];
+                };
+            };
+        };
+    };
+    tickets: {
+        parameters: {
+            query?: {
+                date?: string;
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["TicketResponse"][];
                 };
             };
         };

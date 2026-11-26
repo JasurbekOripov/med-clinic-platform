@@ -40,6 +40,10 @@ export type UnpaidVisit = S["UnpaidVisitResponse"];
 export type Payment = S["PaymentResponse"];
 export type PaymentMethod = Payment["method"];
 export type PrintSettings = S["PrintSettingsResponse"];
+export type TicketSlip = S["TicketSlip"];
+export type Queue = S["QueueResponse"];
+export type QueueRequest = S["QueueRequest"];
+export type Ticket = S["TicketResponse"];
 
 export interface Page<T> {
   items: T[];

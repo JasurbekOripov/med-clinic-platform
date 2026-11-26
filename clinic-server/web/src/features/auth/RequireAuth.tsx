@@ -24,8 +24,10 @@ export function RequireAuth() {
   return <Outlet />;
 }
 
-export function RequirePermission({ all, children }: { all: string[]; children: React.ReactNode }) {
+/** Shows [children] when the user has every permission in [all] and, if given, at least one in [any]. */
+export function RequirePermission({ all = [], any, children }: { all?: string[]; any?: string[]; children: React.ReactNode }) {
   const { can } = usePermissions();
   const { t } = useTranslation();
-  return can(...all) ? <>{children}</> : <EmptyState text={t("errors.auth.forbidden")} />;
+  const allowed = can(...all) && (!any || any.some((p) => can(p)));
+  return allowed ? <>{children}</> : <EmptyState text={t("errors.auth.forbidden")} />;
 }

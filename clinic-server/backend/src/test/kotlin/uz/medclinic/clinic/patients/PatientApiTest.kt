@@ -123,4 +123,19 @@ class PatientApiTest : IntegrationTest() {
         create("Karimova", "Dilnoza", as_ = cashier).andExpect { status { isForbidden() } }
         mockMvc.get("/api/v1/patients") { with(asStaff(doctor)) }.andExpect { status { isOk() } }
     }
+
+    @Test
+    fun `doctors opening a patient card is audited once per half hour, reception's work is not`() {
+        val doctor = createStaff("doctor", RoleTemplate.DOCTOR)
+        val id = body(create("Karimova", "Dilnoza").andReturn().response.contentAsString).path("id").asString()
+        val views = { jdbc.sql("select count(*) from audit_log where action = 'patient.viewed'").query(Long::class.java).single() }
+
+        mockMvc.get("/api/v1/patients/$id") { with(asStaff(reception)) }.andExpect { status { isOk() } }
+        assertThat(views()).isZero()
+        repeat(3) { mockMvc.get("/api/v1/patients/$id") { with(asStaff(doctor)) }.andExpect { status { isOk() } } }
+        assertThat(views()).isEqualTo(1)
+        clock.advance(java.time.Duration.ofMinutes(31))
+        mockMvc.get("/api/v1/patients/$id") { with(asStaff(doctor)) }
+        assertThat(views()).isEqualTo(2)
+    }
 }

@@ -22,6 +22,9 @@ interface CatalogQueries {
      */
     fun quote(serviceId: UUID, doctorId: UUID?): PriceQuote
 
+    /** Which of [ids] are existing (not deleted) services. */
+    fun existingServices(ids: Set<UUID>): Set<UUID>
+
     /** An active discount type, or a validation error. */
     fun discount(id: UUID): DiscountInfo
 }

@@ -373,6 +373,69 @@
         }
       }
     },
+    "/api/v1/queues/{id}" : {
+      "put" : {
+        "tags" : [ "queue-controller" ],
+        "operationId" : "update_4",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/QueueRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/QueueResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "queue-controller" ],
+        "operationId" : "delete_1",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        }, {
+          "name" : "version",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "No Content"
+          }
+        }
+      }
+    },
     "/api/v1/patients/{id}" : {
       "get" : {
         "tags" : [ "patient-controller" ],
@@ -401,7 +464,7 @@
       },
       "put" : {
         "tags" : [ "patient-controller" ],
-        "operationId" : "update_4",
+        "operationId" : "update_5",
         "parameters" : [ {
           "name" : "id",
           "in" : "path",
@@ -436,7 +499,7 @@
       },
       "delete" : {
         "tags" : [ "patient-controller" ],
-        "operationId" : "delete_1",
+        "operationId" : "delete_2",
         "parameters" : [ {
           "name" : "id",
           "in" : "path",
@@ -653,7 +716,7 @@
     "/api/v1/agents/{id}" : {
       "put" : {
         "tags" : [ "agent-controller" ],
-        "operationId" : "update_5",
+        "operationId" : "update_6",
         "parameters" : [ {
           "name" : "id",
           "in" : "path",
@@ -688,7 +751,7 @@
       },
       "delete" : {
         "tags" : [ "agent-controller" ],
-        "operationId" : "delete_2",
+        "operationId" : "delete_3",
         "parameters" : [ {
           "name" : "id",
           "in" : "path",
@@ -1186,6 +1249,83 @@
         }
       }
     },
+    "/api/v1/queues" : {
+      "get" : {
+        "tags" : [ "queue-controller" ],
+        "operationId" : "list_2",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/QueueResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "queue-controller" ],
+        "operationId" : "create_3",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/QueueRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/QueueResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/queues/tickets/{id}/done" : {
+      "post" : {
+        "tags" : [ "queue-controller" ],
+        "operationId" : "done",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/TicketDoneRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        }
+      }
+    },
     "/api/v1/patients" : {
       "get" : {
         "tags" : [ "patient-controller" ],
@@ -1229,7 +1369,7 @@
       },
       "post" : {
         "tags" : [ "patient-controller" ],
-        "operationId" : "create_3",
+        "operationId" : "create_4",
         "requestBody" : {
           "content" : {
             "application/json" : {
@@ -1683,7 +1823,7 @@
     "/api/v1/agents" : {
       "get" : {
         "tags" : [ "agent-controller" ],
-        "operationId" : "list_2",
+        "operationId" : "list_3",
         "responses" : {
           "200" : {
             "description" : "OK",
@@ -1702,7 +1842,7 @@
       },
       "post" : {
         "tags" : [ "agent-controller" ],
-        "operationId" : "create_4",
+        "operationId" : "create_5",
         "requestBody" : {
           "content" : {
             "application/json" : {
@@ -1774,6 +1914,44 @@
               "*/*" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/PrintSettingsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/queues/{id}/tickets" : {
+      "get" : {
+        "tags" : [ "queue-controller" ],
+        "operationId" : "tickets",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        }, {
+          "name" : "date",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "date"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/TicketResponse"
+                  }
                 }
               }
             }
@@ -2550,6 +2728,88 @@
         },
         "required" : [ "activeStaff", "assignable", "id", "permissions", "system", "version" ]
       },
+      "QueueRequest" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "prefix" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 2,
+            "minLength" : 0
+          },
+          "room" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 50,
+            "minLength" : 0
+          },
+          "doctorId" : {
+            "type" : [ "string", "null" ],
+            "format" : "uuid"
+          },
+          "serviceIds" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string",
+              "format" : "uuid"
+            },
+            "maxItems" : 500,
+            "minItems" : 0,
+            "uniqueItems" : true
+          },
+          "active" : {
+            "type" : "boolean"
+          },
+          "version" : {
+            "type" : [ "integer", "null" ],
+            "format" : "int32"
+          }
+        },
+        "required" : [ "active", "serviceIds" ]
+      },
+      "QueueResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "prefix" : {
+            "type" : "string"
+          },
+          "room" : {
+            "type" : [ "string", "null" ]
+          },
+          "doctorId" : {
+            "type" : [ "string", "null" ],
+            "format" : "uuid"
+          },
+          "doctorName" : {
+            "type" : [ "string", "null" ]
+          },
+          "serviceIds" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string",
+              "format" : "uuid"
+            }
+          },
+          "active" : {
+            "type" : "boolean"
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        },
+        "required" : [ "active", "id", "name", "prefix", "serviceIds", "version" ]
+      },
       "PatientRequest" : {
         "type" : "object",
         "properties" : {
@@ -3080,6 +3340,19 @@
           }
         }
       },
+      "TicketDoneRequest" : {
+        "type" : "object",
+        "properties" : {
+          "done" : {
+            "type" : "boolean"
+          },
+          "version" : {
+            "type" : [ "integer", "null" ],
+            "format" : "int32"
+          }
+        },
+        "required" : [ "done" ]
+      },
       "DuplicateResponse" : {
         "type" : "object",
         "properties" : {
@@ -3367,12 +3640,63 @@
               "$ref" : "#/components/schemas/PaymentLineResponse"
             }
           },
+          "slips" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/TicketSlip"
+            }
+          },
           "createdAt" : {
             "type" : "string",
             "format" : "date-time"
           }
         },
-        "required" : [ "amount", "cashierName", "createdAt", "id", "lines", "method", "receiptNo", "visitId", "visitNo" ]
+        "required" : [ "amount", "cashierName", "createdAt", "id", "lines", "method", "receiptNo", "slips", "visitId", "visitNo" ]
+      },
+      "SlipLine" : {
+        "type" : "object",
+        "properties" : {
+          "serviceName" : {
+            "type" : "string"
+          },
+          "doctorName" : {
+            "type" : [ "string", "null" ]
+          },
+          "amount" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        },
+        "required" : [ "amount", "serviceName" ]
+      },
+      "TicketSlip" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "label" : {
+            "type" : "string"
+          },
+          "queueName" : {
+            "type" : "string"
+          },
+          "room" : {
+            "type" : [ "string", "null" ]
+          },
+          "day" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "lines" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/SlipLine"
+            }
+          }
+        },
+        "required" : [ "day", "id", "label", "lines", "queueName" ]
       },
       "ChangePasswordRequest" : {
         "type" : "object",
@@ -3514,6 +3838,81 @@
           }
         },
         "required" : [ "hasLogo", "name" ]
+      },
+      "TicketLine" : {
+        "type" : "object",
+        "properties" : {
+          "serviceName" : {
+            "type" : "string"
+          },
+          "doctorName" : {
+            "type" : [ "string", "null" ]
+          }
+        },
+        "required" : [ "serviceName" ]
+      },
+      "TicketPatient" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "cardNo" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "fullName" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "cardNo", "fullName", "id" ]
+      },
+      "TicketResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "label" : {
+            "type" : "string"
+          },
+          "number" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "status" : {
+            "type" : "string",
+            "enum" : [ "WAITING", "DONE" ]
+          },
+          "patient" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/TicketPatient"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "lines" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/TicketLine"
+            }
+          },
+          "createdAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "doneAt" : {
+            "type" : [ "string", "null" ],
+            "format" : "date-time"
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        },
+        "required" : [ "createdAt", "id", "label", "lines", "number", "status", "version" ]
       },
       "PermissionGroupResponse" : {
         "type" : "object",

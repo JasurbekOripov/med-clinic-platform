@@ -3,13 +3,13 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
 import { Card } from "@medclinic/web-ui/components/ui/card";
 import { usePermissions } from "@/features/auth/permissions";
-import { NAV } from "@/features/layout/AppLayout";
+import { canOpen, NAV } from "@/features/layout/AppLayout";
 
 /** A warm start page: greeting by time of day (Tashkent) and big tiles for what this person can do. */
 export function HomePage() {
   const { t } = useTranslation();
   const { me, can } = usePermissions();
-  const tiles = NAV.filter((n) => n.hint && can(...n.needs));
+  const tiles = NAV.filter((n) => n.hint && canOpen(n, can));
   const hour = Number(new Intl.DateTimeFormat("en-GB", { timeZone: "Asia/Tashkent", hour: "2-digit", hourCycle: "h23" }).format(new Date()));
   const greeting = hour < 12 ? "home.morning" : hour < 18 ? "home.afternoon" : "home.evening";
   const firstName = me?.fullName.split(" ").slice(1, 2)[0] ?? me?.fullName.split(" ")[0] ?? "";

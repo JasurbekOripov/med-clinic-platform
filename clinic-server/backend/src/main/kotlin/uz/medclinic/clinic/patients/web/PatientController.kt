@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import uz.medclinic.clinic.patients.application.PatientService
+import uz.medclinic.clinic.patients.application.PatientViewLog
 import uz.medclinic.clinic.patients.application.PossibleDuplicateException
 import uz.medclinic.clinic.patients.domain.DuplicateReason
 import uz.medclinic.clinic.patients.domain.Gender
@@ -73,7 +74,7 @@ data class PatientRequest(
 
 @RestController
 @RequestMapping("/api/v1/patients")
-class PatientController(private val patients: PatientService) {
+class PatientController(private val patients: PatientService, private val views: PatientViewLog) {
     @GetMapping
     @PreAuthorize(Permissions.HAS_PATIENT_VIEW)
     fun search(@RequestParam(required = false) q: String?, @RequestParam(required = false) page: Int?, @RequestParam(required = false) size: Int?) =
@@ -81,7 +82,7 @@ class PatientController(private val patients: PatientService) {
 
     @GetMapping("/{id}")
     @PreAuthorize(Permissions.HAS_PATIENT_VIEW)
-    fun get(@PathVariable id: UUID) = PatientResponse(patients.get(id))
+    fun get(@PathVariable id: UUID): PatientResponse = PatientResponse(patients.get(id)).also { views.opened(id) }
 
     /** Live check while typing, so the warning appears before the form is submitted. */
     @PostMapping("/duplicates")

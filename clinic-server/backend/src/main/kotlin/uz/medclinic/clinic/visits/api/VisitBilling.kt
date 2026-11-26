@@ -34,5 +34,18 @@ interface VisitBilling {
     fun markPaid(visitId: UUID, itemIds: Set<UUID>, paymentId: UUID, at: Instant)
 }
 
-/** Published when services become paid: they are now visible to doctors and lab, and can enter queues. */
-data class VisitItemsPaid(val visitId: UUID, val patientId: UUID, val itemIds: Set<UUID>, val paymentId: UUID, val at: Instant)
+/** A service that has just been paid, with what queues need to route it to a room. */
+data class PaidItem(
+    val id: UUID,
+    val serviceId: UUID,
+    val serviceName: String,
+    val doctorId: UUID?,
+    val doctorName: String?,
+    val amount: Long,
+)
+
+/**
+ * Published (synchronously, inside the payment transaction) when services become paid: they are now visible to
+ * doctors and lab, and the queues module gives them queue numbers.
+ */
+data class VisitItemsPaid(val visitId: UUID, val patientId: UUID, val items: List<PaidItem>, val paymentId: UUID, val at: Instant)

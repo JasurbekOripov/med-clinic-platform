@@ -77,5 +77,8 @@ object Permissions {
     const val HAS_PRINTING =
         "hasAnyAuthority('SETTINGS_MANAGE', 'PAYMENT_ACCEPT', 'VISIT_CREATE', 'RESULTS_HANDOVER', 'CONSULTATION_WRITE', 'LAB_WORK')"
 
+    /** Queue lists: reception, doctors and lab (their own rooms), and the Admin who sets queues up. */
+    const val HAS_QUEUE_READ = "hasAnyAuthority('QUEUE_MANAGE', 'CONSULTATION_WRITE', 'LAB_WORK', 'SETTINGS_MANAGE')"
+
     const val HAS_CATALOG_READ = "hasAnyAuthority('PRICE_LIST_MANAGE', 'VISIT_CREATE', 'PAYMENT_ACCEPT')"
 }

@@ -9,6 +9,8 @@ import { AppLayout, NotFound } from "./features/layout/AppLayout";
 import { PriceListPage } from "./features/catalog/PriceListPage";
 import { AgentsPage } from "./features/agents/AgentsPage";
 import { CashierPage } from "./features/cashier/CashierPage";
+import { QUEUE_READERS } from "./features/layout/AppLayout";
+import { QueuePage } from "./features/queues/QueuePage";
 import { LicensePage } from "./features/license/LicensePage";
 import { PatientDetailPage } from "./features/patients/PatientDetailPage";
 import { PatientsPage } from "./features/patients/PatientsPage";
@@ -33,6 +35,7 @@ export const router = createBrowserRouter([
               { index: true, element: <HomePage /> },
               { path: "patients", element: <RequirePermission all={["PATIENT_VIEW"]}><PatientsPage /></RequirePermission> },
               { path: "patients/:id", element: <RequirePermission all={["PATIENT_VIEW"]}><PatientDetailPage /></RequirePermission> },
+              { path: "queue", element: <RequirePermission any={QUEUE_READERS}><QueuePage /></RequirePermission> },
               { path: "cashier", element: <RequirePermission all={["PAYMENT_ACCEPT"]}><CashierPage /></RequirePermission> },
               { path: "prices", element: <RequirePermission all={["PRICE_LIST_MANAGE"]}><PriceListPage /></RequirePermission> },
               { path: "agents", element: <RequirePermission all={["AGENT_MANAGE"]}><AgentsPage /></RequirePermission> },
