@@ -456,7 +456,8 @@
       "item_not_allowable": "Faqat toʻlanmagan xizmatlarga ruxsat beriladi.",
       "agent_locked": "Toʻlov boʻlgandan keyin agentni oʻzgartirib boʻlmaydi.",
       "too_many_items": "Bir tashrifda {{max}} tadan koʻp xizmat boʻlmaydi.",
-      "item_not_found": "Xizmat topilmadi."
+      "item_not_found": "Xizmat topilmadi.",
+      "item_not_refundable": "Faqat toʻlangan xizmatni qaytarish mumkin"
     },
     "payment": {
       "amount_changed": "Tashrif oʻzgargan, summa endi boshqa. Roʻyxat yangilandi — qayta tekshiring."
@@ -498,6 +499,15 @@
       "result_not_ready": "Natija hali tayyor emas",
       "unknown_row": "Bunday koʻrsatkich yoʻq",
       "value_invalid": "Notoʻgʻri qiymat"
+    },
+    "shift": {
+      "not_open": "Smena ochilmagan. Avval smenani oching.",
+      "already_open": "Sizda ochiq smena bor",
+      "not_yours": "Bu boshqa kassirning smenasi"
+    },
+    "refund": {
+      "already_paid_out": "Bu pul allaqachon qaytarilgan",
+      "already_exists": "Bu xizmat uchun qaytarish bor"
     }
   },
   "gender": {
@@ -618,7 +628,8 @@
     "status": {
       "UNPAID": "Toʻlanmagan",
       "PAID": "Toʻlangan",
-      "CANCELLED": "Bekor qilingan"
+      "CANCELLED": "Bekor qilingan",
+      "REFUNDED": "Qaytarilgan"
     },
     "allowed": "Ruxsat berilgan",
     "allow": "Toʻlovsiz ruxsat",
@@ -648,7 +659,8 @@
     "visitReceipts": "Tashrif №{{no}} cheklari",
     "noReceipts": "Toʻlovlar yoʻq",
     "reprint": "Qayta chop etish",
-    "receipts": "Cheklar"
+    "receipts": "Cheklar",
+    "desk": "Kassa"
   },
   "receipt": {
     "number": "Chek №",
@@ -824,5 +836,69 @@
       "ABNORMAL": "Meʼyordan tashqari",
       "critical": "Xavfli qiymat"
     }
+  },
+  "shift": {
+    "closedTitle": "Smena ochilmagan",
+    "closedHint": "Toʻlov qabul qilish uchun smenani oching.",
+    "openingCash": "Kassadagi boshlangʻich naqd pul",
+    "openingHint": "Qaytim uchun kassada turgan pul; boʻlmasa boʻsh qoldiring (0).",
+    "open": "Smenani ochish",
+    "opened": "Smena ochildi",
+    "number": "Smena №{{no}}",
+    "openedSince": "Ochilgan: {{time}}",
+    "expensesShort": "Chiqim va qaytarish",
+    "expectedCash": "Kassada boʻlishi kerak",
+    "expense": "Chiqim",
+    "xReport": "X-hisobot",
+    "zReport": "Z-hisobot",
+    "close": "Smenani yopish",
+    "expenseTitle": "Kassadan chiqim",
+    "recipient": "Kimga berildi",
+    "recipientOther": "Boshqa (ismini yozing)",
+    "recipientName": "Ism yoki tashkilot",
+    "amount": "Summa",
+    "comment": "Izoh",
+    "commentHint": "Majburiy: nima uchun berildi.",
+    "closeTitle": "Smena №{{no}} ni yopish",
+    "countedCash": "Sanalgan naqd pul",
+    "countedHint": "Kassadagi naqd pulni sanab kiriting.",
+    "exact": "Kamomad yoʻq",
+    "shortage": "Kamomad: {{amount}} soʻm",
+    "surplus": "Ortiqcha: {{amount}} soʻm",
+    "closeNote": "Izoh",
+    "closeAndPrint": "Yopish va Z-hisobotni chop etish",
+    "openedAt": "Ochilgan",
+    "closedAt": "Yopilgan",
+    "printedAt": "Chop etilgan",
+    "payments": "Toʻlovlar ({{count}} ta):",
+    "allPayments": "Jami toʻlovlar",
+    "cashIn": "Naqd tushum",
+    "refunds": "Qaytarishlar ({{count}})",
+    "expenses": "Chiqimlar ({{count}})",
+    "difference": "Farq",
+    "expensesTitle": "Chiqimlar",
+    "refundsTitle": "Qaytarishlar",
+    "cashierSign": "Kassir imzosi",
+    "reportsTab": "Smenalar",
+    "from": "dan",
+    "to": "gacha",
+    "noneInPeriod": "Bu davrda smenalar yoʻq",
+    "shift": "Smena",
+    "openBadge": "Ochiq"
+  },
+  "refunds": {
+    "refund": "Qaytarish",
+    "confirm": "“{{name}}” ({{amount}} soʻm) pulini qaytarasizmi?",
+    "hint": "Xizmat bekor qilinadi. Pulni kassir naqd beradi va bu uning smenasidan ayriladi.",
+    "approved": "Qaytarish tasdiqlandi — kassir pulni beradi",
+    "pendingTitle": "Qaytarilishi kerak: {{count}}",
+    "approvedBy": "{{name}} tasdiqladi, {{time}}",
+    "payOut": "Pul berildi",
+    "paidOut": "Qaytarish qayd etildi"
+  },
+  "debts": {
+    "title": "Qarzlar",
+    "none": "Qarzlar yoʻq",
+    "count": "Qarzdor tashriflar: {{count}}"
   }
 }

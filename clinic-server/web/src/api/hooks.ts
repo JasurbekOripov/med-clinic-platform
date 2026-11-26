@@ -4,6 +4,10 @@ import type {
   Agent,
   AgentRequest,
   AuditEntry,
+  Debt,
+  Refund,
+  Shift,
+  ShiftSummary,
   LabResult,
   LabTemplate,
   LabWorkItem,
@@ -456,8 +460,11 @@ export function usePay() {
   return useMutation({
     mutationFn: (body: { visitId: string; itemIds: string[]; method: PaymentMethod; amount: number }) =>
       http.post<Payment>("/api/v1/cashier/payments", body),
-    // A rejected payment (amount changed, already paid) also means the screen is stale.
-    onSettled: () => invalidate(["cashier"], ["visits"]),
+    // A rejected payment (amount changed, already paid) also means the screen is stale. Not awaited: the caller gets
+    // the payment immediately, even though the refreshed list no longer contains the paid visit.
+    onSettled: () => {
+      void invalidate(["cashier"], ["visits"]);
+    },
   });
 }
 
@@ -578,4 +585,63 @@ export function useLabResultActions() {
     ready: useMutation({ mutationFn: ({ id, version }: { id: string; version: number }) => http.post<LabResult>(`/api/v1/lab/results/${id}/ready`, { version }), onSuccess: done }),
     correct: useMutation({ mutationFn: ({ id, ...b }: ResultBody & { id: string }) => http.post<LabResult>(`/api/v1/lab/results/${id}/correct`, b), onSuccess: done }),
   };
+}
+
+// ---------- cashier shifts, expenses, refunds, debts ----------
+
+export function useCurrentShift() {
+  return useQuery({
+    queryKey: ["cashier", "shift"],
+    queryFn: async () => (await http.get<Shift | undefined>("/api/v1/cashier/shifts/current")) ?? null,
+    refetchInterval: 30_000,
+  });
+}
+
+export function useShiftActions() {
+  const invalidate = useInvalidate();
+  const done = () => invalidate(["cashier"], ["visits"]);
+  return {
+    open: useMutation({ mutationFn: (openingCash: number | null) => http.post<Shift>("/api/v1/cashier/shifts", { openingCash }), onSuccess: done }),
+    close: useMutation({
+      mutationFn: ({ id, ...b }: { id: string; countedCash: number | null; note?: string; version: number }) => http.post<Shift>(`/api/v1/cashier/shifts/${id}/close`, b),
+      onSuccess: done,
+    }),
+    expense: useMutation({
+      mutationFn: (b: { recipientStaffId?: string; recipientName?: string; amount: number | null; comment: string }) =>
+        http.post<Shift>("/api/v1/cashier/shifts/current/expenses", b),
+      onSuccess: done,
+    }),
+    payOut: useMutation({
+      mutationFn: ({ id, version }: { id: string; version: number }) => http.post<Refund>(`/api/v1/cashier/refunds/${id}/pay-out`, { version }),
+      onSuccess: done,
+    }),
+  };
+}
+
+export function useExpenseRecipients() {
+  return useQuery({ queryKey: ["cashier", "recipients"], queryFn: () => http.get<Doctor[]>("/api/v1/cashier/expense-recipients"), staleTime: 60_000 });
+}
+
+export function usePendingRefunds(enabled: boolean) {
+  return useQuery({ queryKey: ["cashier", "refunds"], queryFn: () => http.get<Refund[]>("/api/v1/cashier/refunds/pending"), enabled, refetchInterval: 15_000 });
+}
+
+export function useApproveRefund() {
+  const invalidate = useInvalidate();
+  return useMutation({
+    mutationFn: (b: { visitItemId: string; reason: string }) => http.post<Refund>("/api/v1/cashier/refunds", b),
+    onSuccess: () => invalidate(["cashier"], ["visits"]),
+  });
+}
+
+export function useDebts() {
+  return useQuery({ queryKey: ["cashier", "debts"], queryFn: () => http.get<Debt[]>("/api/v1/cashier/debts") });
+}
+
+export function useShifts(from: string, to: string) {
+  return useQuery({ queryKey: ["cashier", "shifts", from, to], queryFn: () => http.get<ShiftSummary[]>(`/api/v1/cashier/shifts${query({ from, to })}`) });
+}
+
+export async function fetchShift(id: string): Promise<Shift> {
+  return http.get<Shift>(`/api/v1/cashier/shifts/${id}`);
 }

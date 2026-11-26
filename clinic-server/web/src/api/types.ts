@@ -57,6 +57,10 @@ export type LabResult = S["LabResultResponse"];
 export type LabResultRow = S["ResultRowResponse"];
 export type LabFlag = NonNullable<LabResultRow["flag"]>;
 export type RowValue = S["RowValue"];
+export type Shift = S["ShiftResponse"];
+export type ShiftSummary = S["ShiftSummary"];
+export type Refund = S["RefundResponse"];
+export type Debt = S["DebtResponse"];
 
 export interface Page<T> {
   items: T[];

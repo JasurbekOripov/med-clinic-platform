@@ -1,4 +1,4 @@
-import { FilePen, HandHeart, Handshake, Percent, Plus, Receipt, XCircle } from "lucide-react";
+import { FilePen, HandHeart, Handshake, Percent, Plus, Receipt, Undo2, XCircle } from "lucide-react";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -10,14 +10,14 @@ import { errorMessage } from "@medclinic/web-ui/lib/errors";
 import { formatDateTime } from "@medclinic/web-ui/lib/format";
 import { formatAmount } from "@medclinic/web-ui/lib/money";
 import { cn } from "@medclinic/web-ui/lib/utils";
-import { useAllowUnpaid, useCancelVisitService, useDiscountTypes, useUpdateVisit } from "@/api/hooks";
+import { useAllowUnpaid, useApproveRefund, useCancelVisitService, useDiscountTypes, useUpdateVisit } from "@/api/hooks";
 import type { Visit, VisitItem, VisitItemStatus } from "@/api/types";
 import { usePermissions } from "@/features/auth/permissions";
 import { VisitPaymentsDialog } from "@/features/cashier/VisitPaymentsDialog";
 import { OrderServicesDialog } from "./OrderServicesDialog";
 import { ReasonDialog } from "./ReasonDialog";
 
-const STATUS_TONE: Record<VisitItemStatus, BadgeTone> = { UNPAID: "amber", PAID: "green", CANCELLED: "gray" };
+const STATUS_TONE: Record<VisitItemStatus, BadgeTone> = { UNPAID: "amber", PAID: "green", CANCELLED: "gray", REFUNDED: "red" };
 
 /** What the patient page passes down so doctors can write a conclusion for a service. */
 export type ConclusionAction = { concluded: Set<string>; meId: string | undefined; write: (item: VisitItem) => void };
@@ -31,6 +31,8 @@ export function VisitCard({ visit, conclusions }: { visit: Visit; conclusions?: 
   const [cancelling, setCancelling] = React.useState<VisitItem | null>(null);
   const [allowing, setAllowing] = React.useState(false);
   const [receipts, setReceipts] = React.useState(false);
+  const [refunding, setRefunding] = React.useState<VisitItem | null>(null);
+  const approveRefund = useApproveRefund();
   const unpaid = visit.items.filter((i) => i.status === "UNPAID");
   const allowable = unpaid.filter((i) => !i.allowed);
 
@@ -87,6 +89,11 @@ export function VisitCard({ visit, conclusions }: { visit: Visit; conclusions?: 
               <div className="font-semibold">{formatAmount(i.amount)}</div>
               {i.discount > 0 && <div className="text-xs text-muted-foreground line-through">{formatAmount(i.price)}</div>}
             </div>
+            {can("REFUND") && i.status === "PAID" && (
+              <Button size="sm" variant="ghost" className="text-danger" onClick={() => setRefunding(i)}>
+                <Undo2 /> {t("refunds.refund")}
+              </Button>
+            )}
             {can("VISIT_EDIT_UNPAID") && (
               <Button
                 size="icon"
@@ -110,6 +117,16 @@ export function VisitCard({ visit, conclusions }: { visit: Visit; conclusions?: 
         <Total label={t("visits.unpaid")} value={visit.unpaid} strong={visit.unpaid > 0} />
       </div>
 
+      {refunding && (
+        <ReasonDialog
+          title={t("refunds.confirm", { name: refunding.serviceName, amount: formatAmount(refunding.amount) })}
+          description={t("refunds.hint")}
+          confirmLabel={t("refunds.refund")}
+          danger
+          onClose={() => setRefunding(null)}
+          onConfirm={(reason) => approveRefund.mutateAsync({ visitItemId: refunding.id, reason }).then(() => toast.success(t("refunds.approved")))}
+        />
+      )}
       {receipts && <VisitPaymentsDialog visit={visit} onClose={() => setReceipts(false)} />}
       {adding && <OrderServicesDialog patientId={visit.patientId} visit={visit} onClose={() => setAdding(false)} />}
       {cancelling && (

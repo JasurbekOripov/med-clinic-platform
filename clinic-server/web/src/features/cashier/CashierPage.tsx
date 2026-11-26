@@ -1,7 +1,7 @@
 import { Banknote, CreditCard, Landmark, Search, Wallet } from "lucide-react";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
-import { EmptyState, ErrorState, FormError, PageHeader, Pagination, Spinner } from "@medclinic/web-ui/components/Common";
+import { EmptyState, ErrorState, FormError, PageHeader, Pagination, Segmented, Spinner } from "@medclinic/web-ui/components/Common";
 import { Button } from "@medclinic/web-ui/components/ui/button";
 import { Card } from "@medclinic/web-ui/components/ui/card";
 import { Input } from "@medclinic/web-ui/components/ui/input";
@@ -11,7 +11,10 @@ import { cn } from "@medclinic/web-ui/lib/utils";
 import { usePay, useUnpaidVisits } from "@/api/hooks";
 import type { Payment, PaymentMethod, UnpaidVisit } from "@/api/types";
 import { matchesSearch } from "@/features/catalog/search";
+import { usePermissions } from "@/features/auth/permissions";
+import { DebtsList, ShiftsReport } from "./DebtsAndShifts";
 import { ReceiptDialog } from "./ReceiptDialog";
+import { ShiftPanel } from "./ShiftPanel";
 
 const METHODS: { value: PaymentMethod; icon: typeof Banknote }[] = [
   { value: "CASH", icon: Banknote },
@@ -21,6 +24,24 @@ const METHODS: { value: PaymentMethod; icon: typeof Banknote }[] = [
 
 /** Cashier's desk: unpaid visits on the left (refreshes by itself), the chosen visit's services and payment on the right. */
 export function CashierPage() {
+  const { t } = useTranslation();
+  const { can } = usePermissions();
+  const [tab, setTab] = React.useState<"desk" | "debts" | "shifts">("desk");
+  const tabs = [
+    { value: "desk" as const, label: t("cashier.desk") },
+    ...(can("DEBT_VIEW") ? [{ value: "debts" as const, label: t("debts.title") }] : []),
+    ...(can("REPORTS_VIEW") ? [{ value: "shifts" as const, label: t("shift.reportsTab") }] : []),
+  ];
+  return (
+    <>
+      <PageHeader title={t("cashier.title")} subtitle={t("cashier.subtitle")} />
+      {tabs.length > 1 && <div className="mb-5"><Segmented value={tab} onChange={setTab} options={tabs} /></div>}
+      {tab === "desk" ? <Desk /> : tab === "debts" ? <DebtsList /> : <ShiftsReport />}
+    </>
+  );
+}
+
+function Desk() {
   const { t } = useTranslation();
   const [page, setPage] = React.useState(0);
   const [text, setText] = React.useState("");
@@ -33,7 +54,7 @@ export function CashierPage() {
 
   return (
     <>
-      <PageHeader title={t("cashier.title")} subtitle={t("cashier.subtitle")} />
+      <ShiftPanel />
       <div className="grid items-start gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
         <Card className="overflow-hidden">
           <div className="border-b border-border p-3">
@@ -160,7 +181,9 @@ function PaymentPanel({ visit, onPaid }: { visit: UnpaidVisit; onPaid: (p: Payme
         className="w-full"
         disabled={items.length === 0 || pay.isPending}
         onClick={() =>
-          pay.mutate({ visitId: visit.visitId, itemIds: items.map((i) => i.id), method, amount }, { onSuccess: onPaid })
+          // mutateAsync, not mutate callbacks: the panel may unmount when the paid visit leaves the list, and the receipt
+          // must still open.
+          void pay.mutateAsync({ visitId: visit.visitId, itemIds: items.map((i) => i.id), method, amount }).then(onPaid, () => undefined)
         }
       >
         <Wallet /> {t("cashier.accept")}

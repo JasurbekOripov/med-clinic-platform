@@ -4,7 +4,7 @@ The program that runs **inside each clinic**: one server PC holds the database a
 staff PC over the clinic LAN. All patient and clinic data lives only here. See [ARCHITECTURE.md](ARCHITECTURE.md)
 for system-wide rules; this document records what the owner decided for the Clinic Server.
 
-Status: **M1 implemented** (see §7); **M2 implemented** (see §8); M3 doctor's conclusions (§9) and M4 laboratory (§11) implemented. Next: M5 cashier shifts, refunds and debts.
+Status: **M1 implemented** (see §7); **M2 implemented** (see §8); M3 doctor's conclusions (§9), M4 laboratory (§11) and M5 cashier (§12) implemented. Next: daily backups, then M6 inpatients.
 
 ## 1. Deployment
 
@@ -157,3 +157,18 @@ server chose. Doctors, nurses and Reception (`RESULTS_HANDOVER`) read ready resu
 Web: "Laboratoriya" → work list ("Ishlar") and forms ("Shakllar"); result entry; "Tahlil natijalari" on the patient
 page; A4 printout on the shared letterhead (values outside the norm bold with ↑/↓, ↑↑/↓↓ for critical, the norm used,
 the patient's state, the lab worker's signature).
+
+## 12. M5 as built — cashier shifts, expenses, refunds, debts
+
+Owner's decisions (2026-11): no "pay later" (the only debts are the Admin's emergency allowances); refunds only by the
+Admin, whole service, always given back in **cash from the drawer**; cashiers work in shifts; cashiers record cash
+expenses (recipient = a staff member or anyone else, mandatory comment, amount).
+
+| Part | Contents |
+|---|---|
+| Shift | `SHIFT_MANAGE`: open with the opening cash (change money, 0 by default); one open shift per cashier; payments need an open shift and are row-locked against closing. X report = live totals; closing (Z report) compares counted cash with **opening + cash payments − refunds paid out − expenses**, stores the difference and locks the shift. Admin (`REPORTS_VIEW`) lists every cashier's shifts by period and reprints any X/Z report. |
+| Expenses | in the open shift; recipient from the staff list or typed in, amount, mandatory comment; audited. |
+| Refunds | Admin (`REFUND`) approves for one paid service with a reason → the service becomes **REFUNDED** (no longer counted or visible to medical staff) → the cashier gives the cash back from an open shift ("Pul berildi"), which subtracts it from that shift. |
+| Debts | `DEBT_VIEW`: services allowed by the Admin before payment and still unpaid, with patient and total. |
+
+Every action is in the audit log with who, when and where (computer address and browser).
