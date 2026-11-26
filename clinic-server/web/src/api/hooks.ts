@@ -4,6 +4,7 @@ import type {
   Agent,
   AgentRequest,
   AuditEntry,
+  BackupStatus,
   Debt,
   Refund,
   Shift,
@@ -644,4 +645,28 @@ export function useShifts(from: string, to: string) {
 
 export async function fetchShift(id: string): Promise<Shift> {
   return http.get<Shift>(`/api/v1/cashier/shifts/${id}`);
+}
+
+// ---------- backups ----------
+
+export function useBackups() {
+  return useQuery({
+    queryKey: ["backups"],
+    queryFn: () => http.get<BackupStatus>("/api/v1/backups"),
+    // While a backup runs, follow it closely.
+    refetchInterval: (q) => (q.state.data?.running ? 2_000 : 60_000),
+  });
+}
+
+/** Admin-only warning when the last successful backup is too old (or there is none). */
+export function useBackupHealth(enabled: boolean) {
+  return useQuery({ queryKey: ["backups", "health"], queryFn: () => http.get<{ stale: boolean }>("/api/v1/backups/health"), enabled, refetchInterval: 10 * 60_000 });
+}
+
+export function useBackupActions() {
+  const invalidate = useInvalidate();
+  return {
+    run: useMutation({ mutationFn: () => http.post<{ id: string }>("/api/v1/backups/run"), onSuccess: () => invalidate(["backups"]) }),
+    retention: useMutation({ mutationFn: (retentionDays: number) => http.put<BackupStatus>("/api/v1/backups/settings", { retentionDays }), onSuccess: () => invalidate(["backups"]) }),
+  };
 }

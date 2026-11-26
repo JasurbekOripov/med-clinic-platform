@@ -61,6 +61,8 @@ export type Shift = S["ShiftResponse"];
 export type ShiftSummary = S["ShiftSummary"];
 export type Refund = S["RefundResponse"];
 export type Debt = S["DebtResponse"];
+export type BackupStatus = S["BackupStatusResponse"];
+export type BackupRun = S["BackupRunResponse"];
 
 export interface Page<T> {
   items: T[];

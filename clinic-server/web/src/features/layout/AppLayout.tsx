@@ -1,12 +1,12 @@
 import type * as React from "react";
-import { AlertTriangle, ClipboardList, Contact, FlaskConical, Handshake, ListOrdered, Tags, Wallet, FileSpreadsheet, Home, KeyRound, LogOut, Settings, ShieldCheck, UserRoundCog, Users } from "lucide-react";
+import { AlertTriangle, ClipboardList, Contact, DatabaseBackup, FlaskConical, Handshake, ListOrdered, Tags, Wallet, FileSpreadsheet, Home, KeyRound, LogOut, Settings, ShieldCheck, UserRoundCog, Users } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { NavLink, Outlet, useNavigate } from "react-router";
 import { EmptyState, Spinner } from "@medclinic/web-ui/components/Common";
 import { Button } from "@medclinic/web-ui/components/ui/button";
 import { formatDate } from "@medclinic/web-ui/lib/format";
 import { cn } from "@medclinic/web-ui/lib/utils";
-import { useLicense, useLogout } from "@/api/hooks";
+import { useBackupHealth, useLicense, useLogout } from "@/api/hooks";
 import { usePermissions } from "@/features/auth/permissions";
 import { RoleLabel } from "@/features/roles/RoleLabel";
 import { ClinicBrand } from "./ClinicBrand";
@@ -29,6 +29,7 @@ export const NAV: NavItem[] = [
   { to: "/agents", label: "nav.agents", icon: Handshake, hint: "home.agentsHint", needs: ["AGENT_MANAGE"] },
   { to: "/staff", label: "nav.staff", icon: Users, hint: "home.staffHint", needs: ["STAFF_VIEW"] },
   { to: "/roles", label: "nav.roles", icon: UserRoundCog, hint: "home.rolesHint", needs: ["STAFF_VIEW"] },
+  { to: "/backups", label: "nav.backups", icon: DatabaseBackup, hint: "home.backupsHint", needs: ["SETTINGS_MANAGE"] },
   { to: "/settings", label: "nav.settings", icon: Settings, hint: "home.settingsHint", needs: ["SETTINGS_MANAGE"] },
   { to: "/import", label: "nav.import", icon: FileSpreadsheet, hint: "home.importHint", needs: ["DATA_IMPORT", "STAFF_MANAGE"] },
   { to: "/audit", label: "nav.audit", icon: ClipboardList, hint: "home.auditHint", needs: ["AUDIT_VIEW"] },
@@ -39,6 +40,7 @@ export function AppLayout() {
   const { t } = useTranslation();
   const { me, can } = usePermissions();
   const license = useLicense();
+  const backupHealth = useBackupHealth(can("SETTINGS_MANAGE"));
   const logout = useLogout();
   const navigate = useNavigate();
   const items = NAV.filter((n) => canOpen(n, can));
@@ -104,6 +106,12 @@ export function AppLayout() {
             <Banner>{t("license.graceBanner", { date: formatDate(license.data.graceEndsAt?.slice(0, 10)) })}</Banner>
           )}
           {license.data?.clockWarning && <Banner>{t("license.clockBanner")}</Banner>}
+          {backupHealth.data?.stale && (
+            <Banner>
+              {t("backup.staleBanner")}{" "}
+              <NavLink to="/backups" className="font-semibold underline">{t("backup.open")}</NavLink>
+            </Banner>
+          )}
         </header>
 
         <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 md:px-10">

@@ -16,7 +16,8 @@
     "agents": "Agentlar",
     "cashier": "Kassa",
     "queue": "Navbat",
-    "lab": "Laboratoriya"
+    "lab": "Laboratoriya",
+    "backups": "Zaxira nusxa"
   },
   "common": {
     "save": "Saqlash",
@@ -73,7 +74,8 @@
     "agentsHint": "Bemor yuboruvchilar va ularning haqi",
     "cashierHint": "Toʻlovlarni qabul qilish va chek chiqarish",
     "queueHint": "Bugungi toʻlangan bemorlar raqam boʻyicha",
-    "labHint": "Tahlil shakllari va natijalar"
+    "labHint": "Tahlil shakllari va natijalar",
+    "backupsHint": "Maʼlumotlarning har kungi zaxira nusxasi"
   },
   "auth": {
     "title": "Tizimga kirish",
@@ -508,6 +510,9 @@
     "refund": {
       "already_paid_out": "Bu pul allaqachon qaytarilgan",
       "already_exists": "Bu xizmat uchun qaytarish bor"
+    },
+    "backup": {
+      "already_running": "Zaxiralash allaqachon ketmoqda"
     }
   },
   "gender": {
@@ -900,5 +905,35 @@
     "title": "Qarzlar",
     "none": "Qarzlar yoʻq",
     "count": "Qarzdor tashriflar: {{count}}"
+  },
+  "backup": {
+    "title": "Zaxira nusxa",
+    "subtitle": "Butun maʼlumotlar bazasi har kecha 02:30 da serverning diskiga saqlanadi.",
+    "runNow": "Hozir zaxiralash",
+    "running": "Zaxiralanmoqda…",
+    "started": "Zaxiralash boshlandi",
+    "lastSuccess": "Oxirgi muvaffaqiyatli nusxa",
+    "never": "Hali yoʻq",
+    "staleHint": "36 soatdan beri muvaffaqiyatli nusxa yoʻq. “Hozir zaxiralash”ni bosing; takrorlansa vendorga xabar bering.",
+    "where": "Qayerga saqlanadi",
+    "freeSpace": "Boʻsh joy: {{size}}",
+    "disabled": "Avtomatik zaxiralash oʻchirilgan",
+    "retention": "Necha kun saqlansin",
+    "days": "kun",
+    "retentionHint": "Eski nusxalar oʻchiriladi, lekin oxirgi 3 tasi doim qoladi.",
+    "history": "Tarix",
+    "noRuns": "Hali zaxiralash boʻlmagan",
+    "status": {
+      "RUNNING": "Jarayonda",
+      "SUCCESS": "Muvaffaqiyatli",
+      "FAILED": "Xato"
+    },
+    "trigger": {
+      "SCHEDULED": "Avtomatik",
+      "MANUAL": "Qoʻlda"
+    },
+    "restoreNote": "Nusxadan tiklash barcha joriy maʼlumotlarni almashtiradi, shuning uchun uni vendor bajaradi. Nusxalarni vaqti-vaqti bilan boshqa diskka yoki USB ga ham koʻchiring.",
+    "staleBanner": "Maʼlumotlarning zaxira nusxasi 36 soatdan beri olinmagan.",
+    "open": "Koʻrish"
   }
 }

@@ -4,7 +4,7 @@ The program that runs **inside each clinic**: one server PC holds the database a
 staff PC over the clinic LAN. All patient and clinic data lives only here. See [ARCHITECTURE.md](ARCHITECTURE.md)
 for system-wide rules; this document records what the owner decided for the Clinic Server.
 
-Status: **M1 implemented** (see §7); **M2 implemented** (see §8); M3 doctor's conclusions (§9), M4 laboratory (§11) and M5 cashier (§12) implemented. Next: daily backups, then M6 inpatients.
+Status: **M1 implemented** (see §7); **M2 implemented** (see §8); M3 doctor's conclusions (§9), M4 laboratory (§11) and M5 cashier (§12) implemented. Daily backups (§13) implemented. Next: M6 inpatients.
 
 ## 1. Deployment
 
@@ -172,3 +172,19 @@ expenses (recipient = a staff member or anyone else, mandatory comment, amount).
 | Debts | `DEBT_VIEW`: services allowed by the Admin before payment and still unpaid, with patient and total. |
 
 Every action is in the audit log with who, when and where (computer address and browser).
+
+## 13. Backups
+
+| Topic | As built |
+|---|---|
+| Schedule | every night at 02:30 Asia/Tashkent (`clinic.backup.cron`), plus "Hozir zaxiralash" (Admin, audited) |
+| Tool | PostgreSQL's `pg_dump --format=custom --no-owner --no-privileges`; the password goes through `PGPASSWORD`, never the command line. **The tool must be the same major version as the server or newer** (a v16 `pg_dump` refuses a v17 server), so the installer ships it from the same PostgreSQL build. *ASSUMPTION until M9: path set by the installer (`clinic.backup.command`).* |
+| Where | `clinic.backup.directory` — on clinic servers the second SSD. Files `medclinic-YYYYMMDD-HHmmss.dump`; written as `.part` and renamed only on success; SHA-256 stored. |
+| Retention | Admin setting (3–365 days, default 30); the newest 3 files are always kept. |
+| Monitoring | history of runs (status, size, error); the Admin sees a banner when there is no successful backup for 36 hours. |
+| Offsite | encrypted copy to the Vendor Platform comes with M8. Until then: copy the folder to a USB drive regularly. |
+
+**Restore (vendor only — replaces all current data):** stop the Clinic Server service; then
+`createdb -U <user> clinic_restored` and `pg_restore -U <user> --no-owner -d clinic_restored medclinic-….dump`; check it;
+then rename databases (or point `DB_URL` at the restored one) and start the service. Verified with PostgreSQL 17: a dump
+made with the program's arguments restores into an empty database with the data intact.

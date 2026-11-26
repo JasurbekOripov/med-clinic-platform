@@ -18,3 +18,8 @@ clinic:
     heartbeat-interval: 1h
     # Public half of src/test/resources/license/test-vendor-private-key.TEST-ONLY.txt (test-only key).
     dev-keyring: "vk-test-1:MCowBQYDK2VwAyEArDdo6+nEpu9vdbeMJgVcWs/h9BakwqsevUfUDvtnQBg="
+  backup:
+    # A stand-in for pg_dump that writes a small file; the real tool is configured by the installer.
+    command: ${user.dir}/src/test/resources/backup/fake-pg-dump.sh
+    directory: ${java.io.tmpdir}/medclinic-clinic-test/backups
+    cron: "-"

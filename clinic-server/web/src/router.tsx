@@ -12,6 +12,7 @@ import { CashierPage } from "./features/cashier/CashierPage";
 import { QUEUE_READERS } from "./features/layout/AppLayout";
 import { QueuePage } from "./features/queues/QueuePage";
 import { LabPage } from "./features/lab/LabPage";
+import { BackupsPage } from "./features/backups/BackupsPage";
 import { LicensePage } from "./features/license/LicensePage";
 import { PatientDetailPage } from "./features/patients/PatientDetailPage";
 import { PatientsPage } from "./features/patients/PatientsPage";
@@ -38,6 +39,7 @@ export const router = createBrowserRouter([
               { path: "patients/:id", element: <RequirePermission all={["PATIENT_VIEW"]}><PatientDetailPage /></RequirePermission> },
               { path: "queue", element: <RequirePermission any={QUEUE_READERS}><QueuePage /></RequirePermission> },
               { path: "lab", element: <RequirePermission any={["LAB_WORK", "LAB_TEMPLATES_MANAGE"]}><LabPage /></RequirePermission> },
+              { path: "backups", element: <RequirePermission all={["SETTINGS_MANAGE"]}><BackupsPage /></RequirePermission> },
               { path: "cashier", element: <RequirePermission all={["PAYMENT_ACCEPT"]}><CashierPage /></RequirePermission> },
               { path: "prices", element: <RequirePermission all={["PRICE_LIST_MANAGE"]}><PriceListPage /></RequirePermission> },
               { path: "agents", element: <RequirePermission all={["AGENT_MANAGE"]}><AgentsPage /></RequirePermission> },

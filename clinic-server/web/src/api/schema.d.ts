@@ -244,6 +244,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/backups/settings": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["settings"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/agents/{id}": {
         parameters: {
             query?: never;
@@ -820,6 +836,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/backups/run": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["run"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/auth/password": {
         parameters: {
             query?: never;
@@ -1196,6 +1228,38 @@ export interface paths {
             cookie?: never;
         };
         get: operations["debts"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/backups": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["status_2"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/backups/health": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["health"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1725,6 +1789,39 @@ export interface components {
             /** Format: int32 */
             version: number;
         };
+        BackupSettingsRequest: {
+            /** Format: int32 */
+            retentionDays?: number | null;
+        };
+        BackupRunResponse: {
+            /** Format: uuid */
+            id: string;
+            /** Format: date-time */
+            startedAt: string;
+            /** Format: date-time */
+            finishedAt?: string | null;
+            /** @enum {string} */
+            status: "RUNNING" | "SUCCESS" | "FAILED";
+            /** @enum {string} */
+            trigger: "SCHEDULED" | "MANUAL";
+            fileName?: string | null;
+            /** Format: int64 */
+            sizeBytes?: number | null;
+            sha256?: string | null;
+            error?: string | null;
+        };
+        BackupStatusResponse: {
+            enabled: boolean;
+            directory: string;
+            /** Format: int32 */
+            retentionDays: number;
+            /** Format: int64 */
+            freeSpaceBytes?: number | null;
+            lastSuccess?: components["schemas"]["BackupRunResponse"] | null;
+            stale: boolean;
+            running: boolean;
+            runs: components["schemas"]["BackupRunResponse"][];
+        };
         AgentRequest: {
             name?: string | null;
             phone?: string | null;
@@ -2048,6 +2145,10 @@ export interface components {
             day: string;
             lines: components["schemas"]["SlipLine"][];
         };
+        BackupStartedResponse: {
+            /** Format: uuid */
+            id: string;
+        };
         ChangePasswordRequest: {
             currentPassword: string;
             newPassword: string;
@@ -2248,6 +2349,9 @@ export interface components {
             items: components["schemas"]["BillableItem"][];
             /** Format: int64 */
             total: number;
+        };
+        BackupHealthResponse: {
+            stale: boolean;
         };
         CsrfToken: {
             parameterName: string;
@@ -3092,6 +3196,30 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    settings: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BackupSettingsRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BackupStatusResponse"];
+                };
             };
         };
     };
@@ -4287,6 +4415,26 @@ export interface operations {
             };
         };
     };
+    run: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Accepted */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BackupStartedResponse"];
+                };
+            };
+        };
+    };
     changePassword: {
         parameters: {
             query?: never;
@@ -4816,6 +4964,46 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["DebtResponse"][];
+                };
+            };
+        };
+    };
+    status_2: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BackupStatusResponse"];
+                };
+            };
+        };
+    };
+    health: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BackupHealthResponse"];
                 };
             };
         };

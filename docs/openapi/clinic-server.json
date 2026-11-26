@@ -1003,6 +1003,34 @@
         }
       }
     },
+    "/api/v1/backups/settings" : {
+      "put" : {
+        "tags" : [ "backup-controller" ],
+        "operationId" : "settings",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/BackupSettingsRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BackupStatusResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/agents/{id}" : {
       "put" : {
         "tags" : [ "agent-controller" ],
@@ -2525,6 +2553,24 @@
         }
       }
     },
+    "/api/v1/backups/run" : {
+      "post" : {
+        "tags" : [ "backup-controller" ],
+        "operationId" : "run",
+        "responses" : {
+          "202" : {
+            "description" : "Accepted",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BackupStartedResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/auth/password" : {
       "post" : {
         "tags" : [ "auth-controller" ],
@@ -3124,6 +3170,42 @@
                   "items" : {
                     "$ref" : "#/components/schemas/DebtResponse"
                   }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/backups" : {
+      "get" : {
+        "tags" : [ "backup-controller" ],
+        "operationId" : "status_2",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BackupStatusResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/backups/health" : {
+      "get" : {
+        "tags" : [ "backup-controller" ],
+        "operationId" : "health",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BackupHealthResponse"
                 }
               }
             }
@@ -4604,6 +4686,93 @@
         },
         "required" : [ "active", "id", "name", "percent", "version" ]
       },
+      "BackupSettingsRequest" : {
+        "type" : "object",
+        "properties" : {
+          "retentionDays" : {
+            "type" : [ "integer", "null" ],
+            "format" : "int32"
+          }
+        }
+      },
+      "BackupRunResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "startedAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "finishedAt" : {
+            "type" : [ "string", "null" ],
+            "format" : "date-time"
+          },
+          "status" : {
+            "type" : "string",
+            "enum" : [ "RUNNING", "SUCCESS", "FAILED" ]
+          },
+          "trigger" : {
+            "type" : "string",
+            "enum" : [ "SCHEDULED", "MANUAL" ]
+          },
+          "fileName" : {
+            "type" : [ "string", "null" ]
+          },
+          "sizeBytes" : {
+            "type" : [ "integer", "null" ],
+            "format" : "int64"
+          },
+          "sha256" : {
+            "type" : [ "string", "null" ]
+          },
+          "error" : {
+            "type" : [ "string", "null" ]
+          }
+        },
+        "required" : [ "id", "startedAt", "status", "trigger" ]
+      },
+      "BackupStatusResponse" : {
+        "type" : "object",
+        "properties" : {
+          "enabled" : {
+            "type" : "boolean"
+          },
+          "directory" : {
+            "type" : "string"
+          },
+          "retentionDays" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "freeSpaceBytes" : {
+            "type" : [ "integer", "null" ],
+            "format" : "int64"
+          },
+          "lastSuccess" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/BackupRunResponse"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "stale" : {
+            "type" : "boolean"
+          },
+          "running" : {
+            "type" : "boolean"
+          },
+          "runs" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/BackupRunResponse"
+            }
+          }
+        },
+        "required" : [ "directory", "enabled", "retentionDays", "running", "runs", "stale" ]
+      },
       "AgentRequest" : {
         "type" : "object",
         "properties" : {
@@ -5484,6 +5653,16 @@
         },
         "required" : [ "day", "id", "label", "lines", "queueName" ]
       },
+      "BackupStartedResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        },
+        "required" : [ "id" ]
+      },
       "ChangePasswordRequest" : {
         "type" : "object",
         "properties" : {
@@ -6019,6 +6198,15 @@
           }
         },
         "required" : [ "createdAt", "items", "total", "visitId", "visitNo" ]
+      },
+      "BackupHealthResponse" : {
+        "type" : "object",
+        "properties" : {
+          "stale" : {
+            "type" : "boolean"
+          }
+        },
+        "required" : [ "stale" ]
       },
       "CsrfToken" : {
         "type" : "object",
