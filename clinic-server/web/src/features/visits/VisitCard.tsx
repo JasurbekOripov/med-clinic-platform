@@ -1,4 +1,4 @@
-import { FilePen, HandHeart, Handshake, Percent, Plus, XCircle } from "lucide-react";
+import { FilePen, HandHeart, Handshake, Percent, Plus, Receipt, XCircle } from "lucide-react";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -13,6 +13,7 @@ import { cn } from "@medclinic/web-ui/lib/utils";
 import { useAllowUnpaid, useCancelVisitService, useDiscountTypes, useUpdateVisit } from "@/api/hooks";
 import type { Visit, VisitItem, VisitItemStatus } from "@/api/types";
 import { usePermissions } from "@/features/auth/permissions";
+import { VisitPaymentsDialog } from "@/features/cashier/VisitPaymentsDialog";
 import { OrderServicesDialog } from "./OrderServicesDialog";
 import { ReasonDialog } from "./ReasonDialog";
 
@@ -29,6 +30,7 @@ export function VisitCard({ visit, conclusions }: { visit: Visit; conclusions?: 
   const [adding, setAdding] = React.useState(false);
   const [cancelling, setCancelling] = React.useState<VisitItem | null>(null);
   const [allowing, setAllowing] = React.useState(false);
+  const [receipts, setReceipts] = React.useState(false);
   const unpaid = visit.items.filter((i) => i.status === "UNPAID");
   const allowable = unpaid.filter((i) => !i.allowed);
 
@@ -48,6 +50,11 @@ export function VisitCard({ visit, conclusions }: { visit: Visit; conclusions?: 
         {can("VISIT_CREATE") && (
           <Button size="sm" variant="secondary" onClick={() => setAdding(true)}>
             <Plus /> {t("visits.addService")}
+          </Button>
+        )}
+        {visit.paid > 0 && (can("PAYMENT_ACCEPT") || can("VISIT_CREATE")) && (
+          <Button size="sm" variant="ghost" onClick={() => setReceipts(true)}>
+            <Receipt /> {t("cashier.receipts")}
           </Button>
         )}
         {can("EMERGENCY_ALLOW") && allowable.length > 0 && (
@@ -103,6 +110,7 @@ export function VisitCard({ visit, conclusions }: { visit: Visit; conclusions?: 
         <Total label={t("visits.unpaid")} value={visit.unpaid} strong={visit.unpaid > 0} />
       </div>
 
+      {receipts && <VisitPaymentsDialog visit={visit} onClose={() => setReceipts(false)} />}
       {adding && <OrderServicesDialog patientId={visit.patientId} visit={visit} onClose={() => setAdding(false)} />}
       {cancelling && (
         <ReasonDialog

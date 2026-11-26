@@ -65,6 +65,9 @@ object Permissions {
     const val HAS_VISIT_EDIT_UNPAID = "hasAuthority('VISIT_EDIT_UNPAID')"
     const val HAS_EMERGENCY_ALLOW = "hasAuthority('EMERGENCY_ALLOW')"
     const val HAS_PAYMENT_ACCEPT = "hasAuthority('PAYMENT_ACCEPT')"
+
+    /** Reprinting receipts and room slips: the cashier, and Reception when the patient lost a slip. */
+    const val HAS_RECEIPT_REPRINT = "hasAnyAuthority('PAYMENT_ACCEPT', 'VISIT_CREATE')"
     const val HAS_PRICE_LIST_MANAGE = "hasAuthority('PRICE_LIST_MANAGE')"
 
     /** Reading the price list and discount types: who manages it, and who orders or takes money for services. */

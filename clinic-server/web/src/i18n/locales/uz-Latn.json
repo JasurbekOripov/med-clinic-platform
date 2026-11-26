@@ -623,7 +623,12 @@
     "toReceive": "Qabul qilinadi",
     "accept": "Toʻlovni qabul qilish",
     "receiptTitle": "Chek №{{no}}",
-    "printAll": "Chop etish ({{count}} ta)"
+    "printAll": "Chop etish ({{count}} ta)",
+    "copyTitle": "Chek №{{no}} — nusxa",
+    "visitReceipts": "Tashrif №{{no}} cheklari",
+    "noReceipts": "Toʻlovlar yoʻq",
+    "reprint": "Qayta chop etish",
+    "receipts": "Cheklar"
   },
   "receipt": {
     "number": "Chek №",
@@ -632,7 +637,8 @@
     "discount": "Chegirma",
     "total": "JAMI",
     "method": "Toʻlov",
-    "cashier": "Kassir"
+    "cashier": "Kassir",
+    "copy": "NUSXA"
   },
   "queues": {
     "title": "Navbat",
@@ -687,6 +693,8 @@
     "patient": "Bemor",
     "date": "Sana",
     "notes": "Qoʻshimchalar",
-    "doctor": "Shifokor"
+    "doctor": "Shifokor",
+    "signature": "imzo",
+    "stamp": "M.Oʻ."
   }
 }

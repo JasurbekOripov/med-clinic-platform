@@ -13,13 +13,13 @@ import { Slip } from "@/features/print/Slip";
  * After payment: one slip per room (queue number) and one money receipt, printed in one go; each is its own page so
  * thermal printers cut between them. Enter prints (the print button has focus).
  */
-export function ReceiptDialog({ payment, onClose }: { payment: Payment; onClose: () => void }) {
+export function ReceiptDialog({ payment, copy, onClose }: { payment: Payment; copy?: boolean; onClose: () => void }) {
   const { t } = useTranslation();
   const clinic = usePrintSettings();
   return (
     <Dialog open onOpenChange={(o) => !o && onClose()}>
       <DialogContent>
-        <DialogTitle>{t("cashier.receiptTitle", { no: payment.receiptNo })}</DialogTitle>
+        <DialogTitle>{t(copy ? "cashier.copyTitle" : "cashier.receiptTitle", { no: payment.receiptNo })}</DialogTitle>
         {payment.slips.length > 0 && (
           <div className="mt-4 flex flex-wrap gap-2" aria-label={t("queues.slips")}>
             {payment.slips.map((s) => (
@@ -32,7 +32,7 @@ export function ReceiptDialog({ payment, onClose }: { payment: Payment; onClose:
           </div>
         )}
         <div className="mt-4 max-h-[50vh] overflow-y-auto rounded-lg border border-border bg-white p-4">
-          <Receipt payment={payment} clinic={clinic.data} />
+          <Receipt payment={payment} clinic={clinic.data} copy={copy} />
         </div>
         <DialogFooter>
           <Button type="button" variant="ghost" onClick={onClose}>{t("common.close")}</Button>
@@ -43,11 +43,11 @@ export function ReceiptDialog({ payment, onClose }: { payment: Payment; onClose:
         <PrintPortal>
           {payment.slips.map((s) => (
             <div key={s.id} className="print-page">
-              <Slip slip={s} payment={payment} clinic={clinic.data} />
+              <Slip slip={s} payment={payment} clinic={clinic.data} copy={copy} />
             </div>
           ))}
           <div className="print-page">
-            <Receipt payment={payment} clinic={clinic.data} />
+            <Receipt payment={payment} clinic={clinic.data} copy={copy} />
           </div>
         </PrintPortal>
       </DialogContent>

@@ -526,3 +526,8 @@ export function useConclusionTemplates() {
 
 export const useConclusionTemplateMutations = () =>
   useCatalogMutation<{ name: string; body: string; version?: number }, ConclusionTemplate>("/api/v1/conclusions/templates", "conclusion-templates");
+
+/** Records the reprint on the server (audited) and returns the payment to print as a copy. */
+export function useReprint() {
+  return useMutation({ mutationFn: (id: string) => http.post<Payment>(`/api/v1/cashier/payments/${id}/reprint`) });
+}

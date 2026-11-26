@@ -623,7 +623,12 @@
     "toReceive": "Қабул қилинади",
     "accept": "Тўловни қабул қилиш",
     "receiptTitle": "Чек №{{no}}",
-    "printAll": "Чоп этиш ({{count}} та)"
+    "printAll": "Чоп этиш ({{count}} та)",
+    "copyTitle": "Чек №{{no}} — нусха",
+    "visitReceipts": "Ташриф №{{no}} чеклари",
+    "noReceipts": "Тўловлар йўқ",
+    "reprint": "Қайта чоп этиш",
+    "receipts": "Чеклар"
   },
   "receipt": {
     "number": "Чек №",
@@ -632,7 +637,8 @@
     "discount": "Чегирма",
     "total": "ЖАМИ",
     "method": "Тўлов",
-    "cashier": "Кассир"
+    "cashier": "Кассир",
+    "copy": "НУСХА"
   },
   "queues": {
     "title": "Навбат",
@@ -687,6 +693,8 @@
     "patient": "Бемор",
     "date": "Сана",
     "notes": "Қўшимчалар",
-    "doctor": "Шифокор"
+    "doctor": "Шифокор",
+    "signature": "имзо",
+    "stamp": "М.Ў."
   }
 }

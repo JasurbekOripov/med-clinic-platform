@@ -72,6 +72,14 @@ class PaymentService(
     @Transactional(readOnly = true)
     fun get(id: UUID): Payment = payments.findById(id) ?: throw NotFoundException(ENTITY, id)
 
+    /** A copy of the receipt and room slips was printed (lost slip, jammed printer): who and when is in the audit log. */
+    @Transactional
+    fun reprint(id: UUID): Payment {
+        val payment = get(id)
+        audit.record(AuditEvent("payment.reprinted", ENTITY, id, after = mapOf("receiptNo" to payment.receiptNo)))
+        return payment
+    }
+
     @Transactional(readOnly = true)
     fun byVisit(visitId: UUID): List<Payment> = payments.findByVisit(visitId)
 

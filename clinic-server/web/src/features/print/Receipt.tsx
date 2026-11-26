@@ -8,7 +8,7 @@ import type { Payment, PrintSettings } from "@/api/types";
  * 80 mm cash receipt (≈ 42 characters per line on common thermal printers). Plain black text, no colours or
  * backgrounds, so it prints the same on thermal and laser printers.
  */
-export function Receipt({ payment, clinic }: { payment: Payment; clinic: PrintSettings | undefined }) {
+export function Receipt({ payment, clinic, copy }: { payment: Payment; clinic: PrintSettings | undefined; copy?: boolean }) {
   const { t } = useTranslation();
   const discount = payment.lines.reduce((sum, l) => sum + l.discount, 0);
   return (
@@ -20,6 +20,7 @@ export function Receipt({ payment, clinic }: { payment: Payment; clinic: PrintSe
         {clinic?.address && <div>{clinic.address}</div>}
         {clinic?.phone && <div>{formatPhone(clinic.phone)}</div>}
         {clinic?.receiptHeader && <div className="mt-1 whitespace-pre-line">{clinic.receiptHeader}</div>}
+        {copy && <CopyMark />}
       </div>
       <Rule />
       <Row left={`${t("receipt.number")} ${payment.receiptNo}`} right={formatDateTime(payment.createdAt)} />
@@ -59,4 +60,10 @@ function Row({ left, right }: { left: React.ReactNode; right: React.ReactNode })
 
 function Rule() {
   return <div className="my-1.5 border-t border-dashed border-black" />;
+}
+
+/** Printed on reprints so a copy can never pass as a second payment. */
+export function CopyMark() {
+  const { t } = useTranslation();
+  return <div className="mx-auto mt-1.5 w-fit border-2 border-black px-3 text-[13px] font-bold tracking-widest">{t("receipt.copy")}</div>;
 }

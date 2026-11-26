@@ -623,7 +623,12 @@
     "toReceive": "К получению",
     "accept": "Принять оплату",
     "receiptTitle": "Чек №{{no}}",
-    "printAll": "Печать ({{count}} шт.)"
+    "printAll": "Печать ({{count}} шт.)",
+    "copyTitle": "Чек №{{no}} — копия",
+    "visitReceipts": "Чеки визита №{{no}}",
+    "noReceipts": "Оплат нет",
+    "reprint": "Печать копии",
+    "receipts": "Чеки"
   },
   "receipt": {
     "number": "Чек №",
@@ -632,7 +637,8 @@
     "discount": "Скидка",
     "total": "ИТОГО",
     "method": "Оплата",
-    "cashier": "Кассир"
+    "cashier": "Кассир",
+    "copy": "КОПИЯ"
   },
   "queues": {
     "title": "Очередь",
@@ -687,6 +693,8 @@
     "patient": "Пациент",
     "date": "Дата",
     "notes": "Дополнения",
-    "doctor": "Врач"
+    "doctor": "Врач",
+    "signature": "подпись",
+    "stamp": "М.П."
   }
 }

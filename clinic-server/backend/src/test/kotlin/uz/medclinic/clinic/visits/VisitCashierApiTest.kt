@@ -123,6 +123,11 @@ class VisitCashierApiTest : IntegrationTest() {
         post("/api/v1/visits/$visitId/services/${items[0]}/cancel", """{"reason":"Xato","version":0}""", reception)
             .andExpect { status { isConflict() } }
 
+        val paymentId = json(mockMvc.get("/api/v1/cashier/payments?visitId=$visitId") { with(asStaff(reception)) })[0].path("id").asString()
+        post("/api/v1/cashier/payments/$paymentId/reprint", "", reception).andExpect { jsonPath("$.receiptNo") { value(1) } }
+        post("/api/v1/cashier/payments/$paymentId/reprint", "", doctor).andExpect { status { isForbidden() } }
+        assertThat(jdbc.sql("select count(*) from audit_log where action = 'payment.reprinted'").query(Long::class.java).single()).isEqualTo(1)
+
         val cashierAudit = jdbc.sql("select count(*) from audit_log where action in ('payment.received', 'visit.services_paid')")
             .query(Long::class.java).single()
         assertThat(cashierAudit).isEqualTo(2)

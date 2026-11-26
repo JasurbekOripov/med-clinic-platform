@@ -91,14 +91,18 @@ class CashierController(private val payments: PaymentService, private val patien
         return response(payment)
     }
 
-    /** One receipt, for (re)printing. */
     @GetMapping("/payments/{id}")
-    @PreAuthorize(Permissions.HAS_PAYMENT_ACCEPT)
+    @PreAuthorize(Permissions.HAS_RECEIPT_REPRINT)
     fun get(@PathVariable id: UUID) = response(payments.get(id))
 
     @GetMapping("/payments")
-    @PreAuthorize(Permissions.HAS_PAYMENT_ACCEPT)
+    @PreAuthorize(Permissions.HAS_RECEIPT_REPRINT)
     fun byVisit(@RequestParam visitId: UUID) = payments.byVisit(visitId).map(::response)
+
+    /** Records the reprint (audited) and returns the payment; the printout is marked as a copy. */
+    @PostMapping("/payments/{id}/reprint")
+    @PreAuthorize(Permissions.HAS_RECEIPT_REPRINT)
+    fun reprint(@PathVariable id: UUID) = response(payments.reprint(id))
 
     private fun response(p: Payment) = PaymentResponse(
         p.id, p.receiptNo, p.visitId, p.visitNo, patients.find(p.patientId)?.let(::PatientRef), p.amount, p.method, p.cashierName,

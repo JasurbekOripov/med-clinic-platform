@@ -125,5 +125,15 @@ signature); no ICD-10 codes (clinics do not report them); doctors do not order s
 |---|---|
 | `conclusions` | one conclusion per paid (or Admin-allowed) service; a service ordered with a doctor is concluded only by that doctor (`CONSULTATION_WRITE`). The author edits it on the same Tashkent day; afterwards corrections are dated, signed notes (the original text never changes). Doctors and nurses read the patient's history (`MEDICAL_HISTORY_VIEW`), Reception reads and reprints for the patient (`RESULTS_HANDOVER`). Each doctor's own text templates. Author's signature image served for printing. Audited. |
 
+Printed conclusion: logo and clinic details from Settings, accent rule, title and date, patient box (name, card, birth date and age, sex), text, notes, doctor's name with signature image over a line, place for the stamp, footer.
+
 Web: "Xulosa yozish" on the doctor's paid services → editor (title from the service, free text, own templates inserted at the
 cursor) → A4 print on the clinic letterhead; conclusions history on the patient page with print, same-day edit and notes.
+
+## 10. Printing
+
+Printing goes through Chrome's print dialog, which lists every printer connected to that PC and remembers the last one.
+A web page cannot list printers itself; choosing printers once inside the program (receipts → thermal, A4 → laser) and
+printing without the dialog needs the **Print Agent** on PCs with printers (planned with the installer, M9).
+Receipts and room slips can be reprinted from the visit ("Cheklar", cashier and Reception); copies are marked **NUSXA**
+and every reprint is audited (`payment.reprinted`). No fiscal receipts for now (owner, 2026-11).
