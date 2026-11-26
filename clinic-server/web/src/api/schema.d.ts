@@ -132,7 +132,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/v1/conclusions/{id}": {
+    "/api/v1/lab/templates/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -140,6 +140,22 @@ export interface paths {
             cookie?: never;
         };
         get: operations["get_4"];
+        put: operations["update_6"];
+        post?: never;
+        delete: operations["delete_3"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/conclusions/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["get_5"];
         put: operations["edit"];
         post?: never;
         delete?: never;
@@ -220,9 +236,9 @@ export interface paths {
             cookie?: never;
         };
         get?: never;
-        put: operations["update_6"];
+        put: operations["update_7"];
         post?: never;
-        delete: operations["delete_3"];
+        delete: operations["delete_4"];
         options?: never;
         head?: never;
         patch?: never;
@@ -500,6 +516,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/lab/templates": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["list_3"];
+        put?: never;
+        post: operations["create_5"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/imports/{kind}/preview": {
         parameters: {
             query?: never;
@@ -715,9 +747,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["list_3"];
+        get: operations["list_4"];
         put?: never;
-        post: operations["create_5"];
+        post: operations["create_6"];
         delete?: never;
         options?: never;
         head?: never;
@@ -907,7 +939,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["get_5"];
+        get: operations["get_6"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1187,6 +1219,67 @@ export interface components {
             notes?: string | null;
             /** Format: date-time */
             createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+            /** Format: int32 */
+            version: number;
+        };
+        AgeBound: {
+            /** Format: int32 */
+            value: number;
+            /** @enum {string} */
+            unit: "DAYS" | "MONTHS" | "YEARS";
+        };
+        ChoiceOption: {
+            label: string;
+            normal: boolean;
+        };
+        FormRow: {
+            /** Format: uuid */
+            id: string;
+            /** @enum {string} */
+            kind: "HEADER" | "NUMBER" | "CHOICE" | "POS_NEG" | "TEXT";
+            name: string;
+            unit?: string | null;
+            /** Format: int32 */
+            decimals: number;
+            options: components["schemas"]["ChoiceOption"][];
+            normalPositive: boolean;
+            ranges: components["schemas"]["ReferenceRange"][];
+        };
+        LabTemplateRequest: {
+            name?: string | null;
+            serviceIds: string[];
+            rows: components["schemas"]["FormRow"][];
+            active: boolean;
+            /** Format: int32 */
+            version?: number | null;
+        };
+        ReferenceRange: {
+            /** @enum {string} */
+            kind: "NORMAL" | "CRITICAL";
+            /** @enum {string} */
+            sex: "ANY" | "MALE" | "FEMALE";
+            ageFrom?: components["schemas"]["AgeBound"] | null;
+            ageTo?: components["schemas"]["AgeBound"] | null;
+            /** @enum {string} */
+            state: "NONE" | "PREGNANCY_T1" | "PREGNANCY_T2" | "PREGNANCY_T3" | "FOLLICULAR" | "OVULATION" | "LUTEAL" | "POSTMENOPAUSE" | "CUSTOM";
+            customState?: string | null;
+            low?: number | null;
+            high?: number | null;
+            text?: string | null;
+            /** Format: int32 */
+            specificity: number;
+        };
+        LabTemplateResponse: {
+            /** Format: uuid */
+            id: string;
+            name: string;
+            serviceIds: string[];
+            rows: components["schemas"]["FormRow"][];
+            /** Format: int32 */
+            versionNo: number;
+            active: boolean;
             /** Format: date-time */
             updatedAt: string;
             /** Format: int32 */
@@ -2185,6 +2278,76 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    "*/*": components["schemas"]["LabTemplateResponse"];
+                };
+            };
+        };
+    };
+    update_6: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LabTemplateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["LabTemplateResponse"];
+                };
+            };
+        };
+    };
+    delete_3: {
+        parameters: {
+            query: {
+                version: number;
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    get_5: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
                     "*/*": components["schemas"]["ConclusionResponse"];
                 };
             };
@@ -2408,7 +2571,7 @@ export interface operations {
             };
         };
     };
-    update_6: {
+    update_7: {
         parameters: {
             query?: never;
             header?: never;
@@ -2434,7 +2597,7 @@ export interface operations {
             };
         };
     };
-    delete_3: {
+    delete_4: {
         parameters: {
             query: {
                 version: number;
@@ -2990,6 +3153,50 @@ export interface operations {
             };
         };
     };
+    list_3: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["LabTemplateResponse"][];
+                };
+            };
+        };
+    };
+    create_5: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LabTemplateRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["LabTemplateResponse"];
+                };
+            };
+        };
+    };
     preview: {
         parameters: {
             query?: never;
@@ -3423,7 +3630,7 @@ export interface operations {
             };
         };
     };
-    list_3: {
+    list_4: {
         parameters: {
             query?: never;
             header?: never;
@@ -3443,7 +3650,7 @@ export interface operations {
             };
         };
     };
-    create_5: {
+    create_6: {
         parameters: {
             query?: never;
             header?: never;
@@ -3700,7 +3907,7 @@ export interface operations {
             };
         };
     };
-    get_5: {
+    get_6: {
         parameters: {
             query?: never;
             header?: never;

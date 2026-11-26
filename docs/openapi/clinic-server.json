@@ -524,10 +524,98 @@
         }
       }
     },
+    "/api/v1/lab/templates/{id}" : {
+      "get" : {
+        "tags" : [ "lab-template-controller" ],
+        "operationId" : "get_4",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/LabTemplateResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "lab-template-controller" ],
+        "operationId" : "update_6",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/LabTemplateRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/LabTemplateResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "lab-template-controller" ],
+        "operationId" : "delete_3",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        }, {
+          "name" : "version",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "No Content"
+          }
+        }
+      }
+    },
     "/api/v1/conclusions/{id}" : {
       "get" : {
         "tags" : [ "conclusion-controller" ],
-        "operationId" : "get_4",
+        "operationId" : "get_5",
         "parameters" : [ {
           "name" : "id",
           "in" : "path",
@@ -841,7 +929,7 @@
     "/api/v1/agents/{id}" : {
       "put" : {
         "tags" : [ "agent-controller" ],
-        "operationId" : "update_6",
+        "operationId" : "update_7",
         "parameters" : [ {
           "name" : "id",
           "in" : "path",
@@ -876,7 +964,7 @@
       },
       "delete" : {
         "tags" : [ "agent-controller" ],
-        "operationId" : "delete_3",
+        "operationId" : "delete_4",
         "parameters" : [ {
           "name" : "id",
           "in" : "path",
@@ -1611,6 +1699,53 @@
         }
       }
     },
+    "/api/v1/lab/templates" : {
+      "get" : {
+        "tags" : [ "lab-template-controller" ],
+        "operationId" : "list_3",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/LabTemplateResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "lab-template-controller" ],
+        "operationId" : "create_5",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/LabTemplateRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/LabTemplateResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/imports/{kind}/preview" : {
       "post" : {
         "tags" : [ "import-controller" ],
@@ -2115,7 +2250,7 @@
     "/api/v1/agents" : {
       "get" : {
         "tags" : [ "agent-controller" ],
-        "operationId" : "list_3",
+        "operationId" : "list_4",
         "responses" : {
           "200" : {
             "description" : "OK",
@@ -2134,7 +2269,7 @@
       },
       "post" : {
         "tags" : [ "agent-controller" ],
-        "operationId" : "create_5",
+        "operationId" : "create_6",
         "requestBody" : {
           "content" : {
             "application/json" : {
@@ -2431,7 +2566,7 @@
     "/api/v1/cashier/payments/{id}" : {
       "get" : {
         "tags" : [ "cashier-controller" ],
-        "operationId" : "get_5",
+        "operationId" : "get_6",
         "parameters" : [ {
           "name" : "id",
           "in" : "path",
@@ -3236,6 +3371,196 @@
           }
         },
         "required" : [ "birthDate", "cardNo", "createdAt", "firstName", "fullName", "gender", "id", "lastName", "phone", "updatedAt", "version" ]
+      },
+      "AgeBound" : {
+        "type" : "object",
+        "properties" : {
+          "value" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "unit" : {
+            "type" : "string",
+            "enum" : [ "DAYS", "MONTHS", "YEARS" ]
+          }
+        },
+        "required" : [ "unit", "value" ]
+      },
+      "ChoiceOption" : {
+        "type" : "object",
+        "properties" : {
+          "label" : {
+            "type" : "string"
+          },
+          "normal" : {
+            "type" : "boolean"
+          }
+        },
+        "required" : [ "label", "normal" ]
+      },
+      "FormRow" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "kind" : {
+            "type" : "string",
+            "enum" : [ "HEADER", "NUMBER", "CHOICE", "POS_NEG", "TEXT" ]
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "unit" : {
+            "type" : [ "string", "null" ]
+          },
+          "decimals" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "options" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ChoiceOption"
+            }
+          },
+          "normalPositive" : {
+            "type" : "boolean"
+          },
+          "ranges" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ReferenceRange"
+            }
+          }
+        },
+        "required" : [ "decimals", "id", "kind", "name", "normalPositive", "options", "ranges" ]
+      },
+      "LabTemplateRequest" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 200,
+            "minLength" : 0
+          },
+          "serviceIds" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string",
+              "format" : "uuid"
+            },
+            "maxItems" : 50,
+            "minItems" : 0,
+            "uniqueItems" : true
+          },
+          "rows" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/FormRow"
+            },
+            "maxItems" : 200,
+            "minItems" : 0
+          },
+          "active" : {
+            "type" : "boolean"
+          },
+          "version" : {
+            "type" : [ "integer", "null" ],
+            "format" : "int32"
+          }
+        },
+        "required" : [ "active", "rows", "serviceIds" ]
+      },
+      "ReferenceRange" : {
+        "type" : "object",
+        "properties" : {
+          "kind" : {
+            "type" : "string",
+            "enum" : [ "NORMAL", "CRITICAL" ]
+          },
+          "sex" : {
+            "type" : "string",
+            "enum" : [ "ANY", "MALE", "FEMALE" ]
+          },
+          "ageFrom" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/AgeBound"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "ageTo" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/AgeBound"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "state" : {
+            "type" : "string",
+            "enum" : [ "NONE", "PREGNANCY_T1", "PREGNANCY_T2", "PREGNANCY_T3", "FOLLICULAR", "OVULATION", "LUTEAL", "POSTMENOPAUSE", "CUSTOM" ]
+          },
+          "customState" : {
+            "type" : [ "string", "null" ]
+          },
+          "low" : {
+            "type" : [ "number", "null" ]
+          },
+          "high" : {
+            "type" : [ "number", "null" ]
+          },
+          "text" : {
+            "type" : [ "string", "null" ]
+          },
+          "specificity" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        },
+        "required" : [ "kind", "sex", "specificity", "state" ]
+      },
+      "LabTemplateResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "serviceIds" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string",
+              "format" : "uuid"
+            }
+          },
+          "rows" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/FormRow"
+            }
+          },
+          "versionNo" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "active" : {
+            "type" : "boolean"
+          },
+          "updatedAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        },
+        "required" : [ "active", "id", "name", "rows", "serviceIds", "updatedAt", "version", "versionNo" ]
       },
       "EditConclusionRequest" : {
         "type" : "object",

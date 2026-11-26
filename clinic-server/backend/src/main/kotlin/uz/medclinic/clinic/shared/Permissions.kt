@@ -88,5 +88,8 @@ object Permissions {
     /** Reading conclusions: doctors and nurses (history), Reception handing ready results to the patient. */
     const val HAS_CONCLUSION_READ = "hasAnyAuthority('CONSULTATION_WRITE', 'MEDICAL_HISTORY_VIEW', 'RESULTS_HANDOVER')"
 
+    const val HAS_LAB_TEMPLATES_MANAGE = "hasAuthority('LAB_TEMPLATES_MANAGE')"
+    const val HAS_LAB_READ = "hasAnyAuthority('LAB_WORK', 'LAB_TEMPLATES_MANAGE')"
+
     const val HAS_CATALOG_READ = "hasAnyAuthority('PRICE_LIST_MANAGE', 'VISIT_CREATE', 'PAYMENT_ACCEPT')"
 }
