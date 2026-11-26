@@ -4,6 +4,12 @@ import type {
   Agent,
   AgentRequest,
   AuditEntry,
+  CreateVisitRequest,
+  Payment,
+  PaymentMethod,
+  PrintSettings,
+  UnpaidVisit,
+  Visit,
   DiscountType,
   DiscountTypeRequest,
   Doctor,
@@ -48,6 +54,9 @@ export const keys = {
   doctors: ["catalog", "doctors"] as const,
   discounts: ["catalog", "discounts"] as const,
   agents: ["agents"] as const,
+  patientVisits: (patientId: string) => ["visits", "patient", patientId] as const,
+  unpaid: (page: number) => ["cashier", "unpaid", page] as const,
+  printSettings: ["settings", "print"] as const,
 };
 
 /** Multipart upload with the CSRF header (file inputs). */
@@ -375,3 +384,75 @@ export function useAgents() {
 }
 
 export const useAgentMutations = () => useCatalogMutation<AgentRequest, Agent>("/api/v1/agents", "agents");
+
+// ---------- visits ----------
+
+export function usePatientVisits(patientId: string) {
+  return useQuery({
+    queryKey: keys.patientVisits(patientId),
+    queryFn: () => http.get<Visit[]>(`/api/v1/visits${query({ patientId })}`),
+    // Payments happen at another desk: keep the reception's view fresh without manual reloads.
+    refetchInterval: 20_000,
+  });
+}
+
+/** Every visit change can move money state: refresh visits and the cashier's list together. */
+function useVisitMutation<V>(fn: (vars: V) => Promise<Visit>) {
+  const invalidate = useInvalidate();
+  return useMutation({ mutationFn: fn, onSuccess: () => invalidate(["visits"], ["cashier"]) });
+}
+
+export const useCreateVisit = () => useVisitMutation((body: CreateVisitRequest) => http.post<Visit>("/api/v1/visits", body));
+
+export const useAddVisitService = () =>
+  useVisitMutation(({ id, ...body }: { id: string; serviceId: string; doctorId?: string; version: number }) =>
+    http.post<Visit>(`/api/v1/visits/${id}/services`, body),
+  );
+
+export const useCancelVisitService = () =>
+  useVisitMutation(({ id, itemId, ...body }: { id: string; itemId: string; reason: string; version: number }) =>
+    http.post<Visit>(`/api/v1/visits/${id}/services/${itemId}/cancel`, body),
+  );
+
+export const useUpdateVisit = () =>
+  useVisitMutation(({ id, ...body }: { id: string; discountTypeId?: string; agentId?: string; version: number }) =>
+    http.put<Visit>(`/api/v1/visits/${id}`, body),
+  );
+
+export const useAllowUnpaid = () =>
+  useVisitMutation(({ id, ...body }: { id: string; itemIds: string[]; reason: string; version: number }) =>
+    http.post<Visit>(`/api/v1/visits/${id}/allow`, body),
+  );
+
+// ---------- cashier ----------
+
+export function useUnpaidVisits(page: number) {
+  return useQuery({
+    queryKey: keys.unpaid(page),
+    queryFn: () => http.get<Page<UnpaidVisit>>(`/api/v1/cashier/unpaid${query({ page })}`),
+    placeholderData: keepPreviousData,
+    refetchInterval: 10_000,
+  });
+}
+
+export function usePay() {
+  const invalidate = useInvalidate();
+  return useMutation({
+    mutationFn: (body: { visitId: string; itemIds: string[]; method: PaymentMethod; amount: number }) =>
+      http.post<Payment>("/api/v1/cashier/payments", body),
+    // A rejected payment (amount changed, already paid) also means the screen is stale.
+    onSettled: () => invalidate(["cashier"], ["visits"]),
+  });
+}
+
+export function useVisitPayments(visitId: string | undefined) {
+  return useQuery({
+    queryKey: ["cashier", "payments", visitId],
+    queryFn: () => http.get<Payment[]>(`/api/v1/cashier/payments${query({ visitId })}`),
+    enabled: Boolean(visitId),
+  });
+}
+
+export function usePrintSettings() {
+  return useQuery({ queryKey: keys.printSettings, queryFn: () => http.get<PrintSettings>("/api/v1/settings/print"), staleTime: 5 * 60_000 });
+}

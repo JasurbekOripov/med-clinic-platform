@@ -1763,6 +1763,24 @@
         }
       }
     },
+    "/api/v1/settings/print" : {
+      "get" : {
+        "tags" : [ "settings-controller" ],
+        "operationId" : "print",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PrintSettingsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/permissions" : {
       "get" : {
         "tags" : [ "role-controller" ],
@@ -3466,6 +3484,36 @@
           }
         },
         "required" : [ "hasLogo", "idleLockMinutes" ]
+      },
+      "PrintSettingsResponse" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string"
+          },
+          "legalName" : {
+            "type" : [ "string", "null" ]
+          },
+          "address" : {
+            "type" : [ "string", "null" ]
+          },
+          "phone" : {
+            "type" : [ "string", "null" ]
+          },
+          "letterhead" : {
+            "type" : [ "string", "null" ]
+          },
+          "receiptHeader" : {
+            "type" : [ "string", "null" ]
+          },
+          "receiptFooter" : {
+            "type" : [ "string", "null" ]
+          },
+          "hasLogo" : {
+            "type" : "boolean"
+          }
+        },
+        "required" : [ "hasLogo", "name" ]
       },
       "PermissionGroupResponse" : {
         "type" : "object",

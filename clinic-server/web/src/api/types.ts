@@ -32,6 +32,14 @@ export type DiscountType = S["DiscountTypeResponse"];
 export type DiscountTypeRequest = S["DiscountTypeRequest"];
 export type Agent = S["AgentResponse"];
 export type AgentRequest = S["AgentRequest"];
+export type Visit = S["VisitResponse"];
+export type VisitItem = S["VisitItemResponse"];
+export type VisitItemStatus = VisitItem["status"];
+export type CreateVisitRequest = S["CreateVisitRequest"];
+export type UnpaidVisit = S["UnpaidVisitResponse"];
+export type Payment = S["PaymentResponse"];
+export type PaymentMethod = Payment["method"];
+export type PrintSettings = S["PrintSettingsResponse"];
 
 export interface Page<T> {
   items: T[];

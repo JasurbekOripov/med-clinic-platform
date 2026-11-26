@@ -4,7 +4,7 @@ The program that runs **inside each clinic**: one server PC holds the database a
 staff PC over the clinic LAN. All patient and clinic data lives only here. See [ARCHITECTURE.md](ARCHITECTURE.md)
 for system-wide rules; this document records what the owner decided for the Clinic Server.
 
-Status: **M1 implemented** (see §7); M2 in progress (patients and price list done, see §8). Next: visits, basic cashier, queue.
+Status: **M1 implemented** (see §7); M2 in progress (patients, price list, agents, visits and basic cashier done, see §8). Next: queues.
 
 ## 1. Deployment
 
@@ -102,6 +102,8 @@ Development and tests use `clinic.vendor.dev-keyring`, honoured only in the dev/
 |---|---|
 | `catalog` | price list, changed only with `PRICE_LIST_MANAGE` (Admin); read by reception and cashiers. Groups → services (optional code, one name as the clinic writes it, price in whole UZS). A service can have **an own price per doctor** (consultations; doctors = active staff of non-system roles with `CONSULTATION_WRITE`; no own price → base price). Lab and other services: one price for all. Services can be deactivated or soft-deleted; visits will copy name and price, so past visits never change. **Discount types** (name + 1–100 %), created by the Admin; Reception picks one per visit from a list (no document number). Percent discount rounds half up to whole sum. Every change audited. |
 | `agents` | referral agents managed with `AGENT_MANAGE` (Admin): name, optional phone, **fixed fee per paid referred visit** (UZS), notes, active. Reception reads the list to record who referred a visit; the visit will copy the fee, the Admin report sums fees owed and payouts. Soft delete, audited. |
+| `visits` | a visit groups services ordered for one patient; name, price, the visit's single discount and the agent fee are copied at ordering. Reception (`VISIT_CREATE`) orders, a consultation needs a doctor (doctor's own price); `VISIT_EDIT_UNPAID` cancels only unpaid services (reason required) and changes the discount (re-prices unpaid services only); the agent is fixed after the first payment. **Doctors, lab and nurses get only paid services or those the Admin allowed** (`EMERGENCY_ALLOW`, reason required, the amount stays owed) — enforced by the server. Publishes `VisitItemsPaid`. |
+| `cashier` | basic cashier (`PAYMENT_ACCEPT`): list of visits with unpaid services, pay chosen services in cash, card or transfer; the visit row is locked so a service is paid once, and the total the cashier saw must still match (409 `payment.amount_changed`). Immutable payment with copied lines and a receipt number; 80 mm receipt printed from Chrome with the clinic's receipt texts (`/settings/print`). Shifts (X/Z), refunds (Admin) and the debts list come in M5. |
 | `patients` | patient card (card number from a sequence, names, gender, birth date, phone required, address, notes), soft delete (`PATIENT_DELETE`, Admin), audit on every change. One search box: up to 6 digits = card number, 7+ digits = phone, otherwise name in Latin or Cyrillic (`NameNormalizer` + `pg_trgm`). Duplicate warning (same name + birth date, or same phone + similar name) while typing and again on save (409 `patient.possible_duplicate` with candidates); Reception may confirm "different person". No merge (owner's decision). |
 
 Web: keyboard-first patients screen (type → ↑/↓ → Enter, F2 = new patient), patient page with a visits-history placeholder.

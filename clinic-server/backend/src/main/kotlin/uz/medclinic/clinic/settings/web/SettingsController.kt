@@ -47,6 +47,20 @@ data class SettingsResponse(
 }
 
 /** What the login screen and the app shell need before/after sign-in; contains nothing sensitive. */
+/** What printed documents (receipts, later results and letters) show about the clinic; nothing secret. */
+data class PrintSettingsResponse(
+    val name: String,
+    val legalName: String?,
+    val address: String?,
+    val phone: String?,
+    val letterhead: String?,
+    val receiptHeader: String?,
+    val receiptFooter: String?,
+    val hasLogo: Boolean,
+) {
+    constructor(s: ClinicSettings) : this(s.name, s.legalName, s.address, s.phone?.e164, s.letterhead, s.receiptHeader, s.receiptFooter, s.hasLogo)
+}
+
 data class PublicSettingsResponse(val name: String?, val hasLogo: Boolean, val idleLockMinutes: Int)
 
 data class SettingsRequest(
@@ -70,6 +84,10 @@ class SettingsController(private val settings: SettingsService) {
         val s = settings.findOrNull()
         return PublicSettingsResponse(s?.name, s?.hasLogo ?: false, s?.idleLockMinutes ?: ClinicSettings.DEFAULT_IDLE_LOCK_MINUTES)
     }
+
+    @GetMapping("/print")
+    @PreAuthorize(Permissions.HAS_PRINTING)
+    fun print() = PrintSettingsResponse(settings.get())
 
     @GetMapping
     @PreAuthorize(Permissions.HAS_SETTINGS_MANAGE)

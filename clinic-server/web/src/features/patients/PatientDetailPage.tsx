@@ -1,4 +1,4 @@
-import { ArrowLeft, CalendarClock, Pencil, Trash2, UserRound } from "lucide-react";
+import { ArrowLeft, Pencil, Trash2, UserRound } from "lucide-react";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate, useParams } from "react-router";
@@ -6,11 +6,12 @@ import { toast } from "sonner";
 import { ErrorState, Spinner } from "@medclinic/web-ui/components/Common";
 import { ConfirmDialog } from "@medclinic/web-ui/components/ConfirmDialog";
 import { Button } from "@medclinic/web-ui/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@medclinic/web-ui/components/ui/card";
+import { Card, CardContent } from "@medclinic/web-ui/components/ui/card";
 import { formatDate, formatDateTime, formatPhone } from "@medclinic/web-ui/lib/format";
 import { cn } from "@medclinic/web-ui/lib/utils";
 import { useDeletePatient, usePatient } from "@/api/hooks";
 import { usePermissions } from "@/features/auth/permissions";
+import { PatientVisits } from "@/features/visits/PatientVisits";
 import { ageOn } from "./age";
 import { PatientDialog } from "./PatientDialog";
 
@@ -64,14 +65,7 @@ export function PatientDetailPage() {
           </div>
         </CardContent>
       </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <CalendarClock className="size-5 text-primary" aria-hidden /> {t("patients.history")}
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="text-sm text-muted-foreground">{t("patients.historySoon")}</CardContent>
-      </Card>
+      <PatientVisits patientId={p.id} />
       <PatientDialog patient={p} open={editing} onOpenChange={setEditing} />
       <ConfirmDialog
         open={deleting}

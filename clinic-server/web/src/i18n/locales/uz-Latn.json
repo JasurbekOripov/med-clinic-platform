@@ -13,7 +13,8 @@
     "license": "Litsenziya",
     "patients": "Bemorlar",
     "priceList": "Narxlar",
-    "agents": "Agentlar"
+    "agents": "Agentlar",
+    "cashier": "Kassa"
   },
   "common": {
     "save": "Saqlash",
@@ -67,7 +68,8 @@
     "licenseHint": "Litsenziya va vendor bilan aloqa",
     "patientsHint": "Bemorlarni topish va roʻyxatga olish",
     "priceListHint": "Xizmatlar, narxlar va chegirmalar",
-    "agentsHint": "Bemor yuboruvchilar va ularning haqi"
+    "agentsHint": "Bemor yuboruvchilar va ularning haqi",
+    "cashierHint": "Toʻlovlarni qabul qilish va chek chiqarish"
   },
   "auth": {
     "title": "Tizimga kirish",
@@ -432,10 +434,27 @@
       "unknown_group": "Guruh topilmadi",
       "unknown_doctor": "Shifokor topilmadi",
       "duplicate_doctor": "Shifokor ikki marta kiritilgan",
-      "doctor_prices_not_per_doctor": "Shifokor narxlari faqat “oʻz narxi” belgilanganda"
+      "doctor_prices_not_per_doctor": "Shifokor narxlari faqat “oʻz narxi” belgilanganda",
+      "unknown_service": "Xizmat topilmadi yoki faol emas",
+      "doctor_required": "Shifokorni tanlang",
+      "unknown_discount": "Chegirma topilmadi yoki faol emas"
     },
     "agent": {
       "name_taken": "Bunday nomli agent bor."
+    },
+    "visit": {
+      "unknown_patient": "Bemor topilmadi",
+      "unknown_agent": "Agent topilmadi yoki faol emas",
+      "item_already_paid": "Xizmat toʻlangan. Uni faqat administrator qaytara oladi.",
+      "item_already_cancelled": "Xizmat allaqachon bekor qilingan.",
+      "item_not_payable": "Bu xizmat endi toʻlanmagan emas (toʻlangan yoki bekor qilingan). Roʻyxat yangilandi.",
+      "item_not_allowable": "Faqat toʻlanmagan xizmatlarga ruxsat beriladi.",
+      "agent_locked": "Toʻlov boʻlgandan keyin agentni oʻzgartirib boʻlmaydi.",
+      "too_many_items": "Bir tashrifda {{max}} tadan koʻp xizmat boʻlmaydi.",
+      "item_not_found": "Xizmat topilmadi."
+    },
+    "payment": {
+      "amount_changed": "Tashrif oʻzgargan, summa endi boshqa. Roʻyxat yangilandi — qayta tekshiring."
     }
   },
   "gender": {
@@ -469,7 +488,6 @@
     "confirmDelete": "{{name}} oʻchirilsinmi? Karta arxivda saqlanadi, lekin qidiruvda koʻrinmaydi.",
     "deleted": "Bemor oʻchirildi",
     "history": "Tashriflar tarixi",
-    "historySoon": "Tashriflar, tahlillar va koʻriklar keyingi bosqichda shu yerda koʻrinadi.",
     "notes": "Izoh"
   },
   "catalog": {
@@ -528,5 +546,68 @@
     "activeLabel": "Faol (roʻyxatga olishda tanlash mumkin)",
     "confirmDelete": "“{{name}}” agentini oʻchirasizmi?",
     "deleteHint": "Oldingi tashriflardagi maʼlumotlar saqlanib qoladi."
+  },
+  "paymentMethod": {
+    "CASH": "Naqd",
+    "CARD": "Karta",
+    "TRANSFER": "Oʻtkazma"
+  },
+  "visits": {
+    "new": "Yangi tashrif",
+    "create": "Tashrifni yaratish",
+    "saved": "Saqlandi",
+    "empty": "Hali tashriflar yoʻq",
+    "number": "Tashrif №{{no}}",
+    "addServices": "Tashrif №{{no}} ga xizmat qoʻshish",
+    "addService": "Xizmat",
+    "addToVisit": "Qoʻshish",
+    "searchService": "Xizmat nomi, kodi yoki guruhi — Enter qoʻshadi",
+    "noServiceFound": "Xizmat topilmadi",
+    "chosen": "Tanlangan: {{count}}",
+    "chooseHint": "Chapdan xizmat tanlang",
+    "doctor": "Shifokor",
+    "chooseDoctor": "Shifokorni tanlang",
+    "discount": "Chegirma",
+    "noDiscount": "Chegirmasiz",
+    "agent": "Yuborgan agent",
+    "noAgent": "Agentsiz",
+    "toPay": "Toʻlanadi",
+    "status": {
+      "UNPAID": "Toʻlanmagan",
+      "PAID": "Toʻlangan",
+      "CANCELLED": "Bekor qilingan"
+    },
+    "allowed": "Ruxsat berilgan",
+    "allow": "Toʻlovsiz ruxsat",
+    "allowTitle": "Toʻlovdan oldin xizmat koʻrsatishga ruxsat berasizmi?",
+    "allowHint": "Shifokor va laboratoriya bemorni koʻradi. {{amount}} soʻm qarz sifatida qayd etiladi.",
+    "cancelService": "Xizmatni bekor qilish",
+    "confirmCancel": "“{{name}}” xizmatini bekor qilasizmi?",
+    "paidCannotCancel": "Toʻlangan xizmatni faqat administrator qaytaradi",
+    "cancelledBecause": "sabab: {{reason}}",
+    "reason": "Sabab",
+    "total": "Jami",
+    "paid": "Toʻlangan",
+    "unpaid": "Qoldiq"
+  },
+  "cashier": {
+    "title": "Kassa",
+    "subtitle": "Toʻlanmagan tashriflar oʻzi yangilanib turadi.",
+    "searchPlaceholder": "Bemor ismi, karta yoki tashrif raqami",
+    "nothingToPay": "Toʻlanmagan tashriflar yoʻq",
+    "chooseVisit": "Chapdan tashrifni tanlang",
+    "method": "Toʻlov usuli",
+    "toReceive": "Qabul qilinadi",
+    "accept": "Toʻlovni qabul qilish",
+    "receiptTitle": "Chek №{{no}}"
+  },
+  "receipt": {
+    "number": "Chek №",
+    "visit": "Tashrif",
+    "patient": "Bemor",
+    "discount": "Chegirma",
+    "total": "JAMI",
+    "method": "Toʻlov",
+    "cashier": "Kassir"
   }
 }

@@ -54,6 +54,13 @@ class SettingsApiTest : IntegrationTest() {
         mockMvc.put("/api/v1/settings") {
             with(asStaff(cashier)); contentType = MediaType.APPLICATION_JSON; content = """{"name":"X","version":1}"""
         }.andExpect { status { isForbidden() } }
+        // The cashier prints receipts with the clinic's texts but cannot read or change the full settings.
+        mockMvc.get("/api/v1/settings/print") { with(asStaff(cashier)) }.andExpect {
+            jsonPath("$.name") { value("Shifo Med Plus") }
+            jsonPath("$.receiptFooter") { value("Rahmat!\nSogʻ boʻling") }
+        }
+        mockMvc.get("/api/v1/settings") { with(asStaff(cashier)) }.andExpect { status { isForbidden() } }
+        mockMvc.get("/api/v1/settings/print") { with(asStaff(createStaff("nurse", RoleTemplate.NURSE))) }.andExpect { status { isForbidden() } }
     }
 
     @Test

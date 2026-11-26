@@ -73,5 +73,9 @@ object Permissions {
     /** Agents list: who manages agents, and Reception, who records which agent referred a visit. */
     const val HAS_AGENT_READ = "hasAnyAuthority('AGENT_MANAGE', 'VISIT_CREATE')"
 
+    /** Staff who print documents with the clinic's letterhead (receipts now; results and letters later). */
+    const val HAS_PRINTING =
+        "hasAnyAuthority('SETTINGS_MANAGE', 'PAYMENT_ACCEPT', 'VISIT_CREATE', 'RESULTS_HANDOVER', 'CONSULTATION_WRITE', 'LAB_WORK')"
+
     const val HAS_CATALOG_READ = "hasAnyAuthority('PRICE_LIST_MANAGE', 'VISIT_CREATE', 'PAYMENT_ACCEPT')"
 }
