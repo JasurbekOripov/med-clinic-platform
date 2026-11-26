@@ -44,6 +44,8 @@ export type TicketSlip = S["TicketSlip"];
 export type Queue = S["QueueResponse"];
 export type QueueRequest = S["QueueRequest"];
 export type Ticket = S["TicketResponse"];
+export type Conclusion = S["ConclusionResponse"];
+export type ConclusionTemplate = S["TemplateResponse"];
 
 export interface Page<T> {
   items: T[];

@@ -470,6 +470,14 @@
     "ticket": {
       "already_done": "Bu bemor allaqachon qabul qilingan",
       "not_done": "Bu bemor hali kutmoqda"
+    },
+    "conclusion": {
+      "service_not_available": "Bu xizmat hali toʻlanmagan",
+      "not_your_patient": "Bu xizmat boshqa shifokorga buyurilgan",
+      "already_written": "Bu xizmat uchun xulosa allaqachon yozilgan",
+      "not_author": "Xulosani faqat uni yozgan shifokor oʻzgartiradi",
+      "locked": "Xulosa faqat yozilgan kuni oʻzgartiriladi. Qoʻshimcha yozing.",
+      "template_name_taken": "Bunday nomli shablon bor"
     }
   },
   "gender": {
@@ -657,5 +665,28 @@
     "undoSeen": "Qaytarish",
     "slips": "Talonlar",
     "slipHint": "Talonni xonaga koʻrsating"
+  },
+  "conclusions": {
+    "write": "Xulosa yozish",
+    "edit": "Xulosani tahrirlash",
+    "title": "Sarlavha",
+    "body": "Xulosa matni",
+    "bodyHint": "Klinika blanki, bemor maʼlumotlari, sana va imzo chop etishda oʻzi qoʻshiladi.",
+    "insertTemplate": "Shablon qoʻyish",
+    "noTemplates": "Shablonlar yoʻq",
+    "saveAsTemplate": "Shablon sifatida saqlash",
+    "templateName": "Shablon nomi",
+    "templateSaved": "Shablon saqlandi",
+    "manageTemplates": "Mening shablonlarim",
+    "history": "Xulosalar",
+    "addNote": "Qoʻshimcha",
+    "addNoteTitle": "“{{title}}” ga qoʻshimcha",
+    "addNoteHint": "Xulosa matni oʻzgarmaydi; qoʻshimcha sana va ismingiz bilan pastiga yoziladi.",
+    "note": "Qoʻshimcha matni",
+    "notesCount": "Qoʻshimchalar: {{count}}",
+    "patient": "Bemor",
+    "date": "Sana",
+    "notes": "Qoʻshimchalar",
+    "doctor": "Shifokor"
   }
 }

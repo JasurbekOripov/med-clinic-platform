@@ -7,10 +7,10 @@ import { Card } from "@medclinic/web-ui/components/ui/card";
 import { usePatientVisits } from "@/api/hooks";
 import { usePermissions } from "@/features/auth/permissions";
 import { OrderServicesDialog } from "./OrderServicesDialog";
-import { VisitCard } from "./VisitCard";
+import { type ConclusionAction, VisitCard } from "./VisitCard";
 
 /** Visits on the patient page. What each person sees is decided by the server (unpaid services stay hidden from doctors). */
-export function PatientVisits({ patientId }: { patientId: string }) {
+export function PatientVisits({ patientId, conclusions }: { patientId: string; conclusions?: ConclusionAction }) {
   const { t } = useTranslation();
   const { can } = usePermissions();
   const { data, isPending, error, refetch } = usePatientVisits(patientId);
@@ -39,7 +39,7 @@ export function PatientVisits({ patientId }: { patientId: string }) {
       ) : (
         <div className="space-y-4">
           {data.map((v) => (
-            <VisitCard key={v.id} visit={v} />
+            <VisitCard key={v.id} visit={v} conclusions={conclusions} />
           ))}
         </div>
       )}

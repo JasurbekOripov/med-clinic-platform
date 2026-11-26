@@ -1,4 +1,4 @@
-import { HandHeart, Percent, Plus, Handshake, XCircle } from "lucide-react";
+import { FilePen, HandHeart, Handshake, Percent, Plus, XCircle } from "lucide-react";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -18,7 +18,10 @@ import { ReasonDialog } from "./ReasonDialog";
 
 const STATUS_TONE: Record<VisitItemStatus, BadgeTone> = { UNPAID: "amber", PAID: "green", CANCELLED: "gray" };
 
-export function VisitCard({ visit }: { visit: Visit }) {
+/** What the patient page passes down so doctors can write a conclusion for a service. */
+export type ConclusionAction = { concluded: Set<string>; meId: string | undefined; write: (item: VisitItem) => void };
+
+export function VisitCard({ visit, conclusions }: { visit: Visit; conclusions?: ConclusionAction }) {
   const { t } = useTranslation();
   const { can } = usePermissions();
   const cancel = useCancelVisitService();
@@ -64,6 +67,11 @@ export function VisitCard({ visit }: { visit: Visit }) {
                 {i.cancelReason && ` · ${t("visits.cancelledBecause", { reason: i.cancelReason })}`}
               </div>
             </div>
+            {conclusions && canConclude(i, conclusions) && (
+              <Button size="sm" onClick={() => conclusions.write(i)}>
+                <FilePen /> {t("conclusions.write")}
+              </Button>
+            )}
             {i.allowed && i.status === "UNPAID" && (
               <Badge tone="blue" title={i.allowReason ?? undefined}>{t("visits.allowed")}</Badge>
             )}
@@ -173,4 +181,10 @@ function Total({ label, value, strong }: { label: string; value: number; strong?
       </div>
     </div>
   );
+}
+
+/** Paid (or Admin-allowed) service, not yet concluded, ordered with this doctor or with no doctor (the server checks too). */
+function canConclude(i: VisitItem, c: ConclusionAction): boolean {
+  const workable = i.status === "PAID" || (i.status === "UNPAID" && i.allowed);
+  return workable && !c.concluded.has(i.id) && (!i.doctorId || i.doctorId === c.meId);
 }

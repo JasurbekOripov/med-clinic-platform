@@ -9,24 +9,36 @@ import { Button } from "@medclinic/web-ui/components/ui/button";
 import { Card, CardContent } from "@medclinic/web-ui/components/ui/card";
 import { formatDate, formatDateTime, formatPhone } from "@medclinic/web-ui/lib/format";
 import { cn } from "@medclinic/web-ui/lib/utils";
-import { useDeletePatient, usePatient } from "@/api/hooks";
+import { useDeletePatient, useMe, usePatient, usePatientConclusions } from "@/api/hooks";
+import type { Patient, VisitItem } from "@/api/types";
 import { usePermissions } from "@/features/auth/permissions";
+import { ConclusionEditor } from "@/features/conclusions/ConclusionEditor";
+import { PatientConclusions, usePrintConclusion } from "@/features/conclusions/PatientConclusions";
 import { PatientVisits } from "@/features/visits/PatientVisits";
 import { ageOn } from "./age";
 import { PatientDialog } from "./PatientDialog";
 
 export function PatientDetailPage() {
   const { id = "" } = useParams();
+  const { data, isPending, error, refetch } = usePatient(id);
+  if (isPending) return <Spinner />;
+  if (error) return <ErrorState error={error} onRetry={() => void refetch()} />;
+  return <PatientBody p={data} />;
+}
+
+function PatientBody({ p }: { p: Patient }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { can } = usePermissions();
-  const { data: p, isPending, error, refetch } = usePatient(id);
+  const me = useMe();
   const remove = useDeletePatient();
   const [editing, setEditing] = React.useState(false);
   const [deleting, setDeleting] = React.useState(false);
-
-  if (isPending) return <Spinner />;
-  if (error) return <ErrorState error={error} onRetry={() => void refetch()} />;
+  const [writing, setWriting] = React.useState<VisitItem | null>(null);
+  const canReadConclusions = can("CONSULTATION_WRITE") || can("MEDICAL_HISTORY_VIEW") || can("RESULTS_HANDOVER");
+  const conclusions = usePatientConclusions(p.id, canReadConclusions);
+  const concluded = React.useMemo(() => new Set((conclusions.data ?? []).map((c) => c.visitItemId)), [conclusions.data]);
+  const { print, portal } = usePrintConclusion(p);
 
   return (
     <>
@@ -65,7 +77,23 @@ export function PatientDetailPage() {
           </div>
         </CardContent>
       </Card>
-      <PatientVisits patientId={p.id} />
+      {canReadConclusions && <PatientConclusions patient={p} query={conclusions} />}
+      <PatientVisits
+        patientId={p.id}
+        conclusions={can("CONSULTATION_WRITE") ? { concluded, meId: me.data?.id, write: setWriting } : undefined}
+      />
+      {writing && (
+        <ConclusionEditor
+          visitItemId={writing.id}
+          defaultTitle={writing.serviceName}
+          onClose={() => setWriting(null)}
+          onSaved={(c) => {
+            setWriting(null);
+            print(c);
+          }}
+        />
+      )}
+      {portal}
       <PatientDialog patient={p} open={editing} onOpenChange={setEditing} />
       <ConfirmDialog
         open={deleting}

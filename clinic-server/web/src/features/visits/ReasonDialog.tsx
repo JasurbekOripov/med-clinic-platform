@@ -10,6 +10,7 @@ import { Textarea } from "@medclinic/web-ui/components/ui/input";
 export function ReasonDialog({
   title,
   description,
+  label,
   confirmLabel,
   danger,
   onConfirm,
@@ -17,6 +18,8 @@ export function ReasonDialog({
 }: {
   title: string;
   description?: string;
+  /** Field label; defaults to "Reason". */
+  label?: string;
   confirmLabel: string;
   danger?: boolean;
   onConfirm: (reason: string) => Promise<unknown>;
@@ -46,7 +49,7 @@ export function ReasonDialog({
             }
           }}
         >
-          <Field label={t("visits.reason")}>
+          <Field label={label ?? t("visits.reason")}>
             <Textarea autoFocus value={reason} maxLength={500} onChange={(e) => setReason(e.target.value)} />
           </Field>
           <FormError error={error} />

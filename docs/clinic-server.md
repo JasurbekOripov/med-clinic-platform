@@ -4,7 +4,7 @@ The program that runs **inside each clinic**: one server PC holds the database a
 staff PC over the clinic LAN. All patient and clinic data lives only here. See [ARCHITECTURE.md](ARCHITECTURE.md)
 for system-wide rules; this document records what the owner decided for the Clinic Server.
 
-Status: **M1 implemented** (see §7); **M2 implemented** (see §8). Next: M3 doctor's workspace.
+Status: **M1 implemented** (see §7); **M2 implemented** (see §8); M3 doctor's conclusions implemented (§9). Next: M4 laboratory.
 
 ## 1. Deployment
 
@@ -115,3 +115,15 @@ payment, receipt; shifts, refunds and debts in M5); one discount per visit chose
 repeat-visit price (the doctor orders a new service at full price); referral agents managed by the Admin with a fixed
 amount, totals in the Admin report; printing from Chrome (80 mm receipt / A4) until printer models are known; no TV
 screen for now (doctors call by the number on the slip); one slip per room plus one money receipt; doctors' and lab's opening of patient cards is audited.
+
+## 9. M3 as built — doctor's conclusions
+
+Owner's decisions (2026-11): free-text conclusion inside a fixed printed layout (letterhead, title, patient, date, doctor and
+signature); no ICD-10 codes (clinics do not report them); doctors do not order services — the patient returns to Reception.
+
+| Module | Contents |
+|---|---|
+| `conclusions` | one conclusion per paid (or Admin-allowed) service; a service ordered with a doctor is concluded only by that doctor (`CONSULTATION_WRITE`). The author edits it on the same Tashkent day; afterwards corrections are dated, signed notes (the original text never changes). Doctors and nurses read the patient's history (`MEDICAL_HISTORY_VIEW`), Reception reads and reprints for the patient (`RESULTS_HANDOVER`). Each doctor's own text templates. Author's signature image served for printing. Audited. |
+
+Web: "Xulosa yozish" on the doctor's paid services → editor (title from the service, free text, own templates inserted at the
+cursor) → A4 print on the clinic letterhead; conclusions history on the patient page with print, same-day edit and notes.

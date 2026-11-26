@@ -4,6 +4,8 @@ import type {
   Agent,
   AgentRequest,
   AuditEntry,
+  Conclusion,
+  ConclusionTemplate,
   CreateVisitRequest,
   Payment,
   PaymentMethod,
@@ -61,6 +63,8 @@ export const keys = {
   unpaid: (page: number) => ["cashier", "unpaid", page] as const,
   printSettings: ["settings", "print"] as const,
   queues: ["queues"] as const,
+  conclusions: (patientId: string) => ["conclusions", patientId] as const,
+  conclusionTemplates: ["conclusion-templates"] as const,
   tickets: (queueId: string) => ["queues", "tickets", queueId] as const,
 };
 
@@ -488,3 +492,37 @@ export function useTicketDone() {
     onSettled: () => invalidate(["queues", "tickets"]),
   });
 }
+
+// ---------- conclusions ----------
+
+export function usePatientConclusions(patientId: string, enabled: boolean) {
+  return useQuery({
+    queryKey: keys.conclusions(patientId),
+    queryFn: () => http.get<Conclusion[]>(`/api/v1/conclusions${query({ patientId })}`),
+    enabled,
+  });
+}
+
+export function useSaveConclusion() {
+  const invalidate = useInvalidate();
+  return useMutation({
+    mutationFn: ({ id, ...body }: { id?: string; visitItemId?: string; title: string; body: string; version?: number }) =>
+      id ? http.put<Conclusion>(`/api/v1/conclusions/${id}`, body) : http.post<Conclusion>("/api/v1/conclusions", body),
+    onSuccess: () => invalidate(["conclusions"]),
+  });
+}
+
+export function useAddConclusionNote() {
+  const invalidate = useInvalidate();
+  return useMutation({
+    mutationFn: ({ id, text }: { id: string; text: string }) => http.post<Conclusion>(`/api/v1/conclusions/${id}/notes`, { text }),
+    onSuccess: () => invalidate(["conclusions"]),
+  });
+}
+
+export function useConclusionTemplates() {
+  return useQuery({ queryKey: keys.conclusionTemplates, queryFn: () => http.get<ConclusionTemplate[]>("/api/v1/conclusions/templates") });
+}
+
+export const useConclusionTemplateMutations = () =>
+  useCatalogMutation<{ name: string; body: string; version?: number }, ConclusionTemplate>("/api/v1/conclusions/templates", "conclusion-templates");
