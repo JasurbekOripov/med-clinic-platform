@@ -75,9 +75,9 @@ data class ReferenceRange(
         return true
     }
 
-    /** Higher = narrower population; the most specific matching range is used. */
-    val specificity: Int
-        get() = (if (state != PhysioState.NONE) 100 else 0) + (if (sex != RangeSex.ANY) 10 else 0) +
+    /** Higher = narrower population; the most specific matching range is used. A function, so it is not serialised. */
+    fun specificity(): Int =
+        (if (state != PhysioState.NONE) 100 else 0) + (if (sex != RangeSex.ANY) 10 else 0) +
             (if (ageFrom != null) 1 else 0) + (if (ageTo != null) 1 else 0)
 
     /** Printed norm: the lab's text if given, otherwise "low – high", "≥ low" or "≤ high". */
@@ -107,7 +107,7 @@ data class FormRow(
     /** The most specific matching range of [kind]; on a tie the first in the lab's order. */
     fun rangeFor(p: PatientContext, kind: RangeKind = RangeKind.NORMAL): ReferenceRange? =
         ranges.withIndex().filter { it.value.kind == kind && it.value.matches(p) }
-            .maxWithOrNull(compareBy<IndexedValue<ReferenceRange>> { it.value.specificity }.thenByDescending { it.index })?.value
+            .maxWithOrNull(compareBy<IndexedValue<ReferenceRange>> { it.value.specificity() }.thenByDescending { it.index })?.value
 }
 
 enum class Flag { NORMAL, LOW, HIGH, CRITICAL_LOW, CRITICAL_HIGH, ABNORMAL, NO_RANGE }

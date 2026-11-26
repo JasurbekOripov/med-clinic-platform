@@ -3513,13 +3513,9 @@
           },
           "text" : {
             "type" : [ "string", "null" ]
-          },
-          "specificity" : {
-            "type" : "integer",
-            "format" : "int32"
           }
         },
-        "required" : [ "kind", "sex", "specificity", "state" ]
+        "required" : [ "kind", "sex", "state" ]
       },
       "LabTemplateResponse" : {
         "type" : "object",

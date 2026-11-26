@@ -1268,8 +1268,6 @@ export interface components {
             low?: number | null;
             high?: number | null;
             text?: string | null;
-            /** Format: int32 */
-            specificity: number;
         };
         LabTemplateResponse: {
             /** Format: uuid */

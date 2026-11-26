@@ -68,7 +68,8 @@ class CatalogApiTest : IntegrationTest() {
         post("/api/v1/catalog/discounts", """{"name":"Nafaqaxoʻr","percent":20}""", as_ = cashier).andExpect { status { isForbidden() } }
         mockMvc.get("/api/v1/catalog/groups") { with(asStaff(reception)) }.andExpect { status { isOk() } }
         mockMvc.get("/api/v1/catalog/services") { with(asStaff(cashier)) }.andExpect { status { isOk() } }
-        mockMvc.get("/api/v1/catalog/services") { with(asStaff(createStaff("lab", RoleTemplate.LAB))) }.andExpect { status { isForbidden() } }
+        mockMvc.get("/api/v1/catalog/services") { with(asStaff(createStaff("lab", RoleTemplate.LAB))) }.andExpect { status { isOk() } }
+        mockMvc.get("/api/v1/catalog/services") { with(asStaff(createStaff("doctor", RoleTemplate.DOCTOR))) }.andExpect { status { isForbidden() } }
     }
 
     @Test

@@ -4,6 +4,8 @@ import type {
   Agent,
   AgentRequest,
   AuditEntry,
+  LabTemplate,
+  LabTemplateRequest,
   Conclusion,
   ConclusionTemplate,
   CreateVisitRequest,
@@ -65,6 +67,7 @@ export const keys = {
   queues: ["queues"] as const,
   conclusions: (patientId: string) => ["conclusions", patientId] as const,
   conclusionTemplates: ["conclusion-templates"] as const,
+  labTemplates: ["lab", "templates"] as const,
   tickets: (queueId: string) => ["queues", "tickets", queueId] as const,
 };
 
@@ -531,3 +534,11 @@ export const useConclusionTemplateMutations = () =>
 export function useReprint() {
   return useMutation({ mutationFn: (id: string) => http.post<Payment>(`/api/v1/cashier/payments/${id}/reprint`) });
 }
+
+// ---------- laboratory ----------
+
+export function useLabTemplates() {
+  return useQuery({ queryKey: keys.labTemplates, queryFn: () => http.get<LabTemplate[]>("/api/v1/lab/templates") });
+}
+
+export const useLabTemplateMutations = () => useCatalogMutation<LabTemplateRequest, LabTemplate>("/api/v1/lab/templates", "lab");

@@ -15,7 +15,8 @@
     "priceList": "Narxlar",
     "agents": "Agentlar",
     "cashier": "Kassa",
-    "queue": "Navbat"
+    "queue": "Navbat",
+    "lab": "Laboratoriya"
   },
   "common": {
     "save": "Saqlash",
@@ -71,7 +72,8 @@
     "priceListHint": "Xizmatlar, narxlar va chegirmalar",
     "agentsHint": "Bemor yuboruvchilar va ularning haqi",
     "cashierHint": "Toʻlovlarni qabul qilish va chek chiqarish",
-    "queueHint": "Bugungi toʻlangan bemorlar raqam boʻyicha"
+    "queueHint": "Bugungi toʻlangan bemorlar raqam boʻyicha",
+    "labHint": "Tahlil shakllari va natijalar"
   },
   "auth": {
     "title": "Tizimga kirish",
@@ -236,7 +238,7 @@
     "CONSULTATION_WRITE": "Koʻrik yozish",
     "SERVICE_ORDER": "Xizmat buyurish",
     "LAB_WORK": "Laboratoriya ishi",
-    "LAB_TEMPLATES_MANAGE": "Tahlil shablonlari",
+    "LAB_TEMPLATES_MANAGE": "Laboratoriya shakllari",
     "INPATIENT_WORK": "Statsionar",
     "OPERATIONS_WORK": "Operatsiyalar",
     "PATIENT_DELETE": "Bemorni oʻchirish",
@@ -478,6 +480,19 @@
       "not_author": "Xulosani faqat uni yozgan shifokor oʻzgartiradi",
       "locked": "Xulosa faqat yozilgan kuni oʻzgartiriladi. Qoʻshimcha yozing.",
       "template_name_taken": "Bunday nomli shablon bor"
+    },
+    "lab": {
+      "form_empty": "Kamida bitta koʻrsatkich qoʻshing",
+      "duplicate_row": "Qatorlar takrorlanmoqda",
+      "choice_options": "Kamida 2 ta har xil variant kiriting",
+      "ranges_only_for_numbers": "Raqamli chegaralar faqat “Raqam” qatorida",
+      "range_empty": "Quyi, yuqori yoki matnli meʼyorni kiriting",
+      "range_low_above_high": "Quyi chegara yuqoridan katta",
+      "age_negative": "Yosh notoʻgʻri",
+      "age_order": "“Yoshdan” “Yoshgacha”dan kichik boʻlsin",
+      "state_needs_female": "Bu holat faqat ayollar uchun",
+      "service_has_form": "Xizmat “{{form}}” shakliga bogʻlangan",
+      "template_conflict": "Bunday nom yoki xizmat band"
     }
   },
   "gender": {
@@ -696,5 +711,75 @@
     "doctor": "Shifokor",
     "signature": "imzo",
     "stamp": "M.Oʻ."
+  },
+  "lab": {
+    "forms": "Tahlil shakllari",
+    "formsSubtitle": "Har bir tahlil uchun natija shakli: koʻrsatkichlar, birliklar va meʼyorlar. Meʼyorlarni laboratoriya oʻzi kiritadi.",
+    "newForm": "Yangi shakl",
+    "editForm": "Shaklni tahrirlash",
+    "formHint": "Qatorlar, birliklar va meʼyorlarni kiriting. Dasturda tayyor tibbiy qiymatlar yoʻq.",
+    "versionNote": "Hozirgi versiya: {{version}}. Qatorlarni oʻzgartirsangiz yangi versiya yaratiladi; avvalgi natijalar oʻzgarmaydi.",
+    "formName": "Shakl nomi",
+    "formNameHint": "Masalan: Umumiy qon tahlili",
+    "activeLabel": "Faol",
+    "services": "Qaysi xizmatlar shu shakl bilan toʻldiriladi",
+    "rowKind": "Qator turi",
+    "kind": {
+      "NUMBER": "Raqam",
+      "CHOICE": "Tanlov",
+      "POS_NEG": "Musbat / manfiy",
+      "TEXT": "Matn",
+      "HEADER": "Sarlavha"
+    },
+    "rowName": "Koʻrsatkich nomi",
+    "headerPlaceholder": "Boʻlim sarlavhasi",
+    "unit": "Birlik",
+    "decimals": "Kasr xonalari",
+    "moveUp": "Yuqoriga",
+    "moveDown": "Pastga",
+    "option": "Javob varianti",
+    "normalAnswer": "Meʼyordagi javob",
+    "addOption": "Variant qoʻshish",
+    "negative": "Manfiy",
+    "positive": "Musbat",
+    "ranges": "Meʼyorlar",
+    "noRanges": "Meʼyor kiritilmagan — natija meʼyorsiz chiqadi.",
+    "rangeKind": "Turi",
+    "rangeNormal": "Meʼyor",
+    "rangeCritical": "Xavfli chegara",
+    "sexAny": "Har qanday jins",
+    "ageFrom": "Yoshdan",
+    "ageTo": "Yoshgacha",
+    "ageUnit": "birlik",
+    "days": "kun",
+    "months": "oy",
+    "years": "yil",
+    "state": "Holat",
+    "stateName": {
+      "NONE": "Har qanday holat",
+      "PREGNANCY_T1": "Homiladorlik, 1-trimestr",
+      "PREGNANCY_T2": "Homiladorlik, 2-trimestr",
+      "PREGNANCY_T3": "Homiladorlik, 3-trimestr",
+      "FOLLICULAR": "Follikulyar faza",
+      "OVULATION": "Ovulyatsiya",
+      "LUTEAL": "Lyuteal faza",
+      "POSTMENOPAUSE": "Postmenopauza",
+      "CUSTOM": "Boshqa (yozing)"
+    },
+    "customState": "Holat nomi",
+    "low": "Quyi",
+    "high": "Yuqori",
+    "normText": "Matnli meʼyor",
+    "copyRange": "Nusxa olish",
+    "addRange": "Meʼyor qoʻshish",
+    "noForms": "Hali shakllar yoʻq",
+    "noFormsHint": "Tahlil uchun shakl yarating va uni narxlar roʻyxatidagi xizmatga bogʻlang.",
+    "rowsCount": "Koʻrsatkichlar: {{count}}",
+    "versionShort": "v{{version}}",
+    "copyForm": "Shakldan nusxa",
+    "copySuffix": "(nusxa)",
+    "noServicesLinked": "Xizmatga bogʻlanmagan",
+    "confirmDelete": "“{{name}}” shaklini oʻchirasizmi?",
+    "deleteHint": "Kiritilgan natijalar saqlanib qoladi."
   }
 }

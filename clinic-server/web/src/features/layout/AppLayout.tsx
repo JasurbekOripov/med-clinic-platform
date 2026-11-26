@@ -1,5 +1,5 @@
 import type * as React from "react";
-import { AlertTriangle, ClipboardList, Contact, Handshake, ListOrdered, Tags, Wallet, FileSpreadsheet, Home, KeyRound, LogOut, Settings, ShieldCheck, UserRoundCog, Users } from "lucide-react";
+import { AlertTriangle, ClipboardList, Contact, FlaskConical, Handshake, ListOrdered, Tags, Wallet, FileSpreadsheet, Home, KeyRound, LogOut, Settings, ShieldCheck, UserRoundCog, Users } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { NavLink, Outlet, useNavigate } from "react-router";
 import { EmptyState, Spinner } from "@medclinic/web-ui/components/Common";
@@ -23,6 +23,7 @@ export const NAV: NavItem[] = [
   { to: "/", label: "nav.home", icon: Home, hint: null, needs: [] },
   { to: "/patients", label: "nav.patients", icon: Contact, hint: "home.patientsHint", needs: ["PATIENT_VIEW"] },
   { to: "/queue", label: "nav.queue", icon: ListOrdered, hint: "home.queueHint", needs: [], any: QUEUE_READERS },
+  { to: "/lab", label: "nav.lab", icon: FlaskConical, hint: "home.labHint", needs: [], any: ["LAB_WORK", "LAB_TEMPLATES_MANAGE"] },
   { to: "/cashier", label: "nav.cashier", icon: Wallet, hint: "home.cashierHint", needs: ["PAYMENT_ACCEPT"] },
   { to: "/prices", label: "nav.priceList", icon: Tags, hint: "home.priceListHint", needs: ["PRICE_LIST_MANAGE"] },
   { to: "/agents", label: "nav.agents", icon: Handshake, hint: "home.agentsHint", needs: ["AGENT_MANAGE"] },

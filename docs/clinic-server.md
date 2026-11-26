@@ -137,3 +137,17 @@ A web page cannot list printers itself; choosing printers once inside the progra
 printing without the dialog needs the **Print Agent** on PCs with printers (planned with the installer, M9).
 Receipts and room slips can be reprinted from the visit ("Cheklar", cashier and Reception); copies are marked **NUSXA**
 and every reprint is audited (`payment.reprinted`). No fiscal receipts for now (owner, 2026-11).
+
+## 11. M4 as built so far — laboratory forms
+
+Owner's decisions (2026-11): the lab creates its own result forms; ranges can differ by sex, age and state (pregnancy
+etc.); results typed by hand, no barcodes or analyzer link yet; "Tayyor" makes results visible to doctors and printable
+by Reception. The program ships with **no medical values**.
+
+| Module | Contents |
+|---|---|
+| `lab` | result forms (`LAB_TEMPLATES_MANAGE`, now in the Lab role template): rows of kind header / number / choice / positive-negative / text; number rows carry reference ranges qualified by sex, age (days, months, years; upper bound exclusive) and physiological state (pregnancy trimester, cycle phase, postmenopause, custom label), kind normal or critical (partitioning as in CLSI EP28 / HL7 FHIR `ObservationDefinition.qualifiedInterval`). The most specific matching range is used; critical limits are checked first; with no matching range the value is printed without a norm, never guessed. Changing rows stores a new version (results keep theirs). A price-list service has at most one form. Audited. |
+
+Web: "Laboratoriya" → forms list (copy, edit, delete) and the editor (rows, choice options, ranges table).
+Next: lab work list (paid services with a form), result entry with the patient's state, "Tayyor", results in the
+patient history, A4 print with ↑ ↓ and critical marks.

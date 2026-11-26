@@ -70,7 +70,6 @@ object Permissions {
     const val HAS_RECEIPT_REPRINT = "hasAnyAuthority('PAYMENT_ACCEPT', 'VISIT_CREATE')"
     const val HAS_PRICE_LIST_MANAGE = "hasAuthority('PRICE_LIST_MANAGE')"
 
-    /** Reading the price list and discount types: who manages it, and who orders or takes money for services. */
     const val HAS_AGENT_MANAGE = "hasAuthority('AGENT_MANAGE')"
 
     /** Agents list: who manages agents, and Reception, who records which agent referred a visit. */
@@ -91,5 +90,9 @@ object Permissions {
     const val HAS_LAB_TEMPLATES_MANAGE = "hasAuthority('LAB_TEMPLATES_MANAGE')"
     const val HAS_LAB_READ = "hasAnyAuthority('LAB_WORK', 'LAB_TEMPLATES_MANAGE')"
 
-    const val HAS_CATALOG_READ = "hasAnyAuthority('PRICE_LIST_MANAGE', 'VISIT_CREATE', 'PAYMENT_ACCEPT')"
+    /**
+     * Reading the price list and discount types: who manages it, who orders or takes money for services, and the lab
+     * linking its result forms to services.
+     */
+    const val HAS_CATALOG_READ = "hasAnyAuthority('PRICE_LIST_MANAGE', 'VISIT_CREATE', 'PAYMENT_ACCEPT', 'LAB_TEMPLATES_MANAGE')"
 }

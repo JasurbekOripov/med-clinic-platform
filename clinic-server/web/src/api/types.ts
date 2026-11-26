@@ -46,6 +46,12 @@ export type QueueRequest = S["QueueRequest"];
 export type Ticket = S["TicketResponse"];
 export type Conclusion = S["ConclusionResponse"];
 export type ConclusionTemplate = S["TemplateResponse"];
+export type LabTemplate = S["LabTemplateResponse"];
+export type LabTemplateRequest = S["LabTemplateRequest"];
+export type FormRow = S["FormRow"];
+export type RowKind = FormRow["kind"];
+export type ReferenceRange = S["ReferenceRange"];
+export type PhysioState = ReferenceRange["state"];
 
 export interface Page<T> {
   items: T[];
