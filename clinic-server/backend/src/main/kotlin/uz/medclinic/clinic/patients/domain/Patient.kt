@@ -96,6 +96,7 @@ interface PatientRepository {
     /** Assigns the next card number. */
     fun insert(patient: Patient): Patient
     fun findById(id: UUID): Patient?
+    fun findAllById(ids: Collection<UUID>): List<Patient>
     fun search(query: PatientSearch, offset: Long, limit: Int): Pair<List<Patient>, Long>
     fun update(patient: Patient): Patient
     fun duplicates(details: PatientDetails, excludeId: UUID?): List<DuplicateCandidate>

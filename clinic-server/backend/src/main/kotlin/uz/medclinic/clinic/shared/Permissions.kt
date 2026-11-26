@@ -61,6 +61,10 @@ object Permissions {
     const val HAS_PATIENT_VIEW = "hasAuthority('PATIENT_VIEW')"
     const val HAS_PATIENT_EDIT = "hasAuthority('PATIENT_EDIT')"
     const val HAS_PATIENT_DELETE = "hasAuthority('PATIENT_DELETE')"
+    const val HAS_VISIT_CREATE = "hasAuthority('VISIT_CREATE')"
+    const val HAS_VISIT_EDIT_UNPAID = "hasAuthority('VISIT_EDIT_UNPAID')"
+    const val HAS_EMERGENCY_ALLOW = "hasAuthority('EMERGENCY_ALLOW')"
+    const val HAS_PAYMENT_ACCEPT = "hasAuthority('PAYMENT_ACCEPT')"
     const val HAS_PRICE_LIST_MANAGE = "hasAuthority('PRICE_LIST_MANAGE')"
 
     /** Reading the price list and discount types: who manages it, and who orders or takes money for services. */

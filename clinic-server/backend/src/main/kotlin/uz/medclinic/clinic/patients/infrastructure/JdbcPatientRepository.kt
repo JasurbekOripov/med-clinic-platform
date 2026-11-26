@@ -45,6 +45,10 @@ class JdbcPatientRepository(private val jdbc: JdbcClient, private val clinic: Cl
     override fun findById(id: UUID): Patient? =
         jdbc.sql("select * from patient where id = :id and deleted_at is null").param("id", id).query(::map).optional().orElse(null)
 
+    override fun findAllById(ids: Collection<UUID>): List<Patient> =
+        if (ids.isEmpty()) emptyList()
+        else jdbc.sql("select * from patient where id = any(:ids) and deleted_at is null").param("ids", ids.toTypedArray()).query(::map).list()
+
     override fun search(query: PatientSearch, offset: Long, limit: Int): Pair<List<Patient>, Long> {
         val (where, order, params) = when (query) {
             PatientSearch.Recent -> Triple("true", "updated_at desc, id desc", emptyMap())

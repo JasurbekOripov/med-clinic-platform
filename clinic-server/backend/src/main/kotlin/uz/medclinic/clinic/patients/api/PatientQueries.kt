@@ -15,4 +15,7 @@ data class PatientSummary(
 
 interface PatientQueries {
     fun find(id: UUID): PatientSummary?
+
+    /** Bulk lookup for lists (unknown or deleted ids are simply missing from the result). */
+    fun findAll(ids: Collection<UUID>): Map<UUID, PatientSummary>
 }

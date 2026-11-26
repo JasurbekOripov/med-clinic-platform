@@ -4,7 +4,7 @@
  */
 
 export interface paths {
-    "/api/v1/staff/{id}": {
+    "/api/v1/visits/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -13,6 +13,22 @@ export interface paths {
         };
         get: operations["get"];
         put: operations["update"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/staff/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["get_1"];
+        put: operations["update_1"];
         post?: never;
         delete?: never;
         options?: never;
@@ -43,8 +59,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["get_1"];
-        put: operations["update_1"];
+        get: operations["get_2"];
+        put: operations["update_2"];
         post?: never;
         delete?: never;
         options?: never;
@@ -76,7 +92,7 @@ export interface paths {
             cookie?: never;
         };
         get?: never;
-        put: operations["update_2"];
+        put: operations["update_3"];
         post?: never;
         delete: operations["delete"];
         options?: never;
@@ -91,8 +107,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["get_2"];
-        put: operations["update_3"];
+        get: operations["get_3"];
+        put: operations["update_4"];
         post?: never;
         delete: operations["delete_1"];
         options?: never;
@@ -156,9 +172,73 @@ export interface paths {
             cookie?: never;
         };
         get?: never;
-        put: operations["update_4"];
+        put: operations["update_5"];
         post?: never;
         delete: operations["delete_2"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/visits": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["byPatient"];
+        put?: never;
+        post: operations["create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/visits/{id}/services": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["addService"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/visits/{id}/services/{itemId}/cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["cancelService"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/visits/{id}/allow": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["allow"];
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
@@ -173,7 +253,7 @@ export interface paths {
         };
         get: operations["list"];
         put?: never;
-        post: operations["create"];
+        post: operations["create_1"];
         delete?: never;
         options?: never;
         head?: never;
@@ -269,7 +349,7 @@ export interface paths {
         };
         get: operations["list_1"];
         put?: never;
-        post: operations["create_1"];
+        post: operations["create_2"];
         delete?: never;
         options?: never;
         head?: never;
@@ -285,7 +365,7 @@ export interface paths {
         };
         get: operations["search"];
         put?: never;
-        post: operations["create_2"];
+        post: operations["create_3"];
         delete?: never;
         options?: never;
         head?: never;
@@ -420,6 +500,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/cashier/payments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["byVisit"];
+        put?: never;
+        post: operations["pay"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/auth/password": {
         parameters: {
             query?: never;
@@ -477,7 +573,7 @@ export interface paths {
         };
         get: operations["list_2"];
         put?: never;
-        post: operations["create_3"];
+        post: operations["create_4"];
         delete?: never;
         options?: never;
         head?: never;
@@ -596,6 +692,38 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/cashier/unpaid": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["unpaid"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/cashier/payments/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["get_4"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/auth/me": {
         parameters: {
             query?: never;
@@ -648,6 +776,75 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        UpdateVisitRequest: {
+            /** Format: uuid */
+            discountTypeId?: string | null;
+            /** Format: uuid */
+            agentId?: string | null;
+            /** Format: int32 */
+            version?: number | null;
+        };
+        VisitAgentResponse: {
+            /** Format: uuid */
+            id: string;
+            name: string;
+            /** Format: int64 */
+            fee: number;
+        };
+        VisitDiscountResponse: {
+            /** Format: uuid */
+            typeId: string;
+            name: string;
+            /** Format: int32 */
+            percent: number;
+        };
+        VisitItemResponse: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            serviceId: string;
+            serviceName: string;
+            groupName: string;
+            /** Format: uuid */
+            doctorId?: string | null;
+            doctorName?: string | null;
+            /** Format: int64 */
+            price: number;
+            /** Format: int64 */
+            discount: number;
+            /** Format: int64 */
+            amount: number;
+            /** @enum {string} */
+            status: "UNPAID" | "PAID" | "CANCELLED";
+            /** Format: date-time */
+            paidAt?: string | null;
+            allowed: boolean;
+            allowReason?: string | null;
+            cancelReason?: string | null;
+            /** Format: date-time */
+            createdAt: string;
+        };
+        VisitResponse: {
+            /** Format: uuid */
+            id: string;
+            /** Format: int64 */
+            visitNo: number;
+            /** Format: uuid */
+            patientId: string;
+            discount?: components["schemas"]["VisitDiscountResponse"] | null;
+            agent?: components["schemas"]["VisitAgentResponse"] | null;
+            items: components["schemas"]["VisitItemResponse"][];
+            /** Format: int64 */
+            total: number;
+            /** Format: int64 */
+            paid: number;
+            /** Format: int64 */
+            unpaid: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: int32 */
+            version: number;
+        };
         StaffRequest: {
             login?: string | null;
             fullName?: string | null;
@@ -868,6 +1065,40 @@ export interface components {
             /** Format: int32 */
             version: number;
         };
+        CreateVisitRequest: {
+            /** Format: uuid */
+            patientId?: string | null;
+            /** Format: uuid */
+            discountTypeId?: string | null;
+            /** Format: uuid */
+            agentId?: string | null;
+            services: components["schemas"]["ServiceOrderRequest"][];
+        };
+        ServiceOrderRequest: {
+            /** Format: uuid */
+            serviceId?: string | null;
+            /** Format: uuid */
+            doctorId?: string | null;
+        };
+        AddServiceRequest: {
+            /** Format: uuid */
+            serviceId?: string | null;
+            /** Format: uuid */
+            doctorId?: string | null;
+            /** Format: int32 */
+            version?: number | null;
+        };
+        CancelServiceRequest: {
+            reason?: string | null;
+            /** Format: int32 */
+            version?: number | null;
+        };
+        AllowRequest: {
+            itemIds: string[];
+            reason?: string | null;
+            /** Format: int32 */
+            version?: number | null;
+        };
         StaffWithPasswordResponse: {
             staff: components["schemas"]["StaffResponse"];
             temporaryPassword: string;
@@ -956,6 +1187,51 @@ export interface components {
                 [key: string]: string;
             };
         };
+        PaymentRequest: {
+            /** Format: uuid */
+            visitId?: string | null;
+            itemIds: string[];
+            /** @enum {string|null} */
+            method?: "CASH" | "CARD" | "TRANSFER" | null;
+            /** Format: int64 */
+            amount?: number | null;
+        };
+        PatientRef: {
+            /** Format: uuid */
+            id: string;
+            /** Format: int64 */
+            cardNo: number;
+            fullName: string;
+        };
+        PaymentLineResponse: {
+            serviceName: string;
+            doctorName?: string | null;
+            /** Format: int64 */
+            price: number;
+            /** Format: int64 */
+            discount: number;
+            /** Format: int64 */
+            amount: number;
+        };
+        PaymentResponse: {
+            /** Format: uuid */
+            id: string;
+            /** Format: int64 */
+            receiptNo: number;
+            /** Format: uuid */
+            visitId: string;
+            /** Format: int64 */
+            visitNo: number;
+            patient?: components["schemas"]["PatientRef"] | null;
+            /** Format: int64 */
+            amount: number;
+            /** @enum {string} */
+            method: "CASH" | "CARD" | "TRANSFER";
+            cashierName: string;
+            lines: components["schemas"]["PaymentLineResponse"][];
+            /** Format: date-time */
+            createdAt: string;
+        };
         ChangePasswordRequest: {
             currentPassword: string;
             newPassword: string;
@@ -1034,6 +1310,42 @@ export interface components {
             id: string;
             fullName: string;
         };
+        BillableItem: {
+            /** Format: uuid */
+            id: string;
+            serviceName: string;
+            doctorName?: string | null;
+            /** Format: int64 */
+            price: number;
+            /** Format: int64 */
+            discount: number;
+            /** Format: int64 */
+            amount: number;
+            allowed: boolean;
+        };
+        PageResponseUnpaidVisitResponse: {
+            items: components["schemas"]["UnpaidVisitResponse"][];
+            /** Format: int32 */
+            page: number;
+            /** Format: int32 */
+            size: number;
+            /** Format: int64 */
+            totalItems: number;
+            /** Format: int32 */
+            totalPages: number;
+        };
+        UnpaidVisitResponse: {
+            /** Format: uuid */
+            visitId: string;
+            /** Format: int64 */
+            visitNo: number;
+            patient?: components["schemas"]["PatientRef"] | null;
+            /** Format: date-time */
+            createdAt: string;
+            items: components["schemas"]["BillableItem"][];
+            /** Format: int64 */
+            total: number;
+        };
         CsrfToken: {
             parameterName: string;
             token: string;
@@ -1098,12 +1410,60 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["StaffResponse"];
+                    "*/*": components["schemas"]["VisitResponse"];
                 };
             };
         };
     };
     update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateVisitRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["VisitResponse"];
+                };
+            };
+        };
+    };
+    get_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["StaffResponse"];
+                };
+            };
+        };
+    };
+    update_1: {
         parameters: {
             query?: never;
             header?: never;
@@ -1198,7 +1558,7 @@ export interface operations {
             };
         };
     };
-    get_1: {
+    get_2: {
         parameters: {
             query?: never;
             header?: never;
@@ -1218,7 +1578,7 @@ export interface operations {
             };
         };
     };
-    update_1: {
+    update_2: {
         parameters: {
             query?: never;
             header?: never;
@@ -1305,7 +1665,7 @@ export interface operations {
             };
         };
     };
-    update_2: {
+    update_3: {
         parameters: {
             query?: never;
             header?: never;
@@ -1353,7 +1713,7 @@ export interface operations {
             };
         };
     };
-    get_2: {
+    get_3: {
         parameters: {
             query?: never;
             header?: never;
@@ -1375,7 +1735,7 @@ export interface operations {
             };
         };
     };
-    update_3: {
+    update_4: {
         parameters: {
             query?: never;
             header?: never;
@@ -1567,7 +1927,7 @@ export interface operations {
             };
         };
     };
-    update_4: {
+    update_5: {
         parameters: {
             query?: never;
             header?: never;
@@ -1615,6 +1975,131 @@ export interface operations {
             };
         };
     };
+    byPatient: {
+        parameters: {
+            query: {
+                patientId: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["VisitResponse"][];
+                };
+            };
+        };
+    };
+    create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateVisitRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["VisitResponse"];
+                };
+            };
+        };
+    };
+    addService: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AddServiceRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["VisitResponse"];
+                };
+            };
+        };
+    };
+    cancelService: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+                itemId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CancelServiceRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["VisitResponse"];
+                };
+            };
+        };
+    };
+    allow: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AllowRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["VisitResponse"];
+                };
+            };
+        };
+    };
     list: {
         parameters: {
             query?: {
@@ -1641,7 +2126,7 @@ export interface operations {
             };
         };
     };
-    create: {
+    create_1: {
         parameters: {
             query?: never;
             header?: never;
@@ -1811,7 +2296,7 @@ export interface operations {
             };
         };
     };
-    create_1: {
+    create_2: {
         parameters: {
             query?: never;
             header?: never;
@@ -1859,7 +2344,7 @@ export interface operations {
             };
         };
     };
-    create_2: {
+    create_3: {
         parameters: {
             query?: never;
             header?: never;
@@ -2139,6 +2624,52 @@ export interface operations {
             };
         };
     };
+    byVisit: {
+        parameters: {
+            query: {
+                visitId: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PaymentResponse"][];
+                };
+            };
+        };
+    };
+    pay: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PaymentRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PaymentResponse"];
+                };
+            };
+        };
+    };
     changePassword: {
         parameters: {
             query?: never;
@@ -2225,7 +2756,7 @@ export interface operations {
             };
         };
     };
-    create_3: {
+    create_4: {
         parameters: {
             query?: never;
             header?: never;
@@ -2389,6 +2920,51 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["DoctorResponse"][];
+                };
+            };
+        };
+    };
+    unpaid: {
+        parameters: {
+            query?: {
+                page?: number;
+                size?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseUnpaidVisitResponse"];
+                };
+            };
+        };
+    };
+    get_4: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PaymentResponse"];
                 };
             };
         };

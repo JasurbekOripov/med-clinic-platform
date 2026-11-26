@@ -4,6 +4,9 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import uz.medclinic.clinic.audit.api.AuditEvent
 import uz.medclinic.clinic.audit.api.AuditRecorder
+import uz.medclinic.clinic.catalog.api.CatalogQueries
+import uz.medclinic.clinic.catalog.api.DiscountInfo
+import uz.medclinic.clinic.catalog.api.PriceQuote
 import uz.medclinic.clinic.catalog.domain.CatalogConflict
 import uz.medclinic.clinic.catalog.domain.DiscountDetails
 import uz.medclinic.clinic.catalog.domain.DiscountType
@@ -32,7 +35,26 @@ class CatalogService(
     private val staff: StaffDirectory,
     private val audit: AuditRecorder,
     private val clock: Clock,
-) {
+) : CatalogQueries {
+    // ---- queries for other modules
+
+    @Transactional(readOnly = true)
+    override fun quote(serviceId: UUID, doctorId: UUID?): PriceQuote {
+        val service = services.findById(serviceId)?.takeIf { it.details.active }
+            ?: throw ValidationException("serviceId", "catalog.unknown_service")
+        val group = groups.findById(service.details.groupId) ?: throw ValidationException("serviceId", "catalog.unknown_service")
+        if (service.details.perDoctor && doctorId == null) throw ValidationException("doctorId", "catalog.doctor_required")
+        val doctor = doctorId?.let { id -> doctors().firstOrNull { it.id == id } ?: throw ValidationException("doctorId", "catalog.unknown_doctor") }
+        val price = if (service.details.perDoctor) service.details.priceFor(doctorId) else service.details.price
+        return PriceQuote(service.id, service.details.name, group.name, doctor?.id, doctor?.fullName, price)
+    }
+
+    @Transactional(readOnly = true)
+    override fun discount(id: UUID): DiscountInfo {
+        val d = discounts.findById(id)?.takeIf { it.active } ?: throw ValidationException("discountTypeId", "catalog.unknown_discount")
+        return DiscountInfo(d.id, d.name, d.percent)
+    }
+
     // ---- groups
 
     @Transactional(readOnly = true)

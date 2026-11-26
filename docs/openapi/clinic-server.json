@@ -9,10 +9,72 @@
     "description" : "Generated server url"
   } ],
   "paths" : {
+    "/api/v1/visits/{id}" : {
+      "get" : {
+        "tags" : [ "visit-controller" ],
+        "operationId" : "get",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/VisitResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "visit-controller" ],
+        "operationId" : "update",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UpdateVisitRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/VisitResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/staff/{id}" : {
       "get" : {
         "tags" : [ "staff-controller" ],
-        "operationId" : "get",
+        "operationId" : "get_1",
         "parameters" : [ {
           "name" : "id",
           "in" : "path",
@@ -37,7 +99,7 @@
       },
       "put" : {
         "tags" : [ "staff-controller" ],
-        "operationId" : "update",
+        "operationId" : "update_1",
         "parameters" : [ {
           "name" : "id",
           "in" : "path",
@@ -154,7 +216,7 @@
     "/api/v1/settings" : {
       "get" : {
         "tags" : [ "settings-controller" ],
-        "operationId" : "get_1",
+        "operationId" : "get_2",
         "responses" : {
           "200" : {
             "description" : "OK",
@@ -170,7 +232,7 @@
       },
       "put" : {
         "tags" : [ "settings-controller" ],
-        "operationId" : "update_1",
+        "operationId" : "update_2",
         "requestBody" : {
           "content" : {
             "application/json" : {
@@ -251,7 +313,7 @@
     "/api/v1/roles/{id}" : {
       "put" : {
         "tags" : [ "role-controller" ],
-        "operationId" : "update_2",
+        "operationId" : "update_3",
         "parameters" : [ {
           "name" : "id",
           "in" : "path",
@@ -314,7 +376,7 @@
     "/api/v1/patients/{id}" : {
       "get" : {
         "tags" : [ "patient-controller" ],
-        "operationId" : "get_2",
+        "operationId" : "get_3",
         "parameters" : [ {
           "name" : "id",
           "in" : "path",
@@ -339,7 +401,7 @@
       },
       "put" : {
         "tags" : [ "patient-controller" ],
-        "operationId" : "update_3",
+        "operationId" : "update_4",
         "parameters" : [ {
           "name" : "id",
           "in" : "path",
@@ -591,7 +653,7 @@
     "/api/v1/agents/{id}" : {
       "put" : {
         "tags" : [ "agent-controller" ],
-        "operationId" : "update_4",
+        "operationId" : "update_5",
         "parameters" : [ {
           "name" : "id",
           "in" : "path",
@@ -647,6 +709,181 @@
         "responses" : {
           "204" : {
             "description" : "No Content"
+          }
+        }
+      }
+    },
+    "/api/v1/visits" : {
+      "get" : {
+        "tags" : [ "visit-controller" ],
+        "operationId" : "byPatient",
+        "parameters" : [ {
+          "name" : "patientId",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/VisitResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "visit-controller" ],
+        "operationId" : "create",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CreateVisitRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/VisitResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/visits/{id}/services" : {
+      "post" : {
+        "tags" : [ "visit-controller" ],
+        "operationId" : "addService",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/AddServiceRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/VisitResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/visits/{id}/services/{itemId}/cancel" : {
+      "post" : {
+        "tags" : [ "visit-controller" ],
+        "operationId" : "cancelService",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        }, {
+          "name" : "itemId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CancelServiceRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/VisitResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/visits/{id}/allow" : {
+      "post" : {
+        "tags" : [ "visit-controller" ],
+        "operationId" : "allow",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/AllowRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/VisitResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -710,7 +947,7 @@
       },
       "post" : {
         "tags" : [ "staff-controller" ],
-        "operationId" : "create",
+        "operationId" : "create_1",
         "requestBody" : {
           "content" : {
             "application/json" : {
@@ -924,7 +1161,7 @@
       },
       "post" : {
         "tags" : [ "role-controller" ],
-        "operationId" : "create_1",
+        "operationId" : "create_2",
         "requestBody" : {
           "content" : {
             "application/json" : {
@@ -992,7 +1229,7 @@
       },
       "post" : {
         "tags" : [ "patient-controller" ],
-        "operationId" : "create_2",
+        "operationId" : "create_3",
         "requestBody" : {
           "content" : {
             "application/json" : {
@@ -1320,6 +1557,62 @@
         }
       }
     },
+    "/api/v1/cashier/payments" : {
+      "get" : {
+        "tags" : [ "cashier-controller" ],
+        "operationId" : "byVisit",
+        "parameters" : [ {
+          "name" : "visitId",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/PaymentResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "cashier-controller" ],
+        "operationId" : "pay",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PaymentRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PaymentResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/auth/password" : {
       "post" : {
         "tags" : [ "auth-controller" ],
@@ -1409,7 +1702,7 @@
       },
       "post" : {
         "tags" : [ "agent-controller" ],
-        "operationId" : "create_3",
+        "operationId" : "create_4",
         "requestBody" : {
           "content" : {
             "application/json" : {
@@ -1584,6 +1877,68 @@
         }
       }
     },
+    "/api/v1/cashier/unpaid" : {
+      "get" : {
+        "tags" : [ "cashier-controller" ],
+        "operationId" : "unpaid",
+        "parameters" : [ {
+          "name" : "page",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }, {
+          "name" : "size",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PageResponseUnpaidVisitResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/cashier/payments/{id}" : {
+      "get" : {
+        "tags" : [ "cashier-controller" ],
+        "operationId" : "get_4",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PaymentResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/auth/me" : {
       "get" : {
         "tags" : [ "auth-controller" ],
@@ -1712,6 +2067,175 @@
   },
   "components" : {
     "schemas" : {
+      "UpdateVisitRequest" : {
+        "type" : "object",
+        "properties" : {
+          "discountTypeId" : {
+            "type" : [ "string", "null" ],
+            "format" : "uuid"
+          },
+          "agentId" : {
+            "type" : [ "string", "null" ],
+            "format" : "uuid"
+          },
+          "version" : {
+            "type" : [ "integer", "null" ],
+            "format" : "int32"
+          }
+        }
+      },
+      "VisitAgentResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "fee" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        },
+        "required" : [ "fee", "id", "name" ]
+      },
+      "VisitDiscountResponse" : {
+        "type" : "object",
+        "properties" : {
+          "typeId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "percent" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        },
+        "required" : [ "name", "percent", "typeId" ]
+      },
+      "VisitItemResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "serviceId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "serviceName" : {
+            "type" : "string"
+          },
+          "groupName" : {
+            "type" : "string"
+          },
+          "doctorId" : {
+            "type" : [ "string", "null" ],
+            "format" : "uuid"
+          },
+          "doctorName" : {
+            "type" : [ "string", "null" ]
+          },
+          "price" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "discount" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "amount" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "status" : {
+            "type" : "string",
+            "enum" : [ "UNPAID", "PAID", "CANCELLED" ]
+          },
+          "paidAt" : {
+            "type" : [ "string", "null" ],
+            "format" : "date-time"
+          },
+          "allowed" : {
+            "type" : "boolean"
+          },
+          "allowReason" : {
+            "type" : [ "string", "null" ]
+          },
+          "cancelReason" : {
+            "type" : [ "string", "null" ]
+          },
+          "createdAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        },
+        "required" : [ "allowed", "amount", "createdAt", "discount", "groupName", "id", "price", "serviceId", "serviceName", "status" ]
+      },
+      "VisitResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "visitNo" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "patientId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "discount" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/VisitDiscountResponse"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "agent" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/VisitAgentResponse"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/VisitItemResponse"
+            }
+          },
+          "total" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "paid" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "unpaid" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "createdAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        },
+        "required" : [ "createdAt", "id", "items", "paid", "patientId", "total", "unpaid", "version", "visitNo" ]
+      },
       "StaffRequest" : {
         "type" : "object",
         "properties" : {
@@ -2359,6 +2883,101 @@
         },
         "required" : [ "active", "fee", "id", "name", "version" ]
       },
+      "CreateVisitRequest" : {
+        "type" : "object",
+        "properties" : {
+          "patientId" : {
+            "type" : [ "string", "null" ],
+            "format" : "uuid"
+          },
+          "discountTypeId" : {
+            "type" : [ "string", "null" ],
+            "format" : "uuid"
+          },
+          "agentId" : {
+            "type" : [ "string", "null" ],
+            "format" : "uuid"
+          },
+          "services" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ServiceOrderRequest"
+            },
+            "maxItems" : 100,
+            "minItems" : 0
+          }
+        },
+        "required" : [ "services" ]
+      },
+      "ServiceOrderRequest" : {
+        "type" : "object",
+        "properties" : {
+          "serviceId" : {
+            "type" : [ "string", "null" ],
+            "format" : "uuid"
+          },
+          "doctorId" : {
+            "type" : [ "string", "null" ],
+            "format" : "uuid"
+          }
+        }
+      },
+      "AddServiceRequest" : {
+        "type" : "object",
+        "properties" : {
+          "serviceId" : {
+            "type" : [ "string", "null" ],
+            "format" : "uuid"
+          },
+          "doctorId" : {
+            "type" : [ "string", "null" ],
+            "format" : "uuid"
+          },
+          "version" : {
+            "type" : [ "integer", "null" ],
+            "format" : "int32"
+          }
+        }
+      },
+      "CancelServiceRequest" : {
+        "type" : "object",
+        "properties" : {
+          "reason" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 500,
+            "minLength" : 0
+          },
+          "version" : {
+            "type" : [ "integer", "null" ],
+            "format" : "int32"
+          }
+        }
+      },
+      "AllowRequest" : {
+        "type" : "object",
+        "properties" : {
+          "itemIds" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string",
+              "format" : "uuid"
+            },
+            "maxItems" : 100,
+            "minItems" : 1,
+            "uniqueItems" : true
+          },
+          "reason" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 500,
+            "minLength" : 0
+          },
+          "version" : {
+            "type" : [ "integer", "null" ],
+            "format" : "int32"
+          }
+        },
+        "required" : [ "itemIds" ]
+      },
       "StaffWithPasswordResponse" : {
         "type" : "object",
         "properties" : {
@@ -2618,6 +3237,125 @@
         },
         "required" : [ "details", "label", "rowNumber" ]
       },
+      "PaymentRequest" : {
+        "type" : "object",
+        "properties" : {
+          "visitId" : {
+            "type" : [ "string", "null" ],
+            "format" : "uuid"
+          },
+          "itemIds" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string",
+              "format" : "uuid"
+            },
+            "maxItems" : 100,
+            "minItems" : 1,
+            "uniqueItems" : true
+          },
+          "method" : {
+            "type" : [ "string", "null" ],
+            "enum" : [ "CASH", "CARD", "TRANSFER" ]
+          },
+          "amount" : {
+            "type" : [ "integer", "null" ],
+            "format" : "int64"
+          }
+        },
+        "required" : [ "itemIds" ]
+      },
+      "PatientRef" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "cardNo" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "fullName" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "cardNo", "fullName", "id" ]
+      },
+      "PaymentLineResponse" : {
+        "type" : "object",
+        "properties" : {
+          "serviceName" : {
+            "type" : "string"
+          },
+          "doctorName" : {
+            "type" : [ "string", "null" ]
+          },
+          "price" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "discount" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "amount" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        },
+        "required" : [ "amount", "discount", "price", "serviceName" ]
+      },
+      "PaymentResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "receiptNo" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "visitId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "visitNo" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "patient" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/PatientRef"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "amount" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "method" : {
+            "type" : "string",
+            "enum" : [ "CASH", "CARD", "TRANSFER" ]
+          },
+          "cashierName" : {
+            "type" : "string"
+          },
+          "lines" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/PaymentLineResponse"
+            }
+          },
+          "createdAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        },
+        "required" : [ "amount", "cashierName", "createdAt", "id", "lines", "method", "receiptNo", "visitId", "visitNo" ]
+      },
       "ChangePasswordRequest" : {
         "type" : "object",
         "properties" : {
@@ -2830,6 +3568,100 @@
           }
         },
         "required" : [ "fullName", "id" ]
+      },
+      "BillableItem" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "serviceName" : {
+            "type" : "string"
+          },
+          "doctorName" : {
+            "type" : [ "string", "null" ]
+          },
+          "price" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "discount" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "amount" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "allowed" : {
+            "type" : "boolean"
+          }
+        },
+        "required" : [ "allowed", "amount", "discount", "id", "price", "serviceName" ]
+      },
+      "PageResponseUnpaidVisitResponse" : {
+        "type" : "object",
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/UnpaidVisitResponse"
+            }
+          },
+          "page" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "size" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "totalItems" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "totalPages" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        },
+        "required" : [ "items", "page", "size", "totalItems", "totalPages" ]
+      },
+      "UnpaidVisitResponse" : {
+        "type" : "object",
+        "properties" : {
+          "visitId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "visitNo" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "patient" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/PatientRef"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "createdAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/BillableItem"
+            }
+          },
+          "total" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        },
+        "required" : [ "createdAt", "items", "total", "visitId", "visitNo" ]
       },
       "CsrfToken" : {
         "type" : "object",

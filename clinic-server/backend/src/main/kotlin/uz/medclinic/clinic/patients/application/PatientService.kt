@@ -81,9 +81,12 @@ class PatientService(
     }
 
     @Transactional(readOnly = true)
-    override fun find(id: UUID): PatientSummary? = patients.findById(id)?.let {
-        PatientSummary(it.id, it.cardNo, it.details.fullName, it.details.gender.name, it.details.birthDate, it.details.phone.e164)
-    }
+    override fun find(id: UUID): PatientSummary? = patients.findById(id)?.let(::summary)
+
+    @Transactional(readOnly = true)
+    override fun findAll(ids: Collection<UUID>): Map<UUID, PatientSummary> = patients.findAllById(ids.toSet()).associate { it.id to summary(it) }
+
+    private fun summary(p: Patient) = PatientSummary(p.id, p.cardNo, p.details.fullName, p.details.gender.name, p.details.birthDate, p.details.phone.e164)
 
     private fun load(id: UUID, version: Int): Patient = get(id).also { if (it.version != version) throw VersionConflictException(ENTITY, id) }
 
