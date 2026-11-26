@@ -64,3 +64,9 @@ data class PaidItem(
  * doctors and lab, and the queues module gives them queue numbers.
  */
 data class VisitItemsPaid(val visitId: UUID, val patientId: UUID, val items: List<PaidItem>, val paymentId: UUID, val at: Instant)
+
+/**
+ * Published when the Admin lets unpaid services be served (emergency): medical modules (e.g. the lab work list) treat
+ * them like paid ones; queues still number them only at payment.
+ */
+data class VisitItemsAllowed(val visitId: UUID, val patientId: UUID, val items: List<PaidItem>, val at: Instant)

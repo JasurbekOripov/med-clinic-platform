@@ -612,10 +612,87 @@
         }
       }
     },
+    "/api/v1/lab/results/{id}" : {
+      "get" : {
+        "tags" : [ "lab-result-controller" ],
+        "operationId" : "get_5",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        }, {
+          "name" : "state",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "NONE", "PREGNANCY_T1", "PREGNANCY_T2", "PREGNANCY_T3", "FOLLICULAR", "OVULATION", "LUTEAL", "POSTMENOPAUSE", "CUSTOM" ]
+          }
+        }, {
+          "name" : "customState",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/LabResultResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "lab-result-controller" ],
+        "operationId" : "save",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/SaveResultRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/LabResultResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/conclusions/{id}" : {
       "get" : {
         "tags" : [ "conclusion-controller" ],
-        "operationId" : "get_5",
+        "operationId" : "get_6",
         "parameters" : [ {
           "name" : "id",
           "in" : "path",
@@ -1746,6 +1823,80 @@
         }
       }
     },
+    "/api/v1/lab/results/{id}/ready" : {
+      "post" : {
+        "tags" : [ "lab-result-controller" ],
+        "operationId" : "ready",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/VersionRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/LabResultResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/lab/results/{id}/correct" : {
+      "post" : {
+        "tags" : [ "lab-result-controller" ],
+        "operationId" : "correct",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/SaveResultRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/LabResultResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/imports/{kind}/preview" : {
       "post" : {
         "tags" : [ "import-controller" ],
@@ -2443,6 +2594,94 @@
         }
       }
     },
+    "/api/v1/lab/work" : {
+      "get" : {
+        "tags" : [ "lab-result-controller" ],
+        "operationId" : "work",
+        "parameters" : [ {
+          "name" : "date",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "date"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/WorkItemResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/lab/results" : {
+      "get" : {
+        "tags" : [ "lab-result-controller" ],
+        "operationId" : "byPatient_2",
+        "parameters" : [ {
+          "name" : "patientId",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/LabResultResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/lab/results/{id}/signature" : {
+      "get" : {
+        "tags" : [ "lab-result-controller" ],
+        "operationId" : "signature_1",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "string",
+                  "format" : "byte"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/imports/{kind}/template" : {
       "get" : {
         "tags" : [ "import-controller" ],
@@ -2482,7 +2721,7 @@
     "/api/v1/conclusions/{id}/signature" : {
       "get" : {
         "tags" : [ "conclusion-controller" ],
-        "operationId" : "signature_1",
+        "operationId" : "signature_2",
         "parameters" : [ {
           "name" : "id",
           "in" : "path",
@@ -2566,7 +2805,7 @@
     "/api/v1/cashier/payments/{id}" : {
       "get" : {
         "tags" : [ "cashier-controller" ],
-        "operationId" : "get_6",
+        "operationId" : "get_7",
         "parameters" : [ {
           "name" : "id",
           "in" : "path",
@@ -3558,6 +3797,195 @@
         },
         "required" : [ "active", "id", "name", "rows", "serviceIds", "updatedAt", "version", "versionNo" ]
       },
+      "RowValue" : {
+        "type" : "object",
+        "properties" : {
+          "number" : {
+            "type" : [ "number", "null" ]
+          },
+          "choice" : {
+            "type" : [ "string", "null" ]
+          },
+          "positive" : {
+            "type" : [ "boolean", "null" ]
+          },
+          "text" : {
+            "type" : [ "string", "null" ]
+          }
+        }
+      },
+      "SaveResultRequest" : {
+        "type" : "object",
+        "properties" : {
+          "state" : {
+            "type" : [ "string", "null" ],
+            "enum" : [ "NONE", "PREGNANCY_T1", "PREGNANCY_T2", "PREGNANCY_T3", "FOLLICULAR", "OVULATION", "LUTEAL", "POSTMENOPAUSE", "CUSTOM" ]
+          },
+          "customState" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 60,
+            "minLength" : 0
+          },
+          "values" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "$ref" : "#/components/schemas/RowValue"
+            }
+          },
+          "comment" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 2000,
+            "minLength" : 0
+          },
+          "reason" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 500,
+            "minLength" : 0
+          },
+          "version" : {
+            "type" : [ "integer", "null" ],
+            "format" : "int32"
+          }
+        },
+        "required" : [ "values" ]
+      },
+      "LabPatient" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "cardNo" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "fullName" : {
+            "type" : "string"
+          },
+          "gender" : {
+            "type" : "string"
+          },
+          "birthDate" : {
+            "type" : "string",
+            "format" : "date"
+          }
+        },
+        "required" : [ "birthDate", "cardNo", "fullName", "gender", "id" ]
+      },
+      "LabResultResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "visitId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "serviceName" : {
+            "type" : "string"
+          },
+          "templateName" : {
+            "type" : [ "string", "null" ]
+          },
+          "patient" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/LabPatient"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "status" : {
+            "type" : "string",
+            "enum" : [ "WAITING", "DRAFT", "READY" ]
+          },
+          "state" : {
+            "type" : "string",
+            "enum" : [ "NONE", "PREGNANCY_T1", "PREGNANCY_T2", "PREGNANCY_T3", "FOLLICULAR", "OVULATION", "LUTEAL", "POSTMENOPAUSE", "CUSTOM" ]
+          },
+          "customState" : {
+            "type" : [ "string", "null" ]
+          },
+          "comment" : {
+            "type" : [ "string", "null" ]
+          },
+          "rows" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ResultRowResponse"
+            }
+          },
+          "usesStates" : {
+            "type" : "boolean"
+          },
+          "customStates" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "readyByName" : {
+            "type" : [ "string", "null" ]
+          },
+          "readyAt" : {
+            "type" : [ "string", "null" ],
+            "format" : "date-time"
+          },
+          "correctedAt" : {
+            "type" : [ "string", "null" ],
+            "format" : "date-time"
+          },
+          "correctionReason" : {
+            "type" : [ "string", "null" ]
+          },
+          "createdAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        },
+        "required" : [ "createdAt", "customStates", "id", "rows", "serviceName", "state", "status", "usesStates", "version", "visitId" ]
+      },
+      "ResultRowResponse" : {
+        "type" : "object",
+        "properties" : {
+          "row" : {
+            "$ref" : "#/components/schemas/FormRow"
+          },
+          "value" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/RowValue"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "flag" : {
+            "type" : [ "string", "null" ],
+            "enum" : [ "NORMAL", "LOW", "HIGH", "CRITICAL_LOW", "CRITICAL_HIGH", "ABNORMAL", "NO_RANGE" ]
+          },
+          "norm" : {
+            "type" : [ "string", "null" ]
+          },
+          "normalLow" : {
+            "type" : [ "number", "null" ]
+          },
+          "normalHigh" : {
+            "type" : [ "number", "null" ]
+          },
+          "criticalLow" : {
+            "type" : [ "number", "null" ]
+          },
+          "criticalHigh" : {
+            "type" : [ "number", "null" ]
+          }
+        },
+        "required" : [ "row" ]
+      },
       "EditConclusionRequest" : {
         "type" : "object",
         "properties" : {
@@ -4180,6 +4608,15 @@
           }
         },
         "required" : [ "clockWarning", "modules", "state", "usable" ]
+      },
+      "VersionRequest" : {
+        "type" : "object",
+        "properties" : {
+          "version" : {
+            "type" : [ "integer", "null" ],
+            "format" : "int32"
+          }
+        }
       },
       "ImportPreviewResponse" : {
         "type" : "object",
@@ -4806,6 +5243,42 @@
             "format" : "int64"
           }
         }
+      },
+      "WorkItemResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "serviceName" : {
+            "type" : "string"
+          },
+          "patient" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/LabPatient"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "status" : {
+            "type" : "string",
+            "enum" : [ "WAITING", "DRAFT", "READY" ]
+          },
+          "createdAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "readyAt" : {
+            "type" : [ "string", "null" ],
+            "format" : "date-time"
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        },
+        "required" : [ "createdAt", "id", "serviceName", "status", "version" ]
       },
       "DoctorResponse" : {
         "type" : "object",

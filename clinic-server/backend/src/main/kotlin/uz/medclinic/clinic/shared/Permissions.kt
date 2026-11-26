@@ -89,6 +89,10 @@ object Permissions {
 
     const val HAS_LAB_TEMPLATES_MANAGE = "hasAuthority('LAB_TEMPLATES_MANAGE')"
     const val HAS_LAB_READ = "hasAnyAuthority('LAB_WORK', 'LAB_TEMPLATES_MANAGE')"
+    const val HAS_LAB_WORK = "hasAuthority('LAB_WORK')"
+
+    /** Lab results: the lab, doctors and nurses (history), Reception printing ready results for the patient. */
+    const val HAS_LAB_RESULT_READ = "hasAnyAuthority('LAB_WORK', 'CONSULTATION_WRITE', 'MEDICAL_HISTORY_VIEW', 'RESULTS_HANDOVER')"
 
     /**
      * Reading the price list and discount types: who manages it, who orders or takes money for services, and the lab

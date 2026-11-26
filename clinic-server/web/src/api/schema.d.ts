@@ -148,7 +148,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/v1/conclusions/{id}": {
+    "/api/v1/lab/results/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -156,6 +156,22 @@ export interface paths {
             cookie?: never;
         };
         get: operations["get_5"];
+        put: operations["save"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/conclusions/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["get_6"];
         put: operations["edit"];
         post?: never;
         delete?: never;
@@ -532,6 +548,38 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/lab/results/{id}/ready": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["ready"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/lab/results/{id}/correct": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["correct"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/imports/{kind}/preview": {
         parameters: {
             query?: never;
@@ -868,6 +916,54 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/lab/work": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["work"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/lab/results": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["byPatient_2"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/lab/results/{id}/signature": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["signature_1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/imports/{kind}/template": {
         parameters: {
             query?: never;
@@ -891,7 +987,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["signature_1"];
+        get: operations["signature_2"];
         put?: never;
         post?: never;
         delete?: never;
@@ -939,7 +1035,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["get_6"];
+        get: operations["get_7"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1283,6 +1379,73 @@ export interface components {
             /** Format: int32 */
             version: number;
         };
+        RowValue: {
+            number?: number | null;
+            choice?: string | null;
+            positive?: boolean | null;
+            text?: string | null;
+        };
+        SaveResultRequest: {
+            /** @enum {string|null} */
+            state?: "NONE" | "PREGNANCY_T1" | "PREGNANCY_T2" | "PREGNANCY_T3" | "FOLLICULAR" | "OVULATION" | "LUTEAL" | "POSTMENOPAUSE" | "CUSTOM" | null;
+            customState?: string | null;
+            values: {
+                [key: string]: components["schemas"]["RowValue"];
+            };
+            comment?: string | null;
+            reason?: string | null;
+            /** Format: int32 */
+            version?: number | null;
+        };
+        LabPatient: {
+            /** Format: uuid */
+            id: string;
+            /** Format: int64 */
+            cardNo: number;
+            fullName: string;
+            gender: string;
+            /** Format: date */
+            birthDate: string;
+        };
+        LabResultResponse: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            visitId: string;
+            serviceName: string;
+            templateName?: string | null;
+            patient?: components["schemas"]["LabPatient"] | null;
+            /** @enum {string} */
+            status: "WAITING" | "DRAFT" | "READY";
+            /** @enum {string} */
+            state: "NONE" | "PREGNANCY_T1" | "PREGNANCY_T2" | "PREGNANCY_T3" | "FOLLICULAR" | "OVULATION" | "LUTEAL" | "POSTMENOPAUSE" | "CUSTOM";
+            customState?: string | null;
+            comment?: string | null;
+            rows: components["schemas"]["ResultRowResponse"][];
+            usesStates: boolean;
+            customStates: string[];
+            readyByName?: string | null;
+            /** Format: date-time */
+            readyAt?: string | null;
+            /** Format: date-time */
+            correctedAt?: string | null;
+            correctionReason?: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: int32 */
+            version: number;
+        };
+        ResultRowResponse: {
+            row: components["schemas"]["FormRow"];
+            value?: components["schemas"]["RowValue"] | null;
+            /** @enum {string|null} */
+            flag?: "NORMAL" | "LOW" | "HIGH" | "CRITICAL_LOW" | "CRITICAL_HIGH" | "ABNORMAL" | "NO_RANGE" | null;
+            norm?: string | null;
+            normalLow?: number | null;
+            normalHigh?: number | null;
+            criticalLow?: number | null;
+            criticalHigh?: number | null;
+        };
         EditConclusionRequest: {
             title?: string | null;
             body?: string | null;
@@ -1508,6 +1671,10 @@ export interface components {
             modules: string[];
             clockWarning: boolean;
         };
+        VersionRequest: {
+            /** Format: int32 */
+            version?: number | null;
+        };
         ImportPreviewResponse: {
             /** Format: uuid */
             batchId: string;
@@ -1732,6 +1899,20 @@ export interface components {
             licenseId?: string | null;
             /** Format: int64 */
             licenseSerial?: number | null;
+        };
+        WorkItemResponse: {
+            /** Format: uuid */
+            id: string;
+            serviceName: string;
+            patient?: components["schemas"]["LabPatient"] | null;
+            /** @enum {string} */
+            status: "WAITING" | "DRAFT" | "READY";
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            readyAt?: string | null;
+            /** Format: int32 */
+            version: number;
         };
         DoctorResponse: {
             /** Format: uuid */
@@ -2330,6 +2511,57 @@ export interface operations {
         };
     };
     get_5: {
+        parameters: {
+            query?: {
+                state?: "NONE" | "PREGNANCY_T1" | "PREGNANCY_T2" | "PREGNANCY_T3" | "FOLLICULAR" | "OVULATION" | "LUTEAL" | "POSTMENOPAUSE" | "CUSTOM";
+                customState?: string;
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["LabResultResponse"];
+                };
+            };
+        };
+    };
+    save: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SaveResultRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["LabResultResponse"];
+                };
+            };
+        };
+    };
+    get_6: {
         parameters: {
             query?: never;
             header?: never;
@@ -3195,6 +3427,58 @@ export interface operations {
             };
         };
     };
+    ready: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VersionRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["LabResultResponse"];
+                };
+            };
+        };
+    };
+    correct: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SaveResultRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["LabResultResponse"];
+                };
+            };
+        };
+    };
     preview: {
         parameters: {
             query?: never;
@@ -3816,6 +4100,72 @@ export interface operations {
             };
         };
     };
+    work: {
+        parameters: {
+            query?: {
+                date?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["WorkItemResponse"][];
+                };
+            };
+        };
+    };
+    byPatient_2: {
+        parameters: {
+            query: {
+                patientId: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["LabResultResponse"][];
+                };
+            };
+        };
+    };
+    signature_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": string;
+                };
+            };
+        };
+    };
     template: {
         parameters: {
             query?: {
@@ -3840,7 +4190,7 @@ export interface operations {
             };
         };
     };
-    signature_1: {
+    signature_2: {
         parameters: {
             query?: never;
             header?: never;
@@ -3905,7 +4255,7 @@ export interface operations {
             };
         };
     };
-    get_6: {
+    get_7: {
         parameters: {
             query?: never;
             header?: never;

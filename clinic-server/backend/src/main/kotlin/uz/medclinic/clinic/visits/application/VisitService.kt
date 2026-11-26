@@ -13,6 +13,7 @@ import uz.medclinic.clinic.visits.api.BillableVisit
 import uz.medclinic.clinic.visits.api.PaidItem
 import uz.medclinic.clinic.visits.api.VisitBilling
 import uz.medclinic.clinic.visits.api.VisitItemInfo
+import uz.medclinic.clinic.visits.api.VisitItemsAllowed
 import uz.medclinic.clinic.visits.api.VisitItemsPaid
 import uz.medclinic.clinic.visits.api.VisitQueries
 import uz.medclinic.clinic.visits.domain.ItemStatus
@@ -104,6 +105,9 @@ class VisitService(
         val current = load(id, version)
         val updated = visits.update(current.allow(itemIds, reason, CurrentActor.staffId(), clock.instant()))
         audit.record(AuditEvent("visit.services_allowed_unpaid", ENTITY, id, before = snapshot(current), after = snapshot(updated)))
+        val allowed = updated.items.filter { it.id in itemIds }
+            .map { PaidItem(it.id, it.serviceId, it.serviceName, it.doctorId, it.doctorName, it.amount) }
+        events.publishEvent(VisitItemsAllowed(id, updated.patientId, allowed, clock.instant()))
         return updated
     }
 
